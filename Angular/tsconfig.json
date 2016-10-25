@@ -9,7 +9,7 @@
     "removeComments": false,
     "noImplicitAny": false
   },
-    "exclude": [
+  "exclude": [
     "node_modules",
     "typings"
   ]
