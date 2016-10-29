@@ -11,12 +11,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 const core_1 = require('@angular/core');
 const platform_browser_1 = require('@angular/platform-browser');
 const FeedMe_component_1 = require('./FeedMe.component');
+const logincomp_component_1 = require('./login/logincomp.component');
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     core_1.NgModule({
         imports: [platform_browser_1.BrowserModule],
-        declarations: [FeedMe_component_1.AppComponent],
+        declarations: [FeedMe_component_1.AppComponent, logincomp_component_1.LoginComponent],
         bootstrap: [FeedMe_component_1.AppComponent]
     }), 
     __metadata('design:paramtypes', [])

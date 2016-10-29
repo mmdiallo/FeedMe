@@ -1,6 +1,6 @@
 "use strict";
-const platform_browser_dynamic_1 = require('@angular/platform-browser-dynamic');
-const FeedMe_module_1 = require('./FeedMe.module');
-const platform = platform_browser_dynamic_1.platformBrowserDynamic();
-platform.bootstrapModule(FeedMe_module_1.AppModule);
+const browser_1 = require('angular2/platform/browser');
+const app_component_1 = require('./app.component');
+const router_1 = require('angular2/router');
+browser_1.bootstrap(app_component_1.AppComponent, [router_1.ROUTER_PROVIDERS]);
 //# sourceMappingURL=main.js.map
