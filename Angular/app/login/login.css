@@ -1,0 +1,8 @@
+.mobile {
+	font-weight: bold;
+	color: green;
+}
+
+.btn.dropdown-toggle {
+    padding: 6.25px 12px;
+}

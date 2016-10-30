@@ -1,2 +1,2 @@
-del/q/s FeedMe\*.js
-del/q/s FeedMe\*js.map
+del/q/s app\*.js
+del/q/s app\*js.map
