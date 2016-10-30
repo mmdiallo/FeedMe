@@ -1,9 +1,15 @@
 import { Component } from '@angular/core';
 
 @Component({
-    moduleId: module.id,
-    selector: 'FeedMe',
-    templateUrl: 'FeedMe.html'
+  selector: 'FeedMe',
+  template: './FeedMe/FeedMe.html',
+  styleUrls: ['./FeedMe/FeedMe.css'],
 })
 
-export class AppComponent { }
+export class AppComponent {
+  title: string;
+
+  constructor() {
+    this.title = "Hello World";
+  }
+}
