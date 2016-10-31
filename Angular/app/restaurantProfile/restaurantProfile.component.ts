@@ -4,14 +4,14 @@ import { RestaurantUpdateService } from './../restaurantProfile.update.service';
 
 
 @Component({
-  selector: 'restaurtantProfile',
-  templateUrl: './app/restaurtantProfile/restaurtantProfile.html',
-  styleUrls: [ './app/restaurtantProfile/restaurtantProfile.css' ]
+  selector: 'restaurantProfile',
+  templateUrl: './app/restaurantProfile/restaurantProfile.html',
+  styleUrls: [ './app/restaurantProfile/restaurantProfile.css' ]
 })
 
 export class RestaurantProfileComponent { 
 
-	constructor(private restaurantProfileComponent : RestaurantProfileComponent){
+	constructor(private restaurantUpdateService : RestaurantUpdateService){
 	}
 
 }

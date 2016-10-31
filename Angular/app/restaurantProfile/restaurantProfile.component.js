@@ -9,18 +9,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 const core_1 = require('@angular/core');
+const restaurantProfile_update_service_1 = require('./../restaurantProfile.update.service');
 let RestaurantProfileComponent = class RestaurantProfileComponent {
-    constructor(restaurantProfileComponent) {
-        this.restaurantProfileComponent = restaurantProfileComponent;
+    constructor(restaurantUpdateService) {
+        this.restaurantUpdateService = restaurantUpdateService;
     }
 };
 RestaurantProfileComponent = __decorate([
     core_1.Component({
-        selector: 'restaurtantProfile',
-        templateUrl: './app/restaurtantProfile/restaurtantProfile.html',
-        styleUrls: ['./app/restaurtantProfile/restaurtantProfile.css']
+        selector: 'restaurantProfile',
+        templateUrl: './app/restaurantProfile/restaurantProfile.html',
+        styleUrls: ['./app/restaurantProfile/restaurantProfile.css']
     }), 
-    __metadata('design:paramtypes', [RestaurantProfileComponent])
+    __metadata('design:paramtypes', [restaurantProfile_update_service_1.RestaurantUpdateService])
 ], RestaurantProfileComponent);
 exports.RestaurantProfileComponent = RestaurantProfileComponent;
 //# sourceMappingURL=restaurantProfile.component.js.map
