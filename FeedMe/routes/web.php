@@ -14,3 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/login', 'Accounts@login_get'); // implement
+// make post request
+
+Route::get('/createAccount', 'Accounts@createAccount_get'); // implement
+// make post request
+
+Route::get('/logout', 'Accounts@logout'); // implement
