@@ -11,14 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'Pages@home');
 
-Route::get('/login', 'Accounts@login_get'); // implement
-// make post request
+Route::get('/login', 'Accounts@login_form'); // implement
+Route::post('/login', 'Accounts@login'); // NOT WORKING
 
-Route::get('/createAccount', 'Accounts@createAccount_get'); // implement
+Route::get('/createAccount', 'Accounts@createAccount'); // implement
 // make post request
 
 Route::get('/logout', 'Accounts@logout'); // implement
