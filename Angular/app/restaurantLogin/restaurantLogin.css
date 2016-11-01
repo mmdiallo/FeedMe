@@ -8,14 +8,12 @@
 }
 
 body {
-  background: url('../images/food.jpg') no-repeat fixed;
+  background: #e9e9e9;
   color: #666666;
   font-family: 'RobotoDraft', 'Roboto', sans-serif;
   font-size: 14px;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Pen Title */
@@ -24,7 +22,6 @@ body {
   text-align: center;
   letter-spacing: 2px;
 }
-
 .pen-title h1 {
   margin: 0 0 20px;
   font-size: 48px;
@@ -169,6 +166,7 @@ body {
           transition-delay: .7s;
 }
 
+/* Card */
 .card {
   position: relative;
   background: #ffffff;
@@ -178,9 +176,15 @@ body {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   -webkit-transition: .3s ease;
   transition: .3s ease;
+  /* Title */
+  /* Inputs */
+  /* Button */
+  /* Footer */
+  /* Alt Card */
 }
 .card:first-child {
   background: #fafafa;
+  height: 10px;
   border-radius: 5px 5px 0 0;
   margin: 0 10px;
   padding: 0;
@@ -270,18 +274,20 @@ body {
   display: inline-block;
   background: 0;
   width: 240px;
-  border: 2px solid #3498db;
+  border: 2px solid #e3e3e3;
   padding: 20px 0;
   font-size: 24px;
   font-weight: 600;
   line-height: 1;
   text-transform: uppercase;
   overflow: hidden;
+  -webkit-transition: .3s ease;
+  transition: .3s ease;
 }
 .card .button-container button span {
   position: relative;
   z-index: 1;
-  color: #3498db;
+  color: #ddd;
   -webkit-transition: .3s ease;
   transition: .3s ease;
 }
@@ -445,16 +451,16 @@ body {
 
 
 .btn-primary {
-  color: #ffffff !important;
-  background-color: #3498db !important;
+  color: #3498db !important;
+  background-color: #ffffff !important;
   border-color: #ffffff;
   text-align: center;
   display: block;
   width: 100px;
   height: 100px;
+  text-align: center;
   padding: 6px 0;
-  font-size: 25px;
-  line-height: 3.5;
-  border-radius: 150px;
-
+  font-size: 20px;
+  line-height: 4;
+  border-radius: 50px;
 }

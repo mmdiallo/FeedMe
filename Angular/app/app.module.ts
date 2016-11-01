@@ -8,6 +8,7 @@ import { AuthenticateService } from './login.authenticate.service';
 import { RestaurantUpdateService } from './restaurantProfile.update.service';
 import { LoginComponent } from './login/login.component';
 import { RestaurantProfileComponent } from './restaurantProfile/restaurantProfile.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   imports:      [ 
@@ -15,12 +16,14 @@ import { RestaurantProfileComponent } from './restaurantProfile/restaurantProfil
   	FormsModule,
   	RouterModule.forRoot([
   		{ path: '', component: LoginComponent },
+      { path: 'register', component: RegisterComponent },
   		{ path: 'restaurant/:restaurantId', component: RestaurantProfileComponent }
 	])
   ],
   declarations: [
   	AppComponent,
     LoginComponent,
+    RegisterComponent,
     RestaurantProfileComponent
   ],
   providers: [ 

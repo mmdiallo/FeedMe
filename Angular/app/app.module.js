@@ -17,6 +17,7 @@ const login_authenticate_service_1 = require('./login.authenticate.service');
 const restaurantProfile_update_service_1 = require('./restaurantProfile.update.service');
 const login_component_1 = require('./login/login.component');
 const restaurantProfile_component_1 = require('./restaurantProfile/restaurantProfile.component');
+const register_component_1 = require('./register/register.component');
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -26,12 +27,14 @@ AppModule = __decorate([
             forms_1.FormsModule,
             router_1.RouterModule.forRoot([
                 { path: '', component: login_component_1.LoginComponent },
+                { path: 'register', component: register_component_1.RegisterComponent },
                 { path: 'restaurant/:restaurantId', component: restaurantProfile_component_1.RestaurantProfileComponent }
             ])
         ],
         declarations: [
             app_component_1.AppComponent,
             login_component_1.LoginComponent,
+            register_component_1.RegisterComponent,
             restaurantProfile_component_1.RestaurantProfileComponent
         ],
         providers: [
