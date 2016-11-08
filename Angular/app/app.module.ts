@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent }   from './app.component';
 import { AuthenticateService } from './login.authenticate.service';
 import { RestaurantUpdateService } from './restaurantProfile.update.service';
+import { RestaurantGetService } from './restaurantGet.service';
 import { LoginComponent } from './login/login.component';
 import { RestaurantProfileComponent } from './restaurantProfile/restaurantProfile.component';
 import { RegisterComponent } from './register/register.component';
@@ -17,6 +18,8 @@ import { RegisterComponent } from './register/register.component';
   	RouterModule.forRoot([
   		{ path: '', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
+      { path: 'restaurant', component: RestaurantProfileComponent },
+//      { path: 'menu/:restaurantId', component: RestaurantMenuComponent }, 
   		{ path: 'restaurant/:restaurantId', component: RestaurantProfileComponent }
 	])
   ],
@@ -28,7 +31,8 @@ import { RegisterComponent } from './register/register.component';
   ],
   providers: [ 
 		AuthenticateService,
-    RestaurantUpdateService  
+    RestaurantUpdateService, 
+    RestaurantGetService
 		],
   bootstrap:    [ AppComponent ]
 })
