@@ -1,0 +1,30 @@
+.container {
+}
+
+.picture-container {
+    float: left;
+}
+
+.name-container {
+    
+}
+
+.information-container {
+}
+
+.picture {
+    width: 200px;
+    height: 200px;
+}
+
+.open-close {
+    float: right;
+}
+
+.center {
+    text-align: center;
+}
+
+.left {
+    text-align: left;
+}
