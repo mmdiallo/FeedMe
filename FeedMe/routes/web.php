@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('home');
+    return view('index');
 });
 
-Route::get('accounts', 'AccountsController@index');
+Route::get('account/types', 'AccountsController@types');
