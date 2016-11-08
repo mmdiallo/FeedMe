@@ -15,9 +15,12 @@ const router_1 = require('@angular/router');
 const app_component_1 = require('./app.component');
 const login_authenticate_service_1 = require('./login.authenticate.service');
 const restaurantProfile_update_service_1 = require('./restaurantProfile.update.service');
+const restaurantGet_service_1 = require('./restaurantGet.service');
+const restaurantMenu_update_service_1 = require('./restaurantMenu.update.service');
 const login_component_1 = require('./login/login.component');
 const restaurantProfile_component_1 = require('./restaurantProfile/restaurantProfile.component');
 const register_component_1 = require('./register/register.component');
+const restaurant_menu_component_1 = require('./restaurantMenu/restaurant-menu.component');
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -28,6 +31,8 @@ AppModule = __decorate([
             router_1.RouterModule.forRoot([
                 { path: '', component: login_component_1.LoginComponent },
                 { path: 'register', component: register_component_1.RegisterComponent },
+                { path: 'restaurant', component: restaurantProfile_component_1.RestaurantProfileComponent },
+                { path: 'menu', component: restaurant_menu_component_1.RestaurantMenuComponent },
                 { path: 'restaurant/:restaurantId', component: restaurantProfile_component_1.RestaurantProfileComponent }
             ])
         ],
@@ -35,11 +40,14 @@ AppModule = __decorate([
             app_component_1.AppComponent,
             login_component_1.LoginComponent,
             register_component_1.RegisterComponent,
-            restaurantProfile_component_1.RestaurantProfileComponent
+            restaurantProfile_component_1.RestaurantProfileComponent,
+            restaurant_menu_component_1.RestaurantMenuComponent
         ],
         providers: [
             login_authenticate_service_1.AuthenticateService,
-            restaurantProfile_update_service_1.RestaurantUpdateService
+            restaurantProfile_update_service_1.RestaurantUpdateService,
+            restaurantGet_service_1.RestaurantGetService,
+            restaurantMenu_update_service_1.RestaurantMenuUpdateService
         ],
         bootstrap: [app_component_1.AppComponent]
     }), 

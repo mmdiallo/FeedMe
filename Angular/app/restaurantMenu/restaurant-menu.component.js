@@ -10,14 +10,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 const core_1 = require('@angular/core');
 const router_1 = require('@angular/router');
-const restaurantProfile_update_service_1 = require('./../restaurantProfile.update.service');
+const restaurantMenu_update_service_1 = require('./../restaurantMenu.update.service');
 const restaurantGet_service_1 = require('./../restaurantGet.service');
-let RestaurantProfileComponent = class RestaurantProfileComponent {
-    constructor(route, router, restaurantUpdateService, getService) {
+let RestaurantMenuComponent = class RestaurantMenuComponent {
+    constructor(route, router, getService, restaurantMenuUpdateService) {
         this.route = route;
         this.router = router;
-        this.restaurantUpdateService = restaurantUpdateService;
         this.getService = getService;
+        this.restaurantMenuUpdateService = restaurantMenuUpdateService;
     }
     ngOnInit() {
         this.route.params.forEach((params) => {
@@ -39,13 +39,13 @@ let RestaurantProfileComponent = class RestaurantProfileComponent {
         });
     }
 };
-RestaurantProfileComponent = __decorate([
+RestaurantMenuComponent = __decorate([
     core_1.Component({
-        selector: 'restaurantProfile',
-        templateUrl: './app/restaurantProfile/restaurantProfile.html',
-        styleUrls: ['./app/restaurantProfile/restaurantProfile.css']
+        selector: 'restaurantMenu',
+        templateUrl: './app/restaurantMenu/restaurant-menu.html',
+        styleUrls: ['./app/restaurantMenu/restaurant-menu.css']
     }), 
-    __metadata('design:paramtypes', [router_1.ActivatedRoute, router_1.Router, restaurantProfile_update_service_1.RestaurantUpdateService, restaurantGet_service_1.RestaurantGetService])
-], RestaurantProfileComponent);
-exports.RestaurantProfileComponent = RestaurantProfileComponent;
-//# sourceMappingURL=restaurantProfile.component.js.map
+    __metadata('design:paramtypes', [router_1.ActivatedRoute, router_1.Router, restaurantGet_service_1.RestaurantGetService, restaurantMenu_update_service_1.RestaurantMenuUpdateService])
+], RestaurantMenuComponent);
+exports.RestaurantMenuComponent = RestaurantMenuComponent;
+//# sourceMappingURL=restaurant-menu.component.js.map

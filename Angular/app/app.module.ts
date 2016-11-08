@@ -7,9 +7,11 @@ import { AppComponent }   from './app.component';
 import { AuthenticateService } from './login.authenticate.service';
 import { RestaurantUpdateService } from './restaurantProfile.update.service';
 import { RestaurantGetService } from './restaurantGet.service';
+import { RestaurantMenuUpdateService } from './restaurantMenu.update.service';
 import { LoginComponent } from './login/login.component';
 import { RestaurantProfileComponent } from './restaurantProfile/restaurantProfile.component';
 import { RegisterComponent } from './register/register.component';
+import { RestaurantMenuComponent } from './restaurantMenu/restaurant-menu.component';
 
 @NgModule({
   imports:      [ 
@@ -19,7 +21,7 @@ import { RegisterComponent } from './register/register.component';
   		{ path: '', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'restaurant', component: RestaurantProfileComponent },
-//      { path: 'menu/:restaurantId', component: RestaurantMenuComponent }, 
+      { path: 'menu', component: RestaurantMenuComponent }, 
   		{ path: 'restaurant/:restaurantId', component: RestaurantProfileComponent }
 	])
   ],
@@ -27,12 +29,14 @@ import { RegisterComponent } from './register/register.component';
   	AppComponent,
     LoginComponent,
     RegisterComponent,
-    RestaurantProfileComponent
+    RestaurantProfileComponent,
+    RestaurantMenuComponent
   ],
   providers: [ 
 		AuthenticateService,
     RestaurantUpdateService, 
-    RestaurantGetService
+    RestaurantGetService,
+    RestaurantMenuUpdateService
 		],
   bootstrap:    [ AppComponent ]
 })
