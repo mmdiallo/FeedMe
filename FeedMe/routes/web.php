@@ -11,8 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+// Route::get('/', function () {
+//     return view('index');
+// });
 
 Route::get('account/types', 'AccountsController@types');
+Auth::routes();
+
+Route::get('/', 'HomeController@index');
