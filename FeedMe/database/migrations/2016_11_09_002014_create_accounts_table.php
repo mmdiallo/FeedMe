@@ -19,7 +19,7 @@ class CreateAccountsTable extends Migration
             $table->increments('id');
             $table->string('username')->unique();
             $table->string('password_hash');
-            $table->string('password_salt')->unique();
+            //$table->string('password_salt')->unique();
             $table->integer('account_type_id');
             $table->foreign('account_type_id')->references('id')->on('account_types');
             $table->timestamps();
