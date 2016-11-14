@@ -1,5 +1,6 @@
 <?php
-    session_set_cookie_params(0, dirname(__FILE__), "", true, true); 
+    require 'file_config.php';
+    session_set_cookie_params(0, $root, "", true, true); 
     session_start(); 
 ?>
 <!DOCTYPE html>
