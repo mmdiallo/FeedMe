@@ -29,5 +29,8 @@
             $conn->close();
         }
         
+        echo '<br>';
+        echo '<a href="3_personal_menus.php">Personal Menus</a>';
+
     //}
 ?>

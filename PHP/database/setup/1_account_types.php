@@ -25,6 +25,9 @@
 
             $conn->close();
         }
+
+        echo '<br>';
+        echo '<a href="2_accounts.php">Accounts</a>';
         
     //}
 ?>
