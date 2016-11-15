@@ -32,7 +32,7 @@
         }
 
         echo '<br>';
-        echo '<a href=""></a>';
+        echo '<a href="8_hours.php">Hours</a>';
         
     //}
 ?>
