@@ -7,6 +7,7 @@
 ?>
 <?php
     require 'session_checks.php';
+    require 'forms.php';
 
     if (empty($_SERVER['HTTPS'])) {
         header('Location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], 301);
@@ -18,10 +19,25 @@
             if (authenticatedSession()) {
                 header('Location: ' . $current_domain . 'index.php', 301);
             } else {
-                header('Location: ' . $current_domain . 'index.php', 301);
+                form_create_user_account();
             }
 
         } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            require 'input.php';
+            $response = array('error' => NULL);
+            $input_valid = validateInput();
+
+
+            if ($input_valid) {
+                $username = getUsername();
+                $password_salt = generatePasswordSalt();
+                $password_hash = generatePasswordHash();
+            } else {
+                $response['error'] = 'Invalid input.';
+            }
+
+            $json = json_encode($response);
+            echo $json;
 
         }
     }
