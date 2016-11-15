@@ -1,8 +1,9 @@
 <?php
-    //require 'file_config.php';
-    session_set_cookie_params(0, "/", NULL, true, true);
+    require 'file_config.php';
+    session_set_cookie_params(0, "/", "", true, true);
+    session_name('PHPSESSID_FEEDME');
     session_start();
-    //session_regenerate_id(true); 
+    session_regenerate_id(true);
 ?>
 <?php
     require 'session_checks.php';
@@ -15,9 +16,9 @@
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
             if (authenticatedSession()) {
-                
+                header('Location: ' . $current_domain . 'index.php', 301);
             } else {
-                
+                header('Location: ' . $current_domain . 'index.php', 301);
             }
 
         } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {

@@ -1,10 +1,7 @@
 <?php
-    session_set_cookie_params(0, "/", "", false, true);
+    session_name('PHPSESSID_FEEDME');
+    session_set_cookie_params(0, "/", "", true, true);
     session_start();
-    session_regenerate_id(true);
-    $var = session_get_cookie_params();
-    var_dump($var);
-    echo '<br>';
 ?>
 <!DOCTYPE html>
 <html>
