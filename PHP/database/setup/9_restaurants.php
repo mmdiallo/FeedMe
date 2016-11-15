@@ -38,7 +38,7 @@
         }
         
         echo '<br>';
-        echo '<a href=""></a>';
+        echo '<a href="10_meal_types.php">Meal Types</a>';
 
     //}
 ?>
