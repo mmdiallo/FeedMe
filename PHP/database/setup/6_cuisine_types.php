@@ -20,7 +20,7 @@
         }
 
         echo '<br>';
-        echo '<a href=""></a>';
+        echo '<a href="7_price_ratings.php">Price Ratings</a>';
         
     //}
 ?>
