@@ -19,7 +19,7 @@
                 $create_type_restaurant = 'INSERT OR IGNORE INTO AccountTypes(type) VALUES(\'restaurant\')';
 
                 if ($conn->query($create_type_user) && $conn->query($create_type_restaurant)) {
-                    echo 'Type creation successful!';
+                    echo 'Type creation successful!' . '<br>';
                 } 
             }
 
