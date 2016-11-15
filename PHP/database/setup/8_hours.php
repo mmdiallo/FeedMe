@@ -33,7 +33,7 @@
         }
 
         echo '<br>';
-        echo '<a href=""></a>';
+        echo '<a href="9_restaurants.php">Restaurants</a>';
         
     //}
 ?>
