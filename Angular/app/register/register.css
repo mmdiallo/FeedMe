@@ -1,27 +1,34 @@
-.mobile {
-	font-weight: bold;
-	color: green;
-}
-
 .btn.dropdown-toggle {
     padding: 6.25px 12px;
 }
 
 body {
-  background: #e9e9e9;
+  background: url("../images/food.jpg");
   color: #666666;
   font-family: 'RobotoDraft', 'Roboto', sans-serif;
   font-size: 14px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
-/* Pen Title */
+ .gradient-overlay { 
+  background: -webkit-linear-gradient(to left, #e74c3c , #f39c12);
+  background: linear-gradient(to left, #e74c3c , #f39c12);
+  opacity: 0.7;      
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 133%;
+}
+
 .pen-title {
   padding: 50px 0;
   text-align: center;
   letter-spacing: 2px;
 }
+
 .pen-title h1 {
   margin: 0 0 20px;
   font-size: 48px;
@@ -31,10 +38,10 @@ body {
   font-size: 12px;
 }
 .pen-title span .fa {
-  color: #ffffff;
+  color: #e74c3c;
 }
 .pen-title span a {
-  color: #ffffff;
+  color: #e74c3c;
   font-weight: 600;
   text-decoration: none;
 }
@@ -47,11 +54,11 @@ body {
 .rerun a {
   cursor: pointer;
   display: inline-block;
-  background: #ffffff;
+  background: #e74c3c;
   border-radius: 3px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   padding: 10px 20px;
-  color: #3498db;
+  color: #ffffff;
   text-decoration: none;
   -webkit-transition: 0.3s ease;
   transition: 0.3s ease;
@@ -72,7 +79,7 @@ body {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   -webkit-transition: 0.3s ease;
   transition: 0.3s ease;
-  color: #3498db;
+  color: #ffffff;
   text-align: center;
 }
 #codepen i, #portfolio i {
@@ -86,7 +93,7 @@ body {
 #portfolio {
   bottom: 96px;
   right: 36px;
-  background: #ffffff;
+  background: #e74c3c;
   width: 44px;
   height: 44px;
   -webkit-animation: buttonFadeInUp 1s ease;
@@ -166,25 +173,18 @@ body {
           transition-delay: .7s;
 }
 
-/* Card */
 .card {
   position: relative;
-  background: #3498db;
+  background: #ffffff;
   border-radius: 5px;
   padding: 60px 0 40px 0;
   box-sizing: border-box;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   -webkit-transition: .3s ease;
   transition: .3s ease;
-  /* Title */
-  /* Inputs */
-  /* Button */
-  /* Footer */
-  /* Alt Card */
 }
 .card:first-child {
   background: #fafafa;
-  height: 10px;
   border-radius: 5px 5px 0 0;
   margin: 0 10px;
   padding: 0;
@@ -192,10 +192,10 @@ body {
 .card .title {
   position: relative;
   z-index: 1;
-  border-left: 5px solid #ffffff;
+  border-left: 5px solid #e74c3c;
   margin: 0 0 35px;
   padding: 10px 0 10px 50px;
-  color: #ffffff;
+  color: #e74c3c;
   font-size: 32px;
   font-weight: 600;
   text-transform: uppercase;
@@ -233,7 +233,7 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  color: #ffffff;
+  color: #757575;
   font-size: 24px;
   font-weight: 300;
   line-height: 60px;
@@ -244,14 +244,14 @@ body {
   position: absolute;
   left: 0;
   bottom: 0;
-  background: #ffffff;
+  background: #757575;
   width: 100%;
   height: 1px;
 }
 .card .input-container .bar:before, .card .input-container .bar:after {
   content: '';
   position: absolute;
-  background: #ffffff;
+  background: #e74c3c;
   width: 0;
   height: 2px;
   -webkit-transition: .2s ease;
@@ -274,20 +274,18 @@ body {
   display: inline-block;
   background: 0;
   width: 240px;
-  border: 2px solid #e3e3e3;
+  border: 2px solid #e74c3c;
   padding: 20px 0;
   font-size: 24px;
   font-weight: 600;
   line-height: 1;
   text-transform: uppercase;
   overflow: hidden;
-  -webkit-transition: .3s ease;
-  transition: .3s ease;
 }
 .card .button-container button span {
   position: relative;
   z-index: 1;
-  color: #ddd;
+  color: #e74c3c;
   -webkit-transition: .3s ease;
   transition: .3s ease;
 }
@@ -297,7 +295,7 @@ body {
   top: 50%;
   left: 50%;
   display: block;
-  background: #ffffff;
+  background: #e74c3c;
   width: 30px;
   height: 30px;
   border-radius: 100%;
@@ -307,13 +305,13 @@ body {
   transition: .3s ease;
 }
 .card .button-container button:hover, .card .button-container button:active, .card .button-container button:focus {
-  border-color: #ffffff;
+  border-color: #e74c3c;
 }
 .card .button-container button:hover span, .card .button-container button:active span, .card .button-container button:focus span {
-  color: #ffffff;
+  color: #e74c3c;
 }
 .card .button-container button:active span, .card .button-container button:focus span {
-  color: #3498db;
+  color: #ffffff;
 }
 .card .button-container button:active:before, .card .button-container button:focus:before {
   opacity: 1;
@@ -356,12 +354,12 @@ body {
 }
 .card.alt .toggle {
   position: relative;
-  background: #ffffff;
+  background: #e74c3c;
   width: 140px;
   height: 140px;
   border-radius: 100%;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  color: #3498db;
+  color: #ffffff;
   font-size: 58px;
   line-height: 140px;
   text-align: center;
@@ -386,8 +384,8 @@ body {
 }
 .card.alt .title {
   position: relative;
-  border-color: #3498db;
-  color: #3498db;
+  border-color: #ffffff;
+  color: #ffffff;
 }
 .card.alt .title .close {
   cursor: pointer;
@@ -395,7 +393,7 @@ body {
   top: 0;
   right: 60px;
   display: inline;
-  color: #3498db;
+  color: #ffffff;
   font-size: 58px;
   font-weight: 400;
 }
@@ -403,16 +401,16 @@ body {
   content: '\00d7';
 }
 .card.alt .input-container input {
-  color: #3498db;
+  color: #ffffff;
 }
 .card.alt .input-container input:focus ~ label {
-  color: #3498db;
+  color: #ffffff;
 }
 .card.alt .input-container input:focus ~ .bar:before, .card.alt .input-container input:focus ~ .bar:after {
-  background: #3498db;
+  background: #ffffff;
 }
 .card.alt .input-container input:valid ~ label {
-  color: #3498db;
+  color: #ffffff;
 }
 .card.alt .input-container label {
   color: rgba(255, 255, 255, 0.8);
@@ -422,11 +420,11 @@ body {
 }
 .card.alt .button-container button {
   width: 100%;
-  background: #3498db;
-  border-color: #3498db;
+  background: #ffffff;
+  border-color: #ffffff;
 }
 .card.alt .button-container button span {
-  color: #ffffff;
+  color: #e74c3c;
 }
 .card.alt .button-container button:hover {
   background: rgba(255, 255, 255, 0.9);
@@ -450,21 +448,79 @@ body {
 }
 
 
-label {
-  color: white;
-}
-
 .btn-primary {
-  color: #3498db !important;
-  background-color: #ffffff !important;
+  color: #ffffff !important;
+  background-color: #e74c3c !important;
   border-color: #ffffff;
   text-align: center;
   display: block;
   width: 100px;
   height: 100px;
-  text-align: center;
   padding: 6px 0;
-  font-size: 20px;
-  line-height: 4;
-  border-radius: 50px;
+  font-size: 25px;
+  line-height: 3.5;
+  border-radius: 150px;
+
+}
+
+/*input[type=checkbox]:not(old){
+  width   : 28px;
+  margin  : 0;
+  padding : 0;
+  opacity : 0;
+}
+
+input[type=checkbox]:not(old) + label{
+  display      : inline-block;
+  margin-left  : -28px;
+  padding-left : 28px;
+  background   : url('checks.png') no-repeat 0 0;
+  line-height  : 24px;
+}
+
+input[type=checkbox]:not(old):checked + label{
+  background-position : 0 -24px;
+}
+*/
+
+table {
+    border: 1px solid;
+    width: 350px;
+    height: 50px;
+}
+
+td {
+    text-align: center;
+    vertical-align: middle;
+      
+}
+
+input {
+  height: 25px;
+  width: 25px;
+  vertical-align: -2px;
+}
+
+label {
+  text-align: center;
+  font-family: 'RobotoDraft', 'Roboto', sans-serif;
+  font-size: 25px;
+  vertical-align: 1px;
+  text-transform: uppercase;
+}
+
+.restaurant_owner {
+  outline: 0;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  background: 0;
+  width: 240px;
+  border: 2px solid #e74c3c;
+  padding: 20px 0;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+  overflow: hidden;
 }

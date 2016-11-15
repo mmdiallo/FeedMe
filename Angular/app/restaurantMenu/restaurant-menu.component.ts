@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 
-import { RestaurantMenuUpdateService } from './../restaurantMenu.update.service';
-import { RestaurantGetService } from './../restaurantGet.service';
+import { RestaurantMenuUpdateService } from './../services/restaurantMenu.update.service';
+import { RestaurantGetService } from './../services/restaurantGet.service';
 
 
 @Component({

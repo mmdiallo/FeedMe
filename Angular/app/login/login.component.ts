@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { AuthenticateService } from './../login.authenticate.service';
+import { AuthenticateService } from './../services/login.authenticate.service';
 
 @Component({
   selector: 'login',

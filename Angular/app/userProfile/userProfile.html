@@ -12,16 +12,16 @@
 		<div class="col-md-3">
 			<!-- SIDEBAR USERPIC -->
 			<div class="profile-userpic">
-				<img class="picture" [src]="restaurant.picPath" onerror="this.src='../images/food.jpg'" />
+				<img class="picture" [src]="user.picPath" onerror="this.src='images/../images/food.jpg'" />
 			</div>
 			<!-- END SIDEBAR USERPIC -->
 			<!-- SIDEBAR USER TITLE -->
 			<div class="profile-usertitle">
 				<div class="profile-name">
-					{{ restaurant.name }}
+					{{ user.name }}
 				</div>
 				<div class="profile-bio">
-					{{ restaurant.bio }}
+					{{ user.bio }}
 				</div>
 			</div>
 			<!-- END SIDEBAR USER TITLE -->
@@ -34,21 +34,9 @@
 			<!-- SIDEBAR MENU -->
 			<div class="profile-usermenu">
 				<ul class="nav">
-					<li class="active">
-						<a href="#">
-							<i class="glyphicon glyphicon-home"></i> {{ restaurant.address }} </a>
-					</li>
 					<li>
 						<a href="#">
-							<i class="glyphicon glyphicon-user"></i> {{ restaurant.hours }} </a>
-					</li>
-					<li>
-						<a href="#" target="_blank">
-							<i class="glyphicon glyphicon-flag"></i> www.banditosdallas.com </a>
-					</li>
-					<li>
-						<a href="#">
-							<i class="glyphicon glyphicon-ok"></i> (214) 884-9940 </a>
+							<i class="glyphicon glyphicon-user"></i> {{ user.email }} </a>
 					</li>
 				</ul>
 				<!-- END MENU -->
@@ -56,13 +44,13 @@
 		</div>
 		<div class="col-md-9">
 			<div class="profile-content">
-				<div class="menu-header"> {{ restaurant.name }} Menu </div>
-				<div *ngFor="let item of restaurant.menu" class="menu-item btn">
+				<div class="menu-header"> My Menu </div>
+				<div *ngFor="let item of user.favorites" class="menu-item btn">
 					<div class="food-frame">
 						<img class="picture" [src]="item.picPath" onerror="this.src='../images/food.jpg'" width="200" height="200" />
 
 
-						<div class="food-name"> {{item.name}} </div>
+						<!--<div class="food-name"> {{ getFavItem(item.restaurantId,item.menuId).name }} </div>-->
 					</div>
 				</div>
 			</div>

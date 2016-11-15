@@ -1,14 +1,9 @@
-.mobile {
-	font-weight: bold;
-	color: green;
-}
-
 .btn.dropdown-toggle {
     padding: 6.25px 12px;
 }
 
 body {
-  background: url('../images/food.jpg') no-repeat fixed;
+  background: url("../images/food.jpg");
   color: #666666;
   font-family: 'RobotoDraft', 'Roboto', sans-serif;
   font-size: 14px;
@@ -18,7 +13,16 @@ body {
     background-size: cover;
 }
 
-/* Pen Title */
+ .gradient-overlay { 
+  background: -webkit-linear-gradient(to left, #2980b9 , #bdc3c7);
+  background: linear-gradient(to left, #2980b9 , #bdc3c7);
+  opacity: 0.7;      
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 133%;
+}
+
 .pen-title {
   padding: 50px 0;
   text-align: center;
