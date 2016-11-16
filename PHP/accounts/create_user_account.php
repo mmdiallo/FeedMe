@@ -31,7 +31,8 @@
             if ($input_valid) {
                 $username = getUsername();
                 $password_salt = generatePasswordSalt();
-                $password_hash = generatePasswordHash();
+                $password_hash = generatePasswordHash($password_salt);
+                echo $password_hash;
             } else {
                 $response['error'] = 'Invalid input.';
             }

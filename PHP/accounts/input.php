@@ -24,4 +24,13 @@
         $password_salt = hash('sha256', $random_string);
         return $password_salt;
     }
+
+    function generatePasswordHash($password_salt) {
+        $password = htmlentities($_POST['password']);
+        $initial_password_hash = hash('sha256', $password);
+        $password_hash_with_salt = $password_salt . $initial_password_hash . $password_salt;
+        //$final_password_hash = password_hash($password_hash_with_salt, PASSWORD_BCRYPT);
+        //return $final_password_hash;
+        return 'hi';
+    }
 ?>
