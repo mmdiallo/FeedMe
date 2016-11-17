@@ -38,26 +38,25 @@ $mw_1 = function(Request $request, Response $response, $next) {
 $app->group('/', function() use ($app){
     $app->get('', function(Request $request, Response $response) {
         $response->getBody()->write('<h1>Home</h1>');
+        $response->getBody()->write('<a href="/database_setup/0"> Database Setup </a>');
         return $response;
     });
 
-    $app->get('help', function (Request $request, Response $response, $args) {
-        $response->getBody()->write('Home Page');
+    $app->get('database_setup/{num: [\d]+}', function(Request $request, Response $response, $args) {
+        $script_number = (int)$args['num'];
+        $result = createTable($this->db, $script_number);
+        $response->getBody()->write($result);
+
+        if ($result != 'invalid request') {
+            $next_script_number = $script_number + 1;
+            $next_page = '/database_setup/' . $next_script_number;
+            $next_page_link = '<br><a href="' . $next_page . '"> Next </a>';
+            $response->getBody()->write($next_page_link);
+        }
+
         return $response;
     });
 
-})->add($https_middleware);
-
-$app->get('/database_setup/{num: [\d]+}', function(Request $request, Response $response, $args) {
-    $script_number = (int)$args['num'];
-    $next_script_number = $script_number + 1;
-    $next_page = '/database_setup/' . $next_script_number;
-    $next_page_link = '<br><a href="' . $next_page . '"> Next </a>';
-    $result = createTable($this->db, $script_number);
-    $response->getBody()->write($result);
-    $response->getBody()->write($next_page_link);
-
-    return $response;
 })->add($https_middleware);
 
 $app->run();
