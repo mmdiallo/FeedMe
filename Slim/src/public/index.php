@@ -3,7 +3,7 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 require '../vendor/autoload.php';
-require '../functions/database.php';
+require '../functions/database_creation.php';
 
 $config['displayErrorDetails'] = true;
 $config['db']['filename'] = '../database/feed_me.sqlite';
@@ -44,7 +44,8 @@ $app->group('/', function() use ($app){
 
     $app->get('database_setup/{num: [\d]+}', function(Request $request, Response $response, $args) {
         $script_number = (int)$args['num'];
-        $result = createTable($this->db, $script_number);
+        $database_creation = new DatabaseCreation($this->db);
+        $result = $database_creation->createTable($script_number);
         $response->getBody()->write($result);
 
         if ($result != 'invalid request') {
@@ -53,6 +54,8 @@ $app->group('/', function() use ($app){
             $next_page_link = '<br><a href="' . $next_page . '"> Next </a>';
             $response->getBody()->write($next_page_link);
         }
+
+        $response->getBody()->write('<br><a href="/"> Home </a>');
 
         return $response;
     });
