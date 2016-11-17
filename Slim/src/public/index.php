@@ -55,7 +55,7 @@ $app->group('/', function() use ($app){
             $response->getBody()->write($next_page_link);
         }
 
-        $response->getBody()->write('<br><a href="/"> Home </a>');
+        $response->getBody()->write('<br><br><a href="/"> Home </a>');
 
         return $response;
     });
