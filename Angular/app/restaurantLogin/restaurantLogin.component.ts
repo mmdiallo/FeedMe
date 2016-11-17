@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
 
-import { AuthenticateService } from './../login.authenticate.service';
+import { AuthenticateService } from './../services/login.authenticate.service';
 
 @Component({
   selector: 'restLogin',
-  templateUrl: './app/restaurantLogin/login.html',
-  styleUrls: [ './app/restaurantLogin/login.css' ]
+  templateUrl: './app/restaurantLogin/restaurantLogin.html',
+  styleUrls: [ './app/restaurantLogin/restaurantLogin.css' ]
 })
 
 export class restLoginComponent { 

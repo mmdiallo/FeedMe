@@ -1,62 +1,44 @@
 <body>
-	<!-- Mixins-->
-	<!-- Pen Title-->
-	<div class="pen-title">
-	</div>
-	<div class="container">
-		<div class="card"></div>
-		<div class="card">
-			<h1 class="title">User Login</h1>
-			<form>
-				<div class="input-container">
-					<input type="text" id="Username" required="required" />
-					<label for="Username">Username</label>
-					<div class="bar"></div>
-				</div>
-				<div class="input-container">
-					<input type="password" id="Password" required="required" />
-					<label for="Password">Password</label>
-					<div class="bar"></div>
-				</div>
-				<div class="button-container">
-					<button><span>Go</span></button>
-				</div>
-				<br>
-				
-				<div>
-
-
-					<button routerLink="/restLogin">Restaurant login</button>
-
-
-				</div>
-				<div class="footer"><a href="#" class="wow">Forgot your password?</a></div>
-			</form>
+	<div class="gradient-overlay">
+		<div background="../images/food.jpg"></div>
 		</div>
-		<div class="card alt">
+		<div class="pen-title"></div>
+		<div class="container">
+			<div class="card"></div>
+			<div class="card">
+				<h1 class="title">Resturant Login</h1>
+				<form>
+					<div class="input-container">
+						<input type="text" id="Username" required="required" />
+						<label for="Username">Username</label>
+						<div class="bar"></div>
+					</div>
+					<div class="input-container">
+						<input type="password" id="Password" required="required" />
+						<label for="Password">Password</label>
+						<div class="bar"></div>
+					</div>
+					<div class="button-container">
+						<button routerLink="/restaurant"><span>Submit</span></button>
+					</div>
 
-			<a class="btn btn-primary btn-lg" routerLink="/register">Register</a>
+					<br>
 
-			<form>
-				<div class="input-container">
-					<input type="text" id="Username" required="required" />
-					<label for="Username">Username</label>
-					<div class="bar"></div>
-				</div>
-				<div class="input-container">
-					<input type="password" id="Password" required="required" />
-					<label for="Password">Password</label>
-					<div class="bar"></div>
-				</div>
-				<div class="input-container">
-					<input type="password" id="Repeat Password" required="required" />
-					<label for="Repeat Password">Repeat Password</label>
-					<div class="bar"></div>
-				</div>
-				<div class="button-container">
-					<button><span>Next</span></button>
-				</div>
-			</form>
+					<div class="button-container">
+						<button routerLink="/"><span>User login</span></button>
+					</div>
+
+					<br>
+
+
+					<div class="button-container">
+						<button routerLink="/register"><span>Create an account</span></button>
+					</div>
+
+
+					<div class="footer"><a href="#">Forgot your password?</a></div>
+				</form>
+			</div>
+
 		</div>
-	</div>
 </body>
