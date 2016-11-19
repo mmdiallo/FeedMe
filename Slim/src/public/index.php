@@ -95,6 +95,7 @@ $app->get('/login', function(Request $request, Response $response) {
 
 // Create User Account Page
 $app->get('/create_user_account', function(Request $request, Response $response) {
+    
     return $response;
 });
 
