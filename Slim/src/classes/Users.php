@@ -31,7 +31,6 @@
             	echo $result;
             	return $result;
             }
-
         }
  
 	    public function insert($e, $f, $l) {
