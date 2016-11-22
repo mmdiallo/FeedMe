@@ -13,6 +13,7 @@ require '../vendor/autoload.php';
 require '../classes/DatabaseCreation.php';
 require '../classes/AuthenticationHandler.php';
 require '../classes/Form.php';
+require '../classes/Users.php';
 
 $config['displayErrorDetails'] = true;
 $config['db']['filename'] = '../database/feed_me.sqlite';
@@ -101,11 +102,13 @@ $app->get('/', function(Request $request, Response $response) {
         $login_link = '<a style="padding: 8;" href="/login"> Login </a>';
         $create_user_account_link = '<a style="padding: 8;" href="/create_user_account"> Create User Account </a>';
         $create_restaurant_account_link = '<a style="padding: 8;" href="/create_restaurant_account"> Create Restaurant Account </a>';
+        $test_link = '<a style="padding: 8;" href="/Users"> Users </a>';
         $end_div = '</div>';
         $response->getBody()->write($begin_div);
         $response->getBody()->write($login_link);
         $response->getBody()->write($create_user_account_link);
         $response->getBody()->write($create_restaurant_account_link);
+        $response->getBody()->write($test_link);
         $response->getBody()->write($end_div);
     }
 
@@ -114,14 +117,14 @@ $app->get('/', function(Request $request, Response $response) {
 })->add($session_mw);
 
 // Login Page
-$app->get('/login', function(Request $request, Response $response) {
+$app->get('/login', function(Request $request, Response $response) {   
     return $response;
 });
 
 // Create User Account Page
 $app->get('/create_user_account', function(Request $request, Response $response) {
     $form = new Form;
-    $form_string = $form->loginForm('/create_user_account');
+    $form_string = $form->registerForm('/create_user_account');
     $response->getBody()->write($form_string);
     return $response;
 });
@@ -146,8 +149,21 @@ $app->post('/create_user_account', function(Request $request, Response $response
 
 // Create Restaurant Account Page
 $app->get('/create_restaurant_account', function(Request $request, Response $response) {
+    $form = new Form;
+    $form_string = $form->registerRestaurantForm('/create_restaurant_account');
+    $response->getBody()->write($form_string);
     return $response;
 });
+
+$app->post('/create_restaurant_account', function(Request $request, Response $response) {
+    $data = $request->getParsedBody();
+    //$email = $data['Email'];
+    //$result = $request->getAttribute('result');
+    //echo $email;
+    echo $data;
+    return $response;
+});
+
 
 
 // Database Creation Pages
@@ -167,6 +183,56 @@ $app->get('/database_setup/{num: [\d]+}', function(Request $request, Response $r
     $response->getBody()->write('<br><br><a href="/"> Home </a>');
     return $response;
 });
+
+$app->get('/Users/{uid}/email', function(Request $request, Response $response, $args) {
+    $uid = $request->getAttribute('uid');
+    $response->getBody()->write("Hello $uid");
+    $user = new Users($this->db, $uid);
+    $user->select("email", $uid);
+    return $response;
+});
+
+$app->get('/Users/{uid}/first_name', function(Request $request, Response $response, $args) {
+    $uid = $request->getAttribute('uid');
+    $response->getBody()->write("Hello $uid");
+    $user = new Users($this->db, $uid);
+    $user->select("fi
+        rst_name", $uid);
+    return $response;
+});
+
+$app->get('/Users/{uid}/last_name', function(Request $request, Response $response, $args) {
+    $uid = $request->getAttribute('uid');
+    $response->getBody()->write("Hello $uid");
+    $user = new Users($this->db, $uid);
+    $user->select("last_name", $uid);
+    return $response;
+});
+
+
+$app->get('/Menus/{menus_id}/all_menu_items_id', function(Request $request, Response $response, $args) {
+
+});
+
+// $app->get('/{menu_items_id}/name', function(Request $request, Response $response, $args) {
+
+// });
+// $app->get('/{menu_items_id}/cuisine_type_id', function(Request $request, Response $response, $args) {
+
+// });
+// $app->get('/{menu_items_id}/meal_type_id', function(Request $request, Response $response, $args) {
+
+// });
+// $app->get('/{menu_items_id}/price', function(Request $request, Response $response, $args) {
+
+// });
+// $app->get('/{menu_items_id}/description', function(Request $request, Response $response, $args) {
+
+// });
+
+// $app->get('/{personal_menu_items_id}/menu_items_id', function(Request $request, Response $response, $args) {
+
+// });
 
 // RUN THE APPLICATION
 $app->run();
