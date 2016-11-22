@@ -159,10 +159,18 @@ $app->post('/create_user_account', function(Request $request, Response $response
         $account_type_id = $account_type_results_array['id'];
         
         // add account to database
-
-
-        $statement = 'INSERT INTO Accounts(username, password_hash, password_salt)';
-
+        $statement = 'INSERT INTO Accounts(username, password_hash, password_salt, account_type_id) VALUES(:username, :password_hash, :password_salt, :account_type_id)';
+        $prepared_statement = $this->db->prepare($statement);
+        $prepared_statement->bindValue(':username', $username, SQLITE3_TEXT);
+        $prepared_statement->bindValue(':password_hash', $salted_password_hash, SQLITE3_TEXT);
+        $prepared_statement->bindValue(':password_salt', $password_salt, SQLITE3_TEXT);
+        $prepared_statement->bindValue(':account_type_id', $account_type_id, SQLITE3_INTEGER);
+        if ($prepared_statement->execute()) {
+            
+            
+        } else {
+            $result['error'] = 'account creation failed';
+        }
     }
     return $response;
 })->add($authentication_response_2);
