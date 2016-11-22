@@ -75,7 +75,6 @@ $authentication_response = function(Request $request, Response $response, $next)
 // prevents access to login and create account pages for already authenticated users
 $authentication_response_2 = function(Request $request, Response $response, $next) {
     $result = array('error' => null);
-    $response = $next($request, $response);
     $authentication = new AuthenticationHandler;
     $current_auth = $authentication->checkAuthentication();
     if ($current_auth) {
@@ -128,18 +127,42 @@ $app->get('/create_user_account', function(Request $request, Response $response)
 
 $app->post('/create_user_account', function(Request $request, Response $response) {
     $data = $request->getParsedBody();
+
+    // get username
     $username = $data['username'];
     $result = $request->getAttribute('result');
+
+    // verify username input
     $valid_username = preg_match('/^[a-zA-z][\w]*$/', $username);
+
     if (!$valid_username) {
         $result['error'] = 'invalid username';
     } else {
+        // generate password salt
         $random_string = uniqid();
         $password_salt = hash('sha256', $random_string);
+
+        // hash password
         $password = $data['username'];
         $initial_password_hash = hash('sha256', $password);
+
+        // addd password salt
         $password_hash_with_salt = $password_salt . $initial_password_hash . $password_salt;
-        $final_password_hash = password_hash($password_hash_with_salt, PASSWORD_BCRYPT);
+
+        // hash salted password
+        $salted_password_hash = password_hash($password_hash_with_salt, PASSWORD_BCRYPT);
+
+        // get correct account type
+        $query = 'SELECT id FROM AccountTypes WHERE type="user"';
+        $account_type_results = $this->db->query($query);
+        $account_type_results_array = $account_type_results->fetchArray();
+        $account_type_id = $account_type_results_array['id'];
+        
+        // add account to database
+
+
+        $statement = 'INSERT INTO Accounts(username, password_hash, password_salt)';
+
     }
     return $response;
 })->add($authentication_response_2);
