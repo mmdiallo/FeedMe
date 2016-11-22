@@ -20,11 +20,11 @@
                     break;
 
                 case 2:
-                    $result = $result . $this->createPersonalMenusTable();
+                    $result = $result . $this->createUsersTable();
                     break;
 
                 case 3:
-                    $result = $result . $this->createUsersTable();
+                    $result = $result . $this->createPersonalMenusTable();;
                     break;
 
                 case 4:
@@ -108,30 +108,16 @@
             return $result;
         }
 
-        public function createPersonalMenusTable() {
-            $result = '';
-            $create_table = 'CREATE TABLE IF NOT EXISTS PersonalMenus (
-                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)';
-
-            if ($this->db->query($create_table)) {
-                $result = $result . 'Table creation sucessful!' . '<br>';
-            }
-
-            return $result;
-        }
-
         public function createUsersTable() {
             $result = '';
             $create_table = 'CREATE TABLE IF NOT EXISTS Users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                 account_id INTEGER UNIQUE NOT NULL,
-                email TEXT UNIQUE NOT NULL,
-                first_name TEXT NOT NULL,
-                last_name TEXT NOT NULL,
-                personal_menu_id INTEGER UNIQUE NOT NULL,
+                email TEXT UNIQUE,
+                first_name TEXT,
+                last_name TEXT,
                 profile_image_path TEXT,
-                FOREIGN KEY(account_id) REFERENCES Accounts(id),
-                FOREIGN KEY(personal_menu_id) REFERENCES PersonalMenus(id))';
+                FOREIGN KEY(account_id) REFERENCES Accounts(id))';
 
             if ($this->db->query($create_table)) {
                 $result = $result . 'Table creation sucessful!' . '<br>';
@@ -139,6 +125,20 @@
 
             return $result;
         }
+
+        public function createPersonalMenusTable() {
+            $result = '';
+            $create_table = 'CREATE TABLE IF NOT EXISTS PersonalMenus (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                user_id INTEGER UNIQUE NOT NULL,
+                FOREIGN KEY(user_id) REFERENCES Users(id))';
+
+            if ($this->db->query($create_table)) {
+                $result = $result . 'Table creation sucessful!' . '<br>';
+            }
+
+            return $result;
+        }   
 
         public function createMenusTable() {
             $result = '';
