@@ -6,7 +6,46 @@
             $this->db = $db;
         }
 
-        public function validateUsername($username) {
+        public function createRestaurantAccount($username, $password) {
+            $success = false;
+
+            $valid_username = $this->validateNewUsername($username);
+
+            if ($valid_username) {
+                $password_salt = $this->createPasswordSalt();
+                $password_hash = $this->hashPassword($password, $password_salt);
+                $account_type_id = $this->getAccountTypeId('restaurant');
+
+                if ($account_type_id != -1) {
+                    $account_creation_success = $this->createAccount($username, $password_hash, $password_salt, $account_type_id);
+
+                    if ($account_creation_success) {
+                        $success = true;
+                    }
+                }
+            }
+            return $success;
+        }
+
+        public function getAccountInformation($username) {
+            $information = array();
+            $account_id = $this->getAccountId($username);
+            $information['account_id'] = $account_id;
+            $account_type = $this->getAccountType($account_id);
+            $information['account_type'] = $account_type;
+
+            if ($account_type == 'user') {
+                $user_id = $this->getUserId($account_id);
+                $information['user_id'] = $user_id;
+            } else if ($account_type == 'restaurant') {
+                $restaurant_id = $this->getRestaurantId($account_id);
+                $information['restaurant_id'] = $restaurant_id;
+            } 
+
+            return $information;
+        }
+
+        private function validateNewUsername($username) {
             $valid = false;
             $valid_username_pattern = '/^[a-zA-Z][\w]*$/';
 
@@ -35,20 +74,43 @@
 
         }
 
-        public function createPasswordSalt() {
+        private function createPasswordSalt() {
             $random_string = uniqid();
             $password_salt = hash('sha256', $random_string);
             return $password_salt;
         }
 
-        public function hashPassword($password, $password_salt) {
+        private function hashPassword($password, $password_salt) {
             $initial_hash = hash('sha256', $password);
             $salt = $password_salt . $initial_hash . $password_salt;
             $salted_hash = password_hash($salt, PASSWORD_BCRYPT);
             return $salted_hash;
         }
 
-        public function getAccountTypeId($type) {
+        private function getAccountType($account_id) {
+            $type = '';
+            $account_statement = 'SELECT account_type_id FROM Accounts WHERE id=:id';
+            $account_prepared_statement = $this->db->prepare($account_statement);
+            $account_prepared_statement->bindValue(':id', $account_id, SQLITE3_INTEGER);
+
+            if ($account_query_results = $account_prepared_statement->execute()) {
+                $account_row = $account_query_results->fetchArray();
+                $account_type_id = $account_row['account_type_id'];
+                $account_types_statement = 'SELECT type FROM AccountTypes WHERE id=:id';
+                $account_types_prepared_statement = $this->db->prepare($account_types_statement);
+                $account_types_prepared_statement->bindValue(':id', $account_type_id, SQLITE3_INTEGER);
+
+                if ($account_types_query_results = $account_types_prepared_statement->execute()) {
+                    $account_types_row = $account_types_query_results->fetchArray();
+                    $type = $type . $account_types_row['type'];
+                }
+
+            }
+
+            return $type;
+        }
+
+        private function getAccountTypeId($type) {
             $id = -1;
             $query = '';
 
@@ -66,7 +128,7 @@
             return $id;
         }
 
-        public function createAccount($username, $password_hash, $password_salt, $account_type_id) {
+        private function createAccount($username, $password_hash, $password_salt, $account_type_id) {
             $success = false;
             $statement = 'INSERT OR IGNORE INTO Accounts(username, password_hash, password_salt, account_type_id) VALUES(:username, :password_hash, :password_salt, :account_type_id)';
             $prepared_statement = $this->db->prepare($statement);
@@ -93,7 +155,7 @@
             return $success;
         }
 
-        public function getAccountId($username) {
+        private function getAccountId($username) {
             $id = -1;
             $statement = 'SELECT id FROM Accounts WHERE username=:username';
             $prepared_statement = $this->db->prepare($statement);
@@ -124,7 +186,7 @@
             return $success;
         }
 
-        public function getUserId($account_id) {
+        private function getUserId($account_id) {
             $id = -1;
             $statement = 'SELECT id FROM Users WHERE account_id=:account_id';
             $prepared_statement = $this->db->prepare($statement);
@@ -168,7 +230,7 @@
             return $success;
         }
 
-        public function getRestaurantId($account_id) {
+        private function getRestaurantId($account_id) {
             $id = -1;
             $statement = 'SELECT id FROM Restaurants WHERE account_id=:account_id';
             $prepared_statement = $this->db->prepare($statement);
