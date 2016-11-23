@@ -6,6 +6,27 @@
             $this->db = $db;
         }
 
+        public function createUserAccount($username, $password) {
+            $success = false;
+
+            $valid_username = $this->validateNewUsername($username);
+
+            if ($valid_username) {
+                $password_salt = $this->createPasswordSalt();
+                $password_hash = $this->hashPassword($password, $password_salt);
+                $account_type_id = $this->getAccountTypeId('user');
+
+                if ($account_type_id != -1) {
+                    $account_creation_success = $this->createAccount($username, $password_hash, $password_salt, $account_type_id);
+
+                    if ($account_creation_success) {
+                        $success = true;
+                    }
+                }
+            }
+            return $success;
+        }
+
         public function createRestaurantAccount($username, $password) {
             $success = false;
 

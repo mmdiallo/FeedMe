@@ -84,38 +84,33 @@ $login_authentication_mw = function(Request $request, Response $response, $next)
 // Account Creation ------------------------------------------------------
 
 $app->post('/create_user_account', function(Request $request, Response $response) {
-    // $result = $request->getAttribute('result');
-    // $data = $request->getParsedBody();
-    // $username = $data['username'];
-    // $password = $data['password'];
-    // $accountHandler = new AccountHandler($this->db);
-    // $valid_username = $accountHandler->validateUsername($username);
+    $result = $request->getAttribute('result');
+    $data = $request->getParsedBody();
+    $username = $data['username'];
+    $password = $data['password'];
+    $accountHandler = new AccountHandler($this->db);
+    $account_creation_success = $accountHandler->createUserAccount($username, $password);
 
-    // if (!$valid_username) {
-    //     $result['error'] = 'invalid username';
-    // } else {
-    //     $password_salt = $accountHandler->createPasswordSalt();
-    //     $password_hash = $accountHandler->hashPassword($password, $password_salt);
-    //     $account_type_id = $accountHandler->getAccountTypeId('user');
-    //     $account_creation_success = $accountHandler->createAccount($username, $password_hash, $password_salt, $account_type_id);
+    if ($account_creation_success) {
+        $account_information = $accountHandler->getAccountInformation($username);
 
-    //     if ($account_creation_success) {
-    //         $account_id = $accountHandler->getAccountId($username);
-    //         $user_id = $accountHandler->getUserId($account_id);
-    //         $result['account_id'] = $account_id;
-    //         $result['account_type'] = 'user';
-    //         $result['user_id'] = $user_id;
+        if (!empty($account_information['user_id'])) {
+            $result['account_id'] = $account_information['account_id'];
+            $result['account_type'] = $account_information['account_type'];
+            $result['user_id'] = $account_information['user_id'];
 
-    //         $authenticationHandler = new AuthenticationHandler($this->db);
-    //         $authenticationHandler->authenticateSession($account_id, 'user', $user_id);
+            $authenticationHandler = new AuthenticationHandler($this->db);
+            $authenticationHandler->authenticateSession($result['account_id'], $result['account_type'], $result['user_id']);
+        } else {
+             $result['error'] = 'account creation failed';
+        }
 
-    //     } else {
-    //         $result['error'] = 'account creation unsuccessful';
-    //     }
-    // }
+    } else {
+        $result['error'] = 'account creation failed';
+    }
 
-    // $json = json_encode($result, JSON_NUMERIC_CHECK);
-    // $response->write($json);
+    $json = json_encode($result, JSON_NUMERIC_CHECK);
+    $response->write($json);
     return $response;
 })->add($login_authentication_mw);
 
@@ -134,7 +129,7 @@ $app->post('/create_restaurant_account', function(Request $request, Response $re
             $result['account_id'] = $account_information['account_id'];
             $result['account_type'] = $account_information['account_type'];
             $result['restaurant_id'] = $account_information['restaurant_id'];
-            
+
             $authenticationHandler = new AuthenticationHandler($this->db);
             $authenticationHandler->authenticateSession($result['account_id'], $result['account_type'], $result['restaurant_id']);
         } else {
