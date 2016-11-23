@@ -192,8 +192,21 @@ $app->post('/login', function(Request $request, Response $response) {
 })->add($login_mw);
 
 $app->get('/logout', function(Request $request, Response $response) {
+    $result = array('error' => null);
+    $authentication = new AuthenticationHandler($this->db);
+    $authentication->endSession();
+    $current_auth = $authentication->checkAuthentication();
 
-})->add($access_mw);
+    if (!$current_auth) {
+        $result['status'] = 'logout successful';
+    } else {
+        $result['error'] = 'logout failed';
+    }
+
+    $json = json_encode($result, JSON_NUMERIC_CHECK);
+    $response->write($json);
+    return $response;
+});
 
 // Accounts --------------------------------------------------------------
 

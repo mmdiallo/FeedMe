@@ -55,6 +55,14 @@
             }
         }
 
+        public function endSession() {
+            session_destroy();
+            session_regenerate_id();
+            unset($_SESSION);
+            session_set_cookie_params(0, '/', '', true, true);
+            session_start();
+        }
+
         private function verifyAccountId($account_id) {
             $valid = false;
             $statement = 'SELECT * FROM Accounts WHERE id=:id';
