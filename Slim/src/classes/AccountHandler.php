@@ -1,51 +1,11 @@
 <?php
+    require_once 'AccountTypeHandler.php';
+
     class AccountHandler {
         protected $db;
 
         public function __construct($db) {
             $this->db = $db;
-        }
-
-        public function createUserAccount($username, $password) {
-            $success = false;
-
-            $valid_username = $this->validateNewUsername($username);
-
-            if ($valid_username) {
-                $password_salt = $this->createPasswordSalt();
-                $password_hash = $this->hashPassword($password, $password_salt);
-                $account_type_id = $this->getAccountTypeId('user');
-
-                if ($account_type_id != -1) {
-                    $account_creation_success = $this->createAccount($username, $password_hash, $password_salt, $account_type_id);
-
-                    if ($account_creation_success) {
-                        $success = true;
-                    }
-                }
-            }
-            return $success;
-        }
-
-        public function createRestaurantAccount($username, $password) {
-            $success = false;
-
-            $valid_username = $this->validateNewUsername($username);
-
-            if ($valid_username) {
-                $password_salt = $this->createPasswordSalt();
-                $password_hash = $this->hashPassword($password, $password_salt);
-                $account_type_id = $this->getAccountTypeId('restaurant');
-
-                if ($account_type_id != -1) {
-                    $account_creation_success = $this->createAccount($username, $password_hash, $password_salt, $account_type_id);
-
-                    if ($account_creation_success) {
-                        $success = true;
-                    }
-                }
-            }
-            return $success;
         }
 
         public function login($username, $password) {
@@ -66,36 +26,72 @@
             return $success;
         }
 
-        private function getNumberOfResults($query_result) {
-            var_dump($query_result);
-            echo '<br>';
-            $count = 0;
-            if ($query_result != NULL) {
-                while ($row = $query_result->fetchArray()) {
-                    var_dump($row);
-                    echo '<br>';
-                    $count += 1;
+        public function createUserAccount($username, $password) {
+            $success = false;
+
+            $valid_username = $this->validateNewUsername($username);
+
+            if ($valid_username) {
+                $password_salt = $this->createPasswordSalt();
+                $password_hash = $this->hashPassword($password, $password_salt);
+                $account_type_handler = new AccountTypeHandler($this->db);
+                $account_type_id = $account_type_handler->getId('user');
+
+                if ($account_type_id != -1) {
+                    $account_creation_success = $this->createAccount($username, $password_hash, $password_salt, $account_type_id);
+
+                    if ($account_creation_success) {
+                        $success = true;
+                    }
                 }
             }
-            $query_result->reset();
-            return $count;
+            return $success;
+        }
+
+        public function createRestaurantAccount($username, $password) {
+            $success = false;
+
+            $valid_username = $this->validateNewUsername($username);
+
+            if ($valid_username) {
+                $password_salt = $this->createPasswordSalt();
+                $password_hash = $this->hashPassword($password, $password_salt);
+                $account_type_handler = new AccountTypeHandler($this->db);
+                $account_type_id = $account_type_handler->getId('restaurant');
+
+                if ($account_type_id != -1) {
+                    $account_creation_success = $this->createAccount($username, $password_hash, $password_salt, $account_type_id);
+
+                    if ($account_creation_success) {
+                        $success = true;
+                    }
+                }
+            }
+            return $success;
         }
 
         public function getAccountInformation($username) {
             $information = array();
             $account_id = $this->getAccountId($username);
-            $information['account_id'] = $account_id;
-            $account_type = $this->getAccountType($account_id);
-            $information['account_type'] = $account_type;
 
-            if ($account_type == 'user') {
-                $user_id = $this->getUserId($account_id);
-                $information['user_id'] = $user_id;
-            } else if ($account_type == 'restaurant') {
-                $restaurant_id = $this->getRestaurantId($account_id);
-                $information['restaurant_id'] = $restaurant_id;
-            } 
+            if ($account_id != -1) {
+                $account_type_id = $this->getAccountTypeId($account_id);
 
+                if ($account_type_id != -1) {
+                    $account_type_handler = new AccountTypeHandler($this->db);
+                    $account_type = $account_type_handler->getType($account_type_id);
+                    $information['account_id'] = $account_id;
+                    $information['account_type'] = $account_type;
+
+                    if ($account_type == 'user') {
+                        $user_id = $this->getUserId($account_id);
+                        $information['user_id'] = $user_id;
+                    } else if ($account_type == 'restaurant') {
+                        $restaurant_id = $this->getRestaurantId($account_id);
+                        $information['restaurant_id'] = $restaurant_id;
+                    } 
+                }
+            }
             return $information;
         }
 
@@ -125,7 +121,6 @@
             }
 
             return $valid;
-
         }
 
         private function createPasswordSalt() {
@@ -175,47 +170,18 @@
             return $password_hash;
         }
 
-        // ACCOUNT TYPES HANDLER ==================================================================
+        private function getAccountTypeId($account_id) {
+            $account_type_id = -1;
 
-        private function getAccountType($account_id) {
-            $type = '';
-            $account_statement = 'SELECT account_type_id FROM Accounts WHERE id=:id';
-            $account_prepared_statement = $this->db->prepare($account_statement);
-            $account_prepared_statement->bindValue(':id', $account_id, SQLITE3_INTEGER);
-
-            if ($account_query_result = $account_prepared_statement->execute()) {
-                $account_row = $account_query_result->fetchArray();
-                $account_type_id = $account_row['account_type_id'];
-                $account_types_statement = 'SELECT type FROM AccountTypes WHERE id=:id';
-                $account_types_prepared_statement = $this->db->prepare($account_types_statement);
-                $account_types_prepared_statement->bindValue(':id', $account_type_id, SQLITE3_INTEGER);
-
-                if ($account_types_query_result = $account_types_prepared_statement->execute()) {
-                    $account_types_row = $account_types_query_result->fetchArray();
-                    $type = $type . $account_types_row['type'];
-                }
-
-            }
-
-            return $type;
-        }
-
-        private function getAccountTypeId($type) {
-            $id = -1;
-            $query = '';
-
-            if ($type == 'user') {
-                $query = 'SELECT id FROM AccountTypes WHERE type="user"';
-            } else if ($type == 'restaurant') {
-                $query = 'SELECT id FROM AccountTypes WHERE type="restaurant"';
-            }
-
-            if ($query_result = $this->db->query($query)) {
+            $statement = 'SELECT account_type_id FROM Accounts WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':id', $account_id, SQLITE3_INTEGER);
+            
+            if ($query_result = $prepared_statement->execute()) {
                 $row = $query_result->fetchArray();
-                $id = $row['id'];
+                $account_type_id = $row['account_type_id'];
             }
-
-            return $id;
+            return $account_type_id;
         }
 
         // ========================================================================================
@@ -233,13 +199,13 @@
                 $account_id = $this->getAccountId($username);
 
                 if ($account_id != -1) {
+                    $account_type_handler = new AccountTypeHandler($this->db);
 
-                    if ($account_type_id == $this->getAccountTypeId('user')) {
+                    if ($account_type_id == $account_type_handler->getId('user')) {
                         $success = $this->createUser($account_id);
-                    } else if ($account_type_id == $this->getAccountTypeId('restaurant')) {
+                    } else if ($account_type_id == $account_type_handler->getId('restaurant')) {
                         $success = $this->createRestaurant($account_id);
-                    }
-                    
+                    } 
                 }
                 
             }
@@ -371,6 +337,20 @@
             }
 
             return $success;
+        }
+
+        private function getNumberOfResults($query_result) {
+            $count = 0;
+
+            if ($query_result != NULL) {
+
+                while ($row = $query_result->fetchArray()) {
+                    $count += 1;
+                }
+            }
+
+            $query_result->reset();
+            return $count;
         }
     }
 ?>

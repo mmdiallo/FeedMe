@@ -102,12 +102,16 @@ $app->post('/create_user_account', function(Request $request, Response $response
     $data = $request->getParsedBody();
     $username = $data['username'];
     $password = $data['password'];
+
+    $this->db->exec('BEGIN TRANSACTION');
+
+
     $account = new AccountHandler($this->db);
     $account_creation_success = $account->createUserAccount($username, $password);
 
     if ($account_creation_success) {
         $account_information = $account->getAccountInformation($username);
-
+        var_dump($account_information);
         if (!empty($account_information['user_id'])) {
             $result['account_id'] = $account_information['account_id'];
             $result['account_type'] = $account_information['account_type'];
@@ -121,6 +125,12 @@ $app->post('/create_user_account', function(Request $request, Response $response
 
     } else {
         $result['error'] = 'account creation failed';
+    }
+
+    if ($result['error'] == NULL) {
+        $this->db->exec('COMMIT');
+    } else {
+        $this->db->exec('ROLLBACK');
     }
 
     $json = json_encode($result, JSON_NUMERIC_CHECK);
