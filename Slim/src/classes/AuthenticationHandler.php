@@ -7,10 +7,6 @@
             $this->db = $db;
         }
 
-        // // public function __construct() {
-        // //     $this->$db = NULL;
-        // // }
-
         public function checkAuthentication() {
             $auth = false;
 

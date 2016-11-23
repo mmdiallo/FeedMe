@@ -46,8 +46,8 @@ $app->add($https_mw);
 
 // check session authentication, send authentication and session to route
 $session_mw = function(Request $request, Response $response, $next) {
-    $authentication = new AuthenticationHandler($this->db);
-    $current_auth = $authentication->checkAuthentication();
+    $authenticationHandler = new AuthenticationHandler($this->db);
+    $current_auth = $authenticationHandler->checkAuthentication();
     $request = $request->withAttribute('session', $_SESSION);
     $request = $request->withAttribute('auth', $current_auth);
     $response = $next($request, $response);
@@ -56,13 +56,6 @@ $session_mw = function(Request $request, Response $response, $next) {
 
 // if not authenticated, redirect to home
 $authentication_redirect = function(Request $request, Response $response, $next) {
-    // $response = $next($request, $response);
-    return $response;
-};
-
-// if authenticated, redirect to home
-// prevents access to login and create account pages for already authenticated users
-$authentication_redirect_2 = function(Request $request, Response $response, $next) {
     // $response = $next($request, $response);
     return $response;
 };
@@ -123,7 +116,6 @@ $app->get('/', function(Request $request, Response $response) {
     }
 
     $response->getBody()->write($end_div);
-    $response->getBody()->write('<div style="margin: 8;"><a style="padding: 8;" href="/database_setup/0"> Database Setup </a></div>');
     return $response;
 })->add($session_mw);
 
@@ -178,8 +170,47 @@ $app->post('/create_user_account', function(Request $request, Response $response
 
 // Create Restaurant Account Page
 $app->get('/create_restaurant_account', function(Request $request, Response $response) {
-    // return $response;
+    $form = new Form;
+    $form_string = $form->loginForm('/create_restaurant_account');
+    $response->getBody()->write($form_string);
+    return $response;
 });
+
+$app->post('/create_restaurant_account', function(Request $request, Response $response) {
+    $result = $request->getAttribute('result');
+    $data = $request->getParsedBody();
+    $username = $data['username'];
+    $password = $data['password'];
+    $accountHandler = new AccountHandler($this->db);
+    $valid_username = $accountHandler->validateUsername($username);
+
+    if (!$valid_username) {
+        $result['error'] = 'invalid username';
+    } else {
+        $password_salt = $accountHandler->createPasswordSalt();
+        $password_hash = $accountHandler->hashPassword($password, $password_salt);
+        $account_type_id = $accountHandler->getAccountTypeId('user');
+        $account_creation_success = $accountHandler->createAccount($username, $password_hash, $password_salt, $account_type_id);
+
+        if ($account_creation_success) {
+            $account_id = $accountHandler->getAccountId($username);
+            $user_id = $accountHandler->getUserId($account_id);
+            $result['account_id'] = $account_id;
+            $result['account_type'] = 'user';
+            $result['user_id'] = $user_id;
+
+            $authenticationHandler = new AuthenticationHandler($this->db);
+            $authenticationHandler->authenticateSession($account_id, 'user', $user_id);
+
+        } else {
+            $result['error'] = 'account creation unsuccessful';
+        }
+    }
+
+    $json = json_encode($result, JSON_NUMERIC_CHECK);
+    $response->write($json);
+    return $response;
+})->add($authentication_response_2);
 
 
 // Database Creation Pages
