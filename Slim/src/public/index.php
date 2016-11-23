@@ -128,19 +128,11 @@ $app->get('/create_user_account', function(Request $request, Response $response)
 });
 
 $app->post('/create_user_account', function(Request $request, Response $response) {
+    $result = $request->getAttribute('result');
     $data = $request->getParsedBody();
-
-    // get data
     $username = $data['username'];
     $password = $data['password'];
-
-    // create new account handler object
     $accountHandler = new AccountHandler($this->db);
-
-    // get result array from middleware
-    $result = $request->getAttribute('result');
-
-    // verify username input
     $valid_username = $accountHandler->validateUsername($username);
 
     if (!$valid_username) {
@@ -149,7 +141,7 @@ $app->post('/create_user_account', function(Request $request, Response $response
         $password_salt = $accountHandler->createPasswordSalt();
         $password_hash = $accountHandler->hashPassword($password, $password_salt);
         $account_type_id = $accountHandler->getAccountTypeId('user');
-        $account_creation_success = $accountHandler->createAccount($username, $password_salt, $password_hash, $account_type_id);
+        $account_creation_success = $accountHandler->createAccount($username, $password_hash, $password_salt, $account_type_id);
 
         if ($account_creation_success) {
             $account_id = $accountHandler->getAccountId($username);
