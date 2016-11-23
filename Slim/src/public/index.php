@@ -46,7 +46,7 @@ $app->add($https_mw);
 
 // check session authentication, send authentication and session to route
 $session_mw = function(Request $request, Response $response, $next) {
-    $authentication = new AuthenticationHandler;
+    $authentication = new AuthenticationHandler($this->db);
     $current_auth = $authentication->checkAuthentication();
     $request = $request->withAttribute('session', $_SESSION);
     $request = $request->withAttribute('auth', $current_auth);
@@ -56,20 +56,20 @@ $session_mw = function(Request $request, Response $response, $next) {
 
 // if not authenticated, redirect to home
 $authentication_redirect = function(Request $request, Response $response, $next) {
-    $response = $next($request, $response);
+    // $response = $next($request, $response);
     return $response;
 };
 
 // if authenticated, redirect to home
 // prevents access to login and create account pages for already authenticated users
 $authentication_redirect_2 = function(Request $request, Response $response, $next) {
-    $response = $next($request, $response);
+    // $response = $next($request, $response);
     return $response;
 };
 
 // if not authenticated, return error response
 $authentication_response = function(Request $request, Response $response, $next) {
-    $response = $next($request, $response);
+    // $response = $next($request, $response);
     return $response;
 };
 
@@ -77,7 +77,7 @@ $authentication_response = function(Request $request, Response $response, $next)
 // prevents access to login and create account pages for already authenticated users
 $authentication_response_2 = function(Request $request, Response $response, $next) {
     $result = array('error' => null);
-    $authentication = new AuthenticationHandler;
+    $authentication = new AuthenticationHandler($this->db);
     $current_auth = $authentication->checkAuthentication();
     if ($current_auth) {
         $result['error'] = 'user already logged in';
@@ -96,27 +96,40 @@ $authentication_response_2 = function(Request $request, Response $response, $nex
 $app->get('/', function(Request $request, Response $response) {
     $response->getBody()->write('<h1>Home</h1>');
     $auth = $request->getAttribute('auth');
-    
+    $session = $request->getAttribute('session');
+    $begin_div = '<div style="margin: 8;">';
+    $end_div = '</div>';
+    $response->getBody()->write($begin_div);
+
     if (!$auth) {
-        $begin_div = '<div style="margin: 8;">';
         $login_link = '<a style="padding: 8;" href="/login"> Login </a>';
         $create_user_account_link = '<a style="padding: 8;" href="/create_user_account"> Create User Account </a>';
         $create_restaurant_account_link = '<a style="padding: 8;" href="/create_restaurant_account"> Create Restaurant Account </a>';
-        $end_div = '</div>';
-        $response->getBody()->write($begin_div);
         $response->getBody()->write($login_link);
         $response->getBody()->write($create_user_account_link);
         $response->getBody()->write($create_restaurant_account_link);
-        $response->getBody()->write($end_div);
+    } else {
+        $account_id = $session['account_id'];
+        $statement = 'SELECT username FROM Accounts WHERE id=:id';
+        $prepared_statement = $this->db->prepare($statement);
+        $prepared_statement->bindValue(':id', $account_id, SQLITE3_INTEGER);
+
+        if ($query_result = $prepared_statement->execute()) {
+            $row = $query_result->fetchArray();
+            $username = $row['username'];
+
+            $response->getBody()->write('<p> Hello, ' . $username . '</p>');
+        }
     }
 
+    $response->getBody()->write($end_div);
     $response->getBody()->write('<div style="margin: 8;"><a style="padding: 8;" href="/database_setup/0"> Database Setup </a></div>');
     return $response;
 })->add($session_mw);
 
 // Login Page
 $app->get('/login', function(Request $request, Response $response) {
-    return $response;
+    // return $response;
 });
 
 // Create User Account Page
@@ -149,6 +162,10 @@ $app->post('/create_user_account', function(Request $request, Response $response
             $result['account_id'] = $account_id;
             $result['account_type'] = 'user';
             $result['user_id'] = $user_id;
+
+            $authenticationHandler = new AuthenticationHandler($this->db);
+            $authenticationHandler->authenticateSession($account_id, 'user', $user_id);
+
         } else {
             $result['error'] = 'account creation unsuccessful';
         }
@@ -161,7 +178,7 @@ $app->post('/create_user_account', function(Request $request, Response $response
 
 // Create Restaurant Account Page
 $app->get('/create_restaurant_account', function(Request $request, Response $response) {
-    return $response;
+    // return $response;
 });
 
 
