@@ -8,6 +8,35 @@
             $this->db = $db;
         }
 
+        // ACCOUNT CREATION AND AUTHENTICATION
+
+        // Returns account_id, account_type, and user_id or restaurant_id
+        // For user authentication
+        public function getAccountInformation($username) {
+            $information = array();
+            $account_id = $this->getAccountId($username);
+
+            if ($account_id != -1) {
+                $account_type_id = $this->getAccountTypeId($account_id);
+
+                if ($account_type_id != -1) {
+                    $account_type_handler = new AccountTypeHandler($this->db);
+                    $account_type = $account_type_handler->getType($account_type_id);
+                    $information['account_id'] = $account_id;
+                    $information['account_type'] = $account_type;
+
+                    if ($account_type == 'user') {
+                        $user_id = $this->getUserId($account_id);
+                        $information['user_id'] = $user_id;
+                    } else if ($account_type == 'restaurant') {
+                        $restaurant_id = $this->getRestaurantId($account_id);
+                        $information['restaurant_id'] = $restaurant_id;
+                    } 
+                }
+            }
+            return $information;
+        }
+
         public function login($username, $password) {
             $success = false;
             $account_id = $this->getAccountId($username);
@@ -70,31 +99,6 @@
             return $success;
         }
 
-        public function getAccountInformation($username) {
-            $information = array();
-            $account_id = $this->getAccountId($username);
-
-            if ($account_id != -1) {
-                $account_type_id = $this->getAccountTypeId($account_id);
-
-                if ($account_type_id != -1) {
-                    $account_type_handler = new AccountTypeHandler($this->db);
-                    $account_type = $account_type_handler->getType($account_type_id);
-                    $information['account_id'] = $account_id;
-                    $information['account_type'] = $account_type;
-
-                    if ($account_type == 'user') {
-                        $user_id = $this->getUserId($account_id);
-                        $information['user_id'] = $user_id;
-                    } else if ($account_type == 'restaurant') {
-                        $restaurant_id = $this->getRestaurantId($account_id);
-                        $information['restaurant_id'] = $restaurant_id;
-                    } 
-                }
-            }
-            return $information;
-        }
-
         private function validateNewUsername($username) {
             $valid = false;
             $valid_username_pattern = '/^[a-zA-Z][\w]*$/';
@@ -129,20 +133,6 @@
             return $password_salt;
         }
 
-        private function getPasswordSalt($account_id) {
-            $password_salt = '';
-            $statement = 'SELECT password_salt FROM Accounts WHERE id=:id';
-            $prepared_statement = $this->db->prepare($statement);
-            $prepared_statement->bindValue(':id', $account_id, SQLITE3_INTEGER);
-
-            if ($query_result = $prepared_statement->execute()) {
-                $row = $query_result->fetchArray();
-                $password_salt = $password_salt . $row['password_salt'];
-            }
-
-            return $password_salt;
-        }
-
         private function getSaltedPassword($password, $password_salt) {
             $initial_hash = hash('sha256', $password);
             $salt = $password_salt . $initial_hash . $password_salt;
@@ -155,36 +145,6 @@
             $salted_hash = password_hash($salt, PASSWORD_DEFAULT);
             return $salted_hash;
         }
-
-        private function getPasswordHash($account_id) {
-            $password_hash = '';
-            $statement = 'SELECT password_hash FROM Accounts WHERE id=:id';
-            $prepared_statement = $this->db->prepare($statement);
-            $prepared_statement->bindValue(':id', $account_id, SQLITE3_INTEGER);
-
-            if ($query_result = $prepared_statement->execute()) {
-                $row = $query_result->fetchArray();
-                $password_hash = $password_hash . $row['password_hash'];
-            }
-
-            return $password_hash;
-        }
-
-        private function getAccountTypeId($account_id) {
-            $account_type_id = -1;
-
-            $statement = 'SELECT account_type_id FROM Accounts WHERE id=:id';
-            $prepared_statement = $this->db->prepare($statement);
-            $prepared_statement->bindValue(':id', $account_id, SQLITE3_INTEGER);
-            
-            if ($query_result = $prepared_statement->execute()) {
-                $row = $query_result->fetchArray();
-                $account_type_id = $row['account_type_id'];
-            }
-            return $account_type_id;
-        }
-
-        // ========================================================================================
 
         private function createAccount($username, $password_hash, $password_salt, $account_type_id) {
             $success = false;
@@ -213,6 +173,7 @@
             return $success;
         }
 
+        // ACCOUNT INFORMATION
         private function getAccountId($username) {
             $id = -1;
             $statement = 'SELECT id FROM Accounts WHERE username=:username';
@@ -226,6 +187,49 @@
 
             return $id;
         } 
+
+        private function getAccountTypeId($account_id) {
+            $account_type_id = -1;
+
+            $statement = 'SELECT account_type_id FROM Accounts WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':id', $account_id, SQLITE3_INTEGER);
+            
+            if ($query_result = $prepared_statement->execute()) {
+                $row = $query_result->fetchArray();
+                $account_type_id = $row['account_type_id'];
+            }
+            return $account_type_id;
+        }
+
+        private function getPasswordSalt($account_id) {
+            $password_salt = '';
+            $statement = 'SELECT password_salt FROM Accounts WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':id', $account_id, SQLITE3_INTEGER);
+
+            if ($query_result = $prepared_statement->execute()) {
+                $row = $query_result->fetchArray();
+                $password_salt = $password_salt . $row['password_salt'];
+            }
+
+            return $password_salt;
+        }
+
+        private function getPasswordHash($account_id) {
+            $password_hash = '';
+            $statement = 'SELECT password_hash FROM Accounts WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':id', $account_id, SQLITE3_INTEGER);
+
+            if ($query_result = $prepared_statement->execute()) {
+                $row = $query_result->fetchArray();
+                $password_hash = $password_hash . $row['password_hash'];
+            }
+
+            return $password_hash;
+        }
+        
 
         // USERS HANDLER =========================================================================
 
