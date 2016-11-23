@@ -150,10 +150,31 @@ $app->post('/login', function(Request $request, Response $response) {
     $data = $request->getParsedBody();
     $username = $data['username'];
     $password = $data['password'];
-
     $account = new AccountHandler($this->db);
     $login_success = $account->login($username, $password);
 
+    if ($login_success) {
+        $account_information = $account->getAccountInformation($username);
+        $result['account_id'] = $account_information['account_id'];
+        $result['account_type'] = $account_information['account_type'];
+
+        $authenticationHandler = new AuthenticationHandler($this->db);
+
+        if ($result['account_type'] == 'user') {
+            $result['user_id'] = $account_information['user_id'];
+            $authenticationHandler->authenticateSession($result['account_id'], $result['account_type'], $result['user_id']);
+        } else if ($result['account_type'] == 'restaurant') {
+            $result['restaurant_id'] = $account_information['restaurant_id'];
+            $authenticationHandler->authenticateSession($result['account_id'], $result['account_type'], $result['restaurant_id']);
+        }
+        
+    } else {
+        $result['error'] = 'login failed';
+    }
+
+    $json = json_encode($result, JSON_NUMERIC_CHECK);
+    $response->write($json);
+    return $response;
 })->add($login_authentication_mw);
 
 // Accounts --------------------------------------------------------------
