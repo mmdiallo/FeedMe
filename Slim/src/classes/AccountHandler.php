@@ -1,11 +1,72 @@
 <?php
     require_once 'AccountTypeHandler.php';
+    require_once 'UserHandler.php';
+    require_once 'RestaurantHandler.php';
 
     class AccountHandler {
         protected $db;
 
         public function __construct($db) {
             $this->db = $db;
+        }
+
+        // ACCOUNT INFORMATION
+
+        private function getAccountId($username) {
+            $id = -1;
+            $statement = 'SELECT id FROM Accounts WHERE username=:username';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':username', $username, SQLITE3_TEXT);
+
+            if ($query_result = $prepared_statement->execute()) {
+                $row = $query_result->fetchArray();
+                $id = $row['id'];
+            }
+
+            return $id;
+        } 
+
+        private function getAccountTypeId($account_id) {
+            $account_type_id = -1;
+
+            $statement = 'SELECT account_type_id FROM Accounts WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':id', $account_id, SQLITE3_INTEGER);
+            
+            if ($query_result = $prepared_statement->execute()) {
+                $row = $query_result->fetchArray();
+                $account_type_id = $row['account_type_id'];
+            }
+
+            return $account_type_id;
+        }
+
+        private function getPasswordSalt($account_id) {
+            $password_salt = '';
+            $statement = 'SELECT password_salt FROM Accounts WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':id', $account_id, SQLITE3_INTEGER);
+
+            if ($query_result = $prepared_statement->execute()) {
+                $row = $query_result->fetchArray();
+                $password_salt = $password_salt . $row['password_salt'];
+            }
+
+            return $password_salt;
+        }
+
+        private function getPasswordHash($account_id) {
+            $password_hash = '';
+            $statement = 'SELECT password_hash FROM Accounts WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':id', $account_id, SQLITE3_INTEGER);
+
+            if ($query_result = $prepared_statement->execute()) {
+                $row = $query_result->fetchArray();
+                $password_hash = $password_hash . $row['password_hash'];
+            }
+
+            return $password_hash;
         }
 
         // ACCOUNT CREATION AND AUTHENTICATION
@@ -26,10 +87,12 @@
                     $information['account_type'] = $account_type;
 
                     if ($account_type == 'user') {
-                        $user_id = $this->getUserId($account_id);
+                        $user_handler = new UserHandler($this->db);
+                        $user_id = $user_handler->getId($account_id);
                         $information['user_id'] = $user_id;
                     } else if ($account_type == 'restaurant') {
-                        $restaurant_id = $this->getRestaurantId($account_id);
+                        $restaurant_handler = new RestaurantHandler($this->db);
+                        $restaurant_id = $restaurant_handler->getId($account_id);
                         $information['restaurant_id'] = $restaurant_id;
                     } 
                 }
@@ -104,23 +167,16 @@
             $valid_username_pattern = '/^[a-zA-Z][\w]*$/';
 
             if (preg_match($valid_username_pattern, $username)) {
-
                 $statement = 'SELECT * FROM Accounts WHERE username=:username';
                 $prepared_statement = $this->db->prepare($statement);
                 $prepared_statement->bindValue(':username', $username, SQLITE3_TEXT);
 
                 if ($query_result = $prepared_statement->execute()) {
-
-                    $result_count = 0;
-
-                    while ($row = $query_result->fetchArray()) {
-                        $result_count += 1;
-                    }
+                    $result_count = $this->getNumberOfResults($query_result);
 
                     if ($result_count == 0) {
                         $valid = true;
                     }
-
                 }
             }
 
@@ -173,66 +229,6 @@
             return $success;
         }
 
-        // ACCOUNT INFORMATION
-        private function getAccountId($username) {
-            $id = -1;
-            $statement = 'SELECT id FROM Accounts WHERE username=:username';
-            $prepared_statement = $this->db->prepare($statement);
-            $prepared_statement->bindValue(':username', $username, SQLITE3_TEXT);
-
-            if ($query_result = $prepared_statement->execute()) {
-                $row = $query_result->fetchArray();
-                $id = $row['id'];
-            }
-
-            return $id;
-        } 
-
-        private function getAccountTypeId($account_id) {
-            $account_type_id = -1;
-
-            $statement = 'SELECT account_type_id FROM Accounts WHERE id=:id';
-            $prepared_statement = $this->db->prepare($statement);
-            $prepared_statement->bindValue(':id', $account_id, SQLITE3_INTEGER);
-            
-            if ($query_result = $prepared_statement->execute()) {
-                $row = $query_result->fetchArray();
-                $account_type_id = $row['account_type_id'];
-            }
-            return $account_type_id;
-        }
-
-        private function getPasswordSalt($account_id) {
-            $password_salt = '';
-            $statement = 'SELECT password_salt FROM Accounts WHERE id=:id';
-            $prepared_statement = $this->db->prepare($statement);
-            $prepared_statement->bindValue(':id', $account_id, SQLITE3_INTEGER);
-
-            if ($query_result = $prepared_statement->execute()) {
-                $row = $query_result->fetchArray();
-                $password_salt = $password_salt . $row['password_salt'];
-            }
-
-            return $password_salt;
-        }
-
-        private function getPasswordHash($account_id) {
-            $password_hash = '';
-            $statement = 'SELECT password_hash FROM Accounts WHERE id=:id';
-            $prepared_statement = $this->db->prepare($statement);
-            $prepared_statement->bindValue(':id', $account_id, SQLITE3_INTEGER);
-
-            if ($query_result = $prepared_statement->execute()) {
-                $row = $query_result->fetchArray();
-                $password_hash = $password_hash . $row['password_hash'];
-            }
-
-            return $password_hash;
-        }
-        
-
-        // USERS HANDLER =========================================================================
-
         private function createUser($account_id) {
             $success = false;
             $statement = 'INSERT OR IGNORE INTO Users(account_id, profile_image_path) VALUES(:account_id, "../images/users/default-user-image.jpg")';
@@ -240,7 +236,8 @@
             $prepared_statement->bindValue(':account_id', $account_id, SQLITE3_INTEGER);
 
             if ($prepared_statement->execute()) {
-                $user_id = $this->getUserId($account_id);
+                $user_handler = new UserHandler($this->db);
+                $user_id = $user_handler->getId($account_id);
 
                 if ($user_id != -1) {
                     $success = $this->createPersonalMenu($user_id);
@@ -249,22 +246,6 @@
 
             return $success;
         }
-
-        private function getUserId($account_id) {
-            $id = -1;
-            $statement = 'SELECT id FROM Users WHERE account_id=:account_id';
-            $prepared_statement = $this->db->prepare($statement);
-            $prepared_statement->bindValue(':account_id', $account_id, SQLITE3_INTEGER);
-
-            if ($query_result = $prepared_statement->execute()) {
-                $row = $query_result->fetchArray();
-                $id = $row['id'];
-            }
-
-            return $id;
-        }
-
-        // PERSONAL MENU HANDLER =================================================================
 
         private function createPersonalMenu($user_id) {
             $success = false;
@@ -279,8 +260,6 @@
             return $success;
         }
 
-        //  RESTAURANTS HANDLER ===================================================================
-
         private function createRestaurant($account_id) {
             $success = false;
             $statement = 'INSERT OR IGNORE INTO Restaurants(account_id, profile_image_path) VALUES(:account_id, "../images/restaurants/default-restaurant-image.jpg")';
@@ -288,7 +267,8 @@
             $prepared_statement->bindValue(':account_id', $account_id, SQLITE3_INTEGER);
 
             if ($prepared_statement->execute()) {
-                $restaurant_id = $this->getRestaurantId($account_id);
+                $restaurant_handler = new RestaurantHandler($this->db);
+                $restaurant_id = $restaurant_handler->getId($account_id);
 
                 if ($restaurant_id != -1) {
                     $success = $this->createMenu($restaurant_id) && $this->createHours($restaurant_id);
@@ -297,23 +277,6 @@
 
             return $success;
         }
-
-
-        private function getRestaurantId($account_id) {
-            $id = -1;
-            $statement = 'SELECT id FROM Restaurants WHERE account_id=:account_id';
-            $prepared_statement = $this->db->prepare($statement);
-            $prepared_statement->bindValue(':account_id', $account_id, SQLITE3_INTEGER);
-
-            if ($query_result = $prepared_statement->execute()) {
-                $row = $query_result->fetchArray();
-                $id = $row['id'];
-            }
-
-            return $id;
-        }
-
-        // MENUS HANDLER ==========================================================================
 
         private function createMenu($restaurant_id) {
             $success = false;
@@ -327,8 +290,6 @@
 
             return $success;
         }
-
-        // HOURS HANDLER ==========================================================================
 
         private function createHours($restaurant_id) {
             $success = false;

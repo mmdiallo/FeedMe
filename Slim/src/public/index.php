@@ -78,7 +78,6 @@ $login_mw = function(Request $request, Response $response, $next) {
     $result = array('error' => null);
     $authentication = new AuthenticationHandler($this->db);
     $current_auth = $authentication->checkAuthentication();
-
     if ($current_auth) {
         $result['error'] = 'user already logged in';
         $json = json_encode($result, JSON_NUMERIC_CHECK);
@@ -102,23 +101,24 @@ $app->post('/create_user_account', function(Request $request, Response $response
     $data = $request->getParsedBody();
     $username = $data['username'];
     $password = $data['password'];
-
     $this->db->exec('BEGIN TRANSACTION');
-
-
     $account = new AccountHandler($this->db);
     $account_creation_success = $account->createUserAccount($username, $password);
 
     if ($account_creation_success) {
         $account_information = $account->getAccountInformation($username);
-        var_dump($account_information);
         if (!empty($account_information['user_id'])) {
-            $result['account_id'] = $account_information['account_id'];
-            $result['account_type'] = $account_information['account_type'];
-            $result['user_id'] = $account_information['user_id'];
-
             $authenticationHandler = new AuthenticationHandler($this->db);
-            $authenticationHandler->authenticateSession($result['account_id'], $result['account_type'], $result['user_id']);
+            $authenticationHandler->authenticateSession($account_information['account_id'], $account_information['account_type'], $account_information['user_id']);
+            $auth_check = $authenticationHandler->checkAuthentication();
+
+            if ($auth_check) {
+                $result['account_id'] = $account_information['account_id'];
+                $result['account_type'] = $account_information['account_type'];
+                $result['user_id'] = $account_information['user_id'];
+            } else {
+                $result['error'] = 'account creation failed';
+            }
         } else {
              $result['error'] = 'account creation failed';
         }
@@ -143,6 +143,7 @@ $app->post('/create_restaurant_account', function(Request $request, Response $re
     $data = $request->getParsedBody();
     $username = $data['username'];
     $password = $data['password'];
+    $this->db->exec('BEGIN TRANSACTION');
     $account = new AccountHandler($this->db);
     $account_creation_success = $account->createRestaurantAccount($username, $password);
     
@@ -150,18 +151,30 @@ $app->post('/create_restaurant_account', function(Request $request, Response $re
         $account_information = $account->getAccountInformation($username);
 
         if (!empty($account_information['restaurant_id'])) {
-            $result['account_id'] = $account_information['account_id'];
-            $result['account_type'] = $account_information['account_type'];
-            $result['restaurant_id'] = $account_information['restaurant_id'];
-
             $authenticationHandler = new AuthenticationHandler($this->db);
-            $authenticationHandler->authenticateSession($result['account_id'], $result['account_type'], $result['restaurant_id']);
+            $authenticationHandler->authenticateSession($account_information['account_id'], $account_information['account_type'], $account_information['restaurant_id']);
+            $auth_check = $authenticationHandler->checkAuthentication();
+
+            if ($auth_check) {
+                $result['account_id'] = $account_information['account_id'];
+                $result['account_type'] = $account_information['account_type'];
+                $result['restaurant_id'] = $account_information['restaurant_id'];
+            } else {
+                $result['error'] = 'account creation failed';
+            }
+
         } else {
              $result['error'] = 'account creation failed';
         }
 
     } else {
         $result['error'] = 'account creation failed';
+    }
+
+    if ($result['error'] == NULL) {
+        $this->db->exec('COMMIT');
+    } else {
+        $this->db->exec('ROLLBACK');
     }
 
     $json = json_encode($result, JSON_NUMERIC_CHECK);
