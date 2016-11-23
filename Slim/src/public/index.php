@@ -130,24 +130,24 @@ $app->post('/create_restaurant_account', function(Request $request, Response $re
     if (!$valid_username) {
         $result['error'] = 'invalid username';
     } else {
-        $password_salt = $accountHandler->createPasswordSalt();
-        $password_hash = $accountHandler->hashPassword($password, $password_salt);
-        $account_type_id = $accountHandler->getAccountTypeId('user');
-        $account_creation_success = $accountHandler->createAccount($username, $password_hash, $password_salt, $account_type_id);
+    //     $password_salt = $accountHandler->createPasswordSalt();
+    //     $password_hash = $accountHandler->hashPassword($password, $password_salt);
+    //     $account_type_id = $accountHandler->getAccountTypeId('user');
+    //     $account_creation_success = $accountHandler->createAccount($username, $password_hash, $password_salt, $account_type_id);
 
-        if ($account_creation_success) {
-            $account_id = $accountHandler->getAccountId($username);
-            // $user_id = $accountHandler->getUserId($account_id);
-            // $result['account_id'] = $account_id;
-            // $result['account_type'] = 'user';
-            // $result['user_id'] = $user_id;
+    //     if ($account_creation_success) {
+    //         $account_id = $accountHandler->getAccountId($username);
+    //         // $user_id = $accountHandler->getUserId($account_id);
+    //         // $result['account_id'] = $account_id;
+    //         // $result['account_type'] = 'user';
+    //         // $result['user_id'] = $user_id;
 
-            // $authenticationHandler = new AuthenticationHandler($this->db);
-            // $authenticationHandler->authenticateSession($account_id, 'user', $user_id);
+    //         // $authenticationHandler = new AuthenticationHandler($this->db);
+    //         // $authenticationHandler->authenticateSession($account_id, 'user', $user_id);
 
-        } else {
-            $result['error'] = 'account creation unsuccessful';
-        }
+    //     } else {
+    //         $result['error'] = 'account creation unsuccessful';
+    //     }
     }
 
     $json = json_encode($result, JSON_NUMERIC_CHECK);
@@ -241,6 +241,10 @@ $app->get('/create_restaurant_account', function(Request $request, Response $res
 // Database Creation -----------------------------------------------------
 
 // Database Creation Pages
+$app->get('/database_setup', function (Request $request, Response $response) {
+    return $response->withStatus(301)->withHeader('Location', '/database_setup/0');
+});
+
 $app->get('/database_setup/{num: [\d]+}', function(Request $request, Response $response, $args) {
     $script_number = (int)$args['num'];
     $database_creation = new DatabaseCreation($this->db);
