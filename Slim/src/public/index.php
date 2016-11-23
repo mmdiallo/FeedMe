@@ -29,7 +29,7 @@ $container['db'] = function($c) {
     return $sqlite;
 };
 
-// MIDDLEWARE
+// MIDDLEWARE =====================================================================================
 
 // if request not https, redirect
 $https_mw = function(Request $request, Response $response, $next) {
@@ -51,12 +51,6 @@ $session_mw = function(Request $request, Response $response, $next) {
     $request = $request->withAttribute('session', $_SESSION);
     $request = $request->withAttribute('auth', $current_auth);
     $response = $next($request, $response);
-    return $response;
-};
-
-// if not authenticated, redirect to home
-$authentication_redirect = function(Request $request, Response $response, $next) {
-    // $response = $next($request, $response);
     return $response;
 };
 
@@ -83,54 +77,11 @@ $authentication_response_2 = function(Request $request, Response $response, $nex
     return $response;
 };
 
-// ROUTES
+// ROUTES =========================================================================================
 
-// Home Page
-$app->get('/', function(Request $request, Response $response) {
-    $response->getBody()->write('<h1>Home</h1>');
-    $auth = $request->getAttribute('auth');
-    $session = $request->getAttribute('session');
-    $begin_div = '<div style="margin: 8;">';
-    $end_div = '</div>';
-    $response->getBody()->write($begin_div);
+// API ROUTES -------------------------------------------------------------------------------------
 
-    if (!$auth) {
-        $login_link = '<a style="padding: 8;" href="/login"> Login </a>';
-        $create_user_account_link = '<a style="padding: 8;" href="/create_user_account"> Create User Account </a>';
-        $create_restaurant_account_link = '<a style="padding: 8;" href="/create_restaurant_account"> Create Restaurant Account </a>';
-        $response->getBody()->write($login_link);
-        $response->getBody()->write($create_user_account_link);
-        $response->getBody()->write($create_restaurant_account_link);
-    } else {
-        $account_id = $session['account_id'];
-        $statement = 'SELECT username FROM Accounts WHERE id=:id';
-        $prepared_statement = $this->db->prepare($statement);
-        $prepared_statement->bindValue(':id', $account_id, SQLITE3_INTEGER);
-
-        if ($query_result = $prepared_statement->execute()) {
-            $row = $query_result->fetchArray();
-            $username = $row['username'];
-
-            $response->getBody()->write('<p> Hello, ' . $username . '</p>');
-        }
-    }
-
-    $response->getBody()->write($end_div);
-    return $response;
-})->add($session_mw);
-
-// Login Page
-$app->get('/login', function(Request $request, Response $response) {
-    // return $response;
-});
-
-// Create User Account Page
-$app->get('/create_user_account', function(Request $request, Response $response) {
-    $form = new Form;
-    $form_string = $form->loginForm('/create_user_account');
-    $response->getBody()->write($form_string);
-    return $response;
-});
+// Account Creation ------------------------------------------------------
 
 $app->post('/create_user_account', function(Request $request, Response $response) {
     $result = $request->getAttribute('result');
@@ -168,14 +119,6 @@ $app->post('/create_user_account', function(Request $request, Response $response
     return $response;
 })->add($authentication_response_2);
 
-// Create Restaurant Account Page
-$app->get('/create_restaurant_account', function(Request $request, Response $response) {
-    $form = new Form;
-    $form_string = $form->loginForm('/create_restaurant_account');
-    $response->getBody()->write($form_string);
-    return $response;
-});
-
 $app->post('/create_restaurant_account', function(Request $request, Response $response) {
     $result = $request->getAttribute('result');
     $data = $request->getParsedBody();
@@ -194,13 +137,13 @@ $app->post('/create_restaurant_account', function(Request $request, Response $re
 
         if ($account_creation_success) {
             $account_id = $accountHandler->getAccountId($username);
-            $user_id = $accountHandler->getUserId($account_id);
-            $result['account_id'] = $account_id;
-            $result['account_type'] = 'user';
-            $result['user_id'] = $user_id;
+            // $user_id = $accountHandler->getUserId($account_id);
+            // $result['account_id'] = $account_id;
+            // $result['account_type'] = 'user';
+            // $result['user_id'] = $user_id;
 
-            $authenticationHandler = new AuthenticationHandler($this->db);
-            $authenticationHandler->authenticateSession($account_id, 'user', $user_id);
+            // $authenticationHandler = new AuthenticationHandler($this->db);
+            // $authenticationHandler->authenticateSession($account_id, 'user', $user_id);
 
         } else {
             $result['error'] = 'account creation unsuccessful';
@@ -212,6 +155,90 @@ $app->post('/create_restaurant_account', function(Request $request, Response $re
     return $response;
 })->add($authentication_response_2);
 
+// Accounts --------------------------------------------------------------
+
+// Users -----------------------------------------------------------------
+
+// Personal Menus --------------------------------------------------------
+
+// Personal Menu Items ---------------------------------------------------
+
+// Restaurants -----------------------------------------------------------
+
+// Menus -----------------------------------------------------------------
+
+// Menu Items ------------------------------------------------------------
+
+// Meal Types ------------------------------------------------------------
+
+// Cuisine Types ---------------------------------------------------------
+
+// Price Ratings ---------------------------------------------------------
+
+// Hours -----------------------------------------------------------------
+
+// TESTING ROUTES ---------------------------------------------------------------------------------
+
+// Home ------------------------------------------------------------------
+
+// Home Page
+$app->get('/', function(Request $request, Response $response) {
+    $response->getBody()->write('<h1>Home</h1>');
+    $auth = $request->getAttribute('auth');
+    $session = $request->getAttribute('session');
+    $begin_div = '<div style="margin: 8;">';
+    $end_div = '</div>';
+    $response->getBody()->write($begin_div);
+
+    if (!$auth) {
+        $login_link = '<a style="padding: 8;" href="/login"> Login </a>';
+        $create_user_account_link = '<a style="padding: 8;" href="/create_user_account"> Create User Account </a>';
+        $create_restaurant_account_link = '<a style="padding: 8;" href="/create_restaurant_account"> Create Restaurant Account </a>';
+        $response->getBody()->write($login_link);
+        $response->getBody()->write($create_user_account_link);
+        $response->getBody()->write($create_restaurant_account_link);
+    } else {
+        $account_id = $session['account_id'];
+        $statement = 'SELECT username FROM Accounts WHERE id=:id';
+        $prepared_statement = $this->db->prepare($statement);
+        $prepared_statement->bindValue(':id', $account_id, SQLITE3_INTEGER);
+
+        if ($query_result = $prepared_statement->execute()) {
+            $row = $query_result->fetchArray();
+            $username = $row['username'];
+
+            $response->getBody()->write('<p> Hello, ' . $username . '</p>');
+        }
+    }
+
+    $response->getBody()->write($end_div);
+    return $response;
+})->add($session_mw);
+
+// Account Creation and Login --------------------------------------------
+
+// Login Page
+$app->get('/login', function(Request $request, Response $response) {
+    // return $response;
+});
+
+// Create User Account Page
+$app->get('/create_user_account', function(Request $request, Response $response) {
+    $form = new Form;
+    $form_string = $form->loginForm('/create_user_account');
+    $response->getBody()->write($form_string);
+    return $response;
+});
+
+// Create Restaurant Account Page
+$app->get('/create_restaurant_account', function(Request $request, Response $response) {
+    $form = new Form;
+    $form_string = $form->loginForm('/create_restaurant_account');
+    $response->getBody()->write($form_string);
+    return $response;
+});
+
+// Database Creation -----------------------------------------------------
 
 // Database Creation Pages
 $app->get('/database_setup/{num: [\d]+}', function(Request $request, Response $response, $args) {
