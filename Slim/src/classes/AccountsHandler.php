@@ -1,5 +1,5 @@
 <?php
-    class AccountHandler {
+    class AccountsHandler {
         protected $db;
 
         public function __construct($db) {

@@ -9,11 +9,11 @@ session_regenerate_id(true);
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-require '../vendor/autoload.php';
-require '../classes/DatabaseCreation.php';
-require '../classes/Form.php';
-require '../classes/AuthenticationHandler.php';
-require '../classes/AccountHandler.php';
+require_once  '../vendor/autoload.php';
+require_once '../classes/DatabaseCreation.php';
+require_once '../classes/Form.php';
+require_once '../classes/AuthenticationHandler.php';
+require_once '../classes/AccountsHandler.php';
 
 
 $config['displayErrorDetails'] = true;
@@ -88,11 +88,11 @@ $app->post('/create_user_account', function(Request $request, Response $response
     $data = $request->getParsedBody();
     $username = $data['username'];
     $password = $data['password'];
-    $accountHandler = new AccountHandler($this->db);
-    $account_creation_success = $accountHandler->createUserAccount($username, $password);
+    $account = new AccountsHandler($this->db);
+    $account_creation_success = $account->createUserAccount($username, $password);
 
     if ($account_creation_success) {
-        $account_information = $accountHandler->getAccountInformation($username);
+        $account_information = $account->getAccountInformation($username);
 
         if (!empty($account_information['user_id'])) {
             $result['account_id'] = $account_information['account_id'];
@@ -119,11 +119,11 @@ $app->post('/create_restaurant_account', function(Request $request, Response $re
     $data = $request->getParsedBody();
     $username = $data['username'];
     $password = $data['password'];
-    $accountHandler = new AccountHandler($this->db);
-    $account_creation_success = $accountHandler->createRestaurantAccount($username, $password);
+    $account = new AccountsHandler($this->db);
+    $account_creation_success = $account->createRestaurantAccount($username, $password);
     
     if ($account_creation_success) {
-        $account_information = $accountHandler->getAccountInformation($username);
+        $account_information = $account->getAccountInformation($username);
 
         if (!empty($account_information['restaurant_id'])) {
             $result['account_id'] = $account_information['account_id'];
@@ -151,9 +151,8 @@ $app->post('/login', function(Request $request, Response $response) {
     // $username = $data['username'];
     // $password = $data['password'];
 
-    // $accountHandler = new AccountHandler($this->db);
-    // $login_success = $accountHandler->login($username, $password);
-
+    // $account = new Account($this->db);
+    // $login_success = $account->login($username, $password);
 
 })->add($login_authentication_mw);
 
