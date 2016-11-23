@@ -261,6 +261,10 @@ $app->get('/', function(Request $request, Response $response) {
             $username = $row['username'];
 
             $response->getBody()->write('<p> Hello, ' . $username . '</p>');
+            $logout_link = '<a style="padding: 8;" href="/logout"> Logout </a>';
+            $response->getBody()->write($begin_div);
+            $response->getBody()->write($logout_link);
+            $response->getBody()->write($end_div);
         }
     }
 
