@@ -323,11 +323,11 @@ $app->get('/restaurants/{rest_id}/profile_image_path', function(Request $request
 
 
 // Menu routes
-$app->get('/menus/{menus_id}/all_menu_items_id', function(Request $request, Response $response, $args) {
-    
-
+$app->get('/menus/{menu_id}/all_menu_items_id', function(Request $request, Response $response, $args) {
+    $menu_id = $request->getAttribute('menu_id');
+    $menu = new Menus($this->db, $menu_id);
+    $response = $menu->selectAll();
     return $response;
-
 });
 
 
