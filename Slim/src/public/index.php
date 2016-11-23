@@ -55,14 +55,14 @@ $session_mw = function(Request $request, Response $response, $next) {
 };
 
 // if not authenticated, return error response
-$authentication_response = function(Request $request, Response $response, $next) {
+$access_authentication_mw = function(Request $request, Response $response, $next) {
     // $response = $next($request, $response);
     return $response;
 };
 
 // if authenticated, return error response
 // prevents access to login and create account pages for already authenticated users
-$authentication_response_2 = function(Request $request, Response $response, $next) {
+$login_authentication_mw = function(Request $request, Response $response, $next) {
     $result = array('error' => null);
     $authentication = new AuthenticationHandler($this->db);
     $current_auth = $authentication->checkAuthentication();
@@ -117,7 +117,7 @@ $app->post('/create_user_account', function(Request $request, Response $response
     $json = json_encode($result, JSON_NUMERIC_CHECK);
     $response->write($json);
     return $response;
-})->add($authentication_response_2);
+})->add($login_authentication_mw);
 
 $app->post('/create_restaurant_account', function(Request $request, Response $response) {
     $result = $request->getAttribute('result');
@@ -157,7 +157,11 @@ $app->post('/create_restaurant_account', function(Request $request, Response $re
     $json = json_encode($result, JSON_NUMERIC_CHECK);
     $response->write($json);
     return $response;
-})->add($authentication_response_2);
+})->add($login_authentication_mw);
+
+$app->post('/login', function(Request $request, Response $response) {
+
+})->add($login_authentication_mw);
 
 // Accounts --------------------------------------------------------------
 
@@ -223,7 +227,10 @@ $app->get('/', function(Request $request, Response $response) {
 
 // Login Page
 $app->get('/login', function(Request $request, Response $response) {
-    // return $response;
+    $form = new Form;
+    $form_string = $form->loginForm('/login');
+    $response->getBody()->write($form_string);
+    return $response;
 });
 
 // Create User Account Page
