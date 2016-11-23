@@ -1,6 +1,6 @@
 <?php
     class DatabaseCreation {
-        public $db;
+        protected $db;
 
         public function __construct($db) {
             $this->db = $db;
@@ -28,23 +28,23 @@
                     break;
 
                 case 4:
-                    $result = $result . $this->createMenusTable();
-                    break;
-
-                case 5:
                     $result = $result . $this->createCuisineTypesTable();
                     break;
 
-                case 6:
+                case 5:
                     $result = $result . $this->createPriceRatingsTable();
                     break;
 
+                case 6:
+                    $result = $result . $this->createRestaurantsTable();
+                    break;
+
                 case 7:
-                    $result = $result . $this->createHoursTable();
+                    $result = $result . $this->createMenusTable();
                     break;
 
                 case 8:
-                    $result = $result . $this->createRestaurantsTable();
+                    $result = $result . $this->createHoursTable();
                     break;
 
                 case 9:
@@ -66,7 +66,7 @@
             return $result;
         }
 
-        public function createAccountTypesTable() {
+        private function createAccountTypesTable() {
             $result = '';
             $create_table = 'CREATE TABLE IF NOT EXISTS AccountTypes (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
@@ -85,7 +85,7 @@
             return $result;
         }
 
-        public function createAccountsTable() {
+        private function createAccountsTable() {
             $result = '';
             $enable_foreign_keys = 'PRAGMA foreign_keys = ON';
 
@@ -108,7 +108,7 @@
             return $result;
         }
 
-        public function createUsersTable() {
+        private function createUsersTable() {
             $result = '';
             $create_table = 'CREATE TABLE IF NOT EXISTS Users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -126,7 +126,7 @@
             return $result;
         }
 
-        public function createPersonalMenusTable() {
+        private function createPersonalMenusTable() {
             $result = '';
             $create_table = 'CREATE TABLE IF NOT EXISTS PersonalMenus (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -140,19 +140,7 @@
             return $result;
         }   
 
-        public function createMenusTable() {
-            $result = '';
-            $create_table = 'CREATE TABLE IF NOT EXISTS Menus (
-                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)';
-
-            if ($this->db->query($create_table)) {
-                $result = $result . 'Table creation sucessful!' . '<br>';
-            }
-
-            return $result;
-        }
-
-        public function createCuisineTypesTable() {
+        private function createCuisineTypesTable() {
             $result = '';
             $create_table = 'CREATE TABLE IF NOT EXISTS CuisineTypes (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -165,7 +153,7 @@
             return $result;
         }
 
-        public function createPriceRatingsTable() {
+        private function createPriceRatingsTable() {
             $result = '';
             $create_table = 'CREATE TABLE IF NOT EXISTS PriceRatings (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -189,10 +177,52 @@
             return $result;
         }
 
-        public function createHoursTable() {
+        private function createRestaurantsTable() {
+            $result = '';
+            $create_table = 'CREATE TABLE IF NOT EXISTS Restaurants (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                account_id INTEGER UNIQUE NOT NULL,
+                email TEXT UNIQUE,
+                name TEXT,
+                street_address TEXT UNIQUE,
+                city TEXT,
+                state TEXT,
+                phone_number TEXT,
+                cuisine_type_id INTEGER,
+                price_rating_id INTEGER,
+                website_url TEXT UNIQUE,
+                biography TEXT,
+                profile_image_path TEXT,
+                FOREIGN KEY(account_id) REFERENCES Accounts(id),
+                FOREIGN KEY(cuisine_type_id) REFERENCES CuisineTypes(id),
+                FOREIGN KEY(price_rating_id) REFERENCES PriceRatings(id))';
+           
+            if ($this->db->query($create_table)) {
+                $result = $result . 'Table creation sucessful!' . '<br>';
+            }
+
+            return $result;
+        }
+
+        private function createMenusTable() {
+            $result = '';
+            $create_table = 'CREATE TABLE IF NOT EXISTS Menus (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                restaurant_id INTEGER UNIQUE NOT NULL,
+                FOREIGN KEY(restaurant_id) REFERENCES Restaurants(id))';
+
+            if ($this->db->query($create_table)) {
+                $result = $result . 'Table creation sucessful!' . '<br>';
+            }
+
+            return $result;
+        }
+
+        private function createHoursTable() {
             $result = '';
             $create_table = 'CREATE TABLE IF NOT EXISTS Hours (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                restaurant_id INTEGER UNIQUE NOT NULL,
                 monday_open TEXT,
                 monday_close TEXT,
                 tuesday_open TEXT,
@@ -206,7 +236,8 @@
                 saturday_open TEXT,
                 saturday_close TEXT,
                 sunday_open TEXT,
-                sunday_close TEXT)';
+                sunday_close TEXT,
+                FOREIGN KEY(restaurant_id) REFERENCES Restaurants(id))';
 
             if ($this->db->query($create_table)) {
                 $result = $result . 'Table creation sucessful!' . '<br>';
@@ -215,38 +246,7 @@
             return $result;
         }
 
-        public function createRestaurantsTable() {
-            $result = '';
-            $create_table = 'CREATE TABLE IF NOT EXISTS Restaurants (
-                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                account_id INTEGER UNIQUE NOT NULL,
-                email TEXT UNIQUE NOT NULL,
-                name TEXT NOT NULL,
-                street_address TEXT UNIQUE,
-                city TEXT,
-                state TEXT,
-                phone_number TEXT,
-                hours_id INTEGER UNIQUE NOT NULL,
-                menu_id INTEGER UNIQUE NOT NULL,
-                cuisine_type_id INTEGER,
-                price_rating_id INTEGER,
-                website_url TEXT UNIQUE,
-                biography TEXT,
-                profile_image_path TEXT,
-                FOREIGN KEY(account_id) REFERENCES Accounts(id),
-                FOREIGN KEY(menu_id) REFERENCES Menus(id)
-                FOREIGN KEY(hours_id) REFERENCES Hours(id),
-                FOREIGN KEY(cuisine_type_id) REFERENCES CuisineTypes(id),
-                FOREIGN KEY(price_rating_id) REFERENCES PriceRatings(id))';
-           
-            if ($this->db->query($create_table)) {
-                $result = $result . 'Table creation sucessful!' . '<br>';
-            }
-
-            return $result;
-        }
-
-        public function createMealTypesTable() {
+        private function createMealTypesTable() {
             $result = '';
             $create_table = 'CREATE TABLE IF NOT EXISTS MealTypes (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -267,7 +267,7 @@
             return $result;
         }
 
-        public function createMenuItemsTable() {
+        private function createMenuItemsTable() {
             $result = '';
             $create_table = 'CREATE TABLE IF NOT EXISTS MenuItems (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -289,7 +289,7 @@
             return $result;
         }
 
-        public function createPersonalMenuItemsTable() {
+        private function createPersonalMenuItemsTable() {
             $result = '';
             $create_table = 'CREATE TABLE IF NOT EXISTS PersonalMenuItems (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,

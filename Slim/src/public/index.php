@@ -130,10 +130,16 @@ $app->post('/create_restaurant_account', function(Request $request, Response $re
     if (!$valid_username) {
         $result['error'] = 'invalid username';
     } else {
-    //     $password_salt = $accountHandler->createPasswordSalt();
-    //     $password_hash = $accountHandler->hashPassword($password, $password_salt);
-    //     $account_type_id = $accountHandler->getAccountTypeId('user');
-    //     $account_creation_success = $accountHandler->createAccount($username, $password_hash, $password_salt, $account_type_id);
+        $password_salt = $accountHandler->createPasswordSalt();
+        $password_hash = $accountHandler->hashPassword($password, $password_salt);
+        $account_type_id = $accountHandler->getAccountTypeId('restaurant');
+        
+        if ($account_type_id != -1) {
+            $account_creation_success = $accountHandler->createAccount($username, $password_hash, $password_salt, $account_type_id);
+        } else {
+            $result['error'] = 'account creation unsuccessful';
+        }
+        
 
     //     if ($account_creation_success) {
     //         $account_id = $accountHandler->getAccountId($username);

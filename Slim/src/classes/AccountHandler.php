@@ -68,7 +68,7 @@
 
         public function createAccount($username, $password_hash, $password_salt, $account_type_id) {
             $success = false;
-            $statement = 'INSERT INTO Accounts(username, password_hash, password_salt, account_type_id) VALUES(:username, :password_hash, :password_salt, :account_type_id)';
+            $statement = 'INSERT OR IGNORE INTO Accounts(username, password_hash, password_salt, account_type_id) VALUES(:username, :password_hash, :password_salt, :account_type_id)';
             $prepared_statement = $this->db->prepare($statement);
             $prepared_statement->bindValue(':username', $username, SQLITE3_TEXT);
             $prepared_statement->bindValue(':password_hash', $password_hash, SQLITE3_TEXT);
@@ -79,7 +79,13 @@
                 $account_id = $this->getAccountId($username);
 
                 if ($account_id != -1) {
-                    $success = $this->createUser($account_id);
+
+                    if ($account_type_id == $this->getAccountTypeId('user')) {
+                        $success = $this->createUser($account_id);
+                    } else if ($account_type_id == $this->getAccountTypeId('restaurant')) {
+                        $success = $this->createRestaurant($account_id);
+                    }
+                    
                 }
                 
             }
@@ -103,7 +109,7 @@
 
         private function createUser($account_id) {
             $success = false;
-            $statement = 'INSERT INTO Users(account_id) VALUES(:account_id)';
+            $statement = 'INSERT OR IGNORE INTO Users(account_id) VALUES(:account_id)';
             $prepared_statement = $this->db->prepare($statement);
             $prepared_statement->bindValue(':account_id', $account_id, SQLITE3_INTEGER);
 
@@ -134,7 +140,7 @@
 
         private function createPersonalMenu($user_id) {
             $success = false;
-            $statement = 'INSERT INTO PersonalMenus(user_id) VALUES(:user_id)';
+            $statement = 'INSERT OR IGNORE INTO PersonalMenus(user_id) VALUES(:user_id)';
             $prepared_statement = $this->db->prepare($statement);
             $prepared_statement->bindValue(':user_id', $user_id, SQLITE3_INTEGER);
 
@@ -143,6 +149,10 @@
             }
 
             return $success;
+        }
+
+        private function createRestaurant($account_id) {
+
         }
 
     }
