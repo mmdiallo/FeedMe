@@ -11,8 +11,10 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 require '../vendor/autoload.php';
 require '../classes/DatabaseCreation.php';
-require '../classes/AuthenticationHandler.php';
 require '../classes/Form.php';
+require '../classes/AuthenticationHandler.php';
+require '../classes/AccountHandler.php';
+
 
 $config['displayErrorDetails'] = true;
 $config['db']['filename'] = '../database/feed_me.sqlite';
@@ -46,8 +48,8 @@ $app->add($https_mw);
 $session_mw = function(Request $request, Response $response, $next) {
     $authentication = new AuthenticationHandler;
     $current_auth = $authentication->checkAuthentication();
-    $request->withAttribute('session', $_SESSION);
-    $request->withAttribute('auth', $current_auth);
+    $request = $request->withAttribute('session', $_SESSION);
+    $request = $request->withAttribute('auth', $current_auth);
     $response = $next($request, $response);
     return $response;
 };
@@ -82,8 +84,8 @@ $authentication_response_2 = function(Request $request, Response $response, $nex
         $json = json_encode($result);
         $response->getBody()->write($json);
     } else {
-        $request->withAttribute('result', $result);
-        $next($request, $response);
+        $request = $request->withAttribute('result', $result);
+        $response = $next($request, $response);
     }
     return $response;
 };
@@ -94,7 +96,7 @@ $authentication_response_2 = function(Request $request, Response $response, $nex
 $app->get('/', function(Request $request, Response $response) {
     $response->getBody()->write('<h1>Home</h1>');
     $auth = $request->getAttribute('auth');
-
+    
     if (!$auth) {
         $begin_div = '<div style="margin: 8;">';
         $login_link = '<a style="padding: 8;" href="/login"> Login </a>';
@@ -128,50 +130,41 @@ $app->get('/create_user_account', function(Request $request, Response $response)
 $app->post('/create_user_account', function(Request $request, Response $response) {
     $data = $request->getParsedBody();
 
-    // get username
+    // get data
     $username = $data['username'];
+    $password = $data['password'];
+
+    // create new account handler object
+    $accountHandler = new AccountHandler($this->db);
+
+    // get result array from middleware
     $result = $request->getAttribute('result');
 
     // verify username input
-    $valid_username = preg_match('/^[a-zA-z][\w]*$/', $username);
+    $valid_username = $accountHandler->validateUsername($username);
 
     if (!$valid_username) {
         $result['error'] = 'invalid username';
     } else {
         // generate password salt
-        $random_string = uniqid();
-        $password_salt = hash('sha256', $random_string);
+        $password_salt = $accountHandler->createPasswordSalt();
+        echo '<br>';
+        var_dump($password_salt);
+        echo '<br>';
 
         // hash password
-        $password = $data['username'];
-        $initial_password_hash = hash('sha256', $password);
+        $password_hash = $accountHandler->hashPassword($password, $password_salt);
+        var_dump($password_hash);
+        echo '<br>';
 
-        // addd password salt
-        $password_hash_with_salt = $password_salt . $initial_password_hash . $password_salt;
+        $account_type_id = $accountHandler->getAccountTypeId('user');
+        var_dump($account_type_id);
 
-        // hash salted password
-        $salted_password_hash = password_hash($password_hash_with_salt, PASSWORD_BCRYPT);
-
-        // get correct account type
-        $query = 'SELECT id FROM AccountTypes WHERE type="user"';
-        $account_type_results = $this->db->query($query);
-        $account_type_results_array = $account_type_results->fetchArray();
-        $account_type_id = $account_type_results_array['id'];
-        
-        // add account to database
-        $statement = 'INSERT INTO Accounts(username, password_hash, password_salt, account_type_id) VALUES(:username, :password_hash, :password_salt, :account_type_id)';
-        $prepared_statement = $this->db->prepare($statement);
-        $prepared_statement->bindValue(':username', $username, SQLITE3_TEXT);
-        $prepared_statement->bindValue(':password_hash', $salted_password_hash, SQLITE3_TEXT);
-        $prepared_statement->bindValue(':password_salt', $password_salt, SQLITE3_TEXT);
-        $prepared_statement->bindValue(':account_type_id', $account_type_id, SQLITE3_INTEGER);
-        if ($prepared_statement->execute()) {
-            
-            
-        } else {
-            $result['error'] = 'account creation failed';
-        }
+        $account_creation_result = createAccount($username, $password_salt, $password_hash, $account_type_id);
     }
+    
+    $json = json_encode($result);
+    $response->write($json);
     return $response;
 })->add($authentication_response_2);
 
