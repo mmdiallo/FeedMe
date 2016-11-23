@@ -55,17 +55,30 @@ $session_mw = function(Request $request, Response $response, $next) {
 };
 
 // if not authenticated, return error response
-$access_authentication_mw = function(Request $request, Response $response, $next) {
-    // $response = $next($request, $response);
+$access_mw = function(Request $request, Response $response, $next) {
+    $result = array('error' => null);
+    $authenticationHandler = new AuthenticationHandler($this->db);
+    $current_auth = $authenticationHandler->checkAuthentication();
+
+    if ($current_auth) {
+        $request = $request->withAttribute('result', $result);
+        $response = $next($request, $response);
+    } else {
+        $result['error'] = 'user not logged in';
+        $json = json_encode($result, JSON_NUMERIC_CHECK);
+        $response->getBody()->write($json);
+    }
+
     return $response;
 };
 
 // if authenticated, return error response
 // prevents access to login and create account pages for already authenticated users
-$login_authentication_mw = function(Request $request, Response $response, $next) {
+$login_mw = function(Request $request, Response $response, $next) {
     $result = array('error' => null);
     $authentication = new AuthenticationHandler($this->db);
     $current_auth = $authentication->checkAuthentication();
+
     if ($current_auth) {
         $result['error'] = 'user already logged in';
         $json = json_encode($result, JSON_NUMERIC_CHECK);
@@ -74,6 +87,7 @@ $login_authentication_mw = function(Request $request, Response $response, $next)
         $request = $request->withAttribute('result', $result);
         $response = $next($request, $response);
     }
+
     return $response;
 };
 
@@ -112,7 +126,7 @@ $app->post('/create_user_account', function(Request $request, Response $response
     $json = json_encode($result, JSON_NUMERIC_CHECK);
     $response->write($json);
     return $response;
-})->add($login_authentication_mw);
+})->add($login_mw);
 
 $app->post('/create_restaurant_account', function(Request $request, Response $response) {
     $result = $request->getAttribute('result');
@@ -143,7 +157,7 @@ $app->post('/create_restaurant_account', function(Request $request, Response $re
     $json = json_encode($result, JSON_NUMERIC_CHECK);
     $response->write($json);
     return $response;
-})->add($login_authentication_mw);
+})->add($login_mw);
 
 $app->post('/login', function(Request $request, Response $response) {
     $result = $request->getAttribute('result');
@@ -175,7 +189,11 @@ $app->post('/login', function(Request $request, Response $response) {
     $json = json_encode($result, JSON_NUMERIC_CHECK);
     $response->write($json);
     return $response;
-})->add($login_authentication_mw);
+})->add($login_mw);
+
+$app->get('/logout', function(Request $request, Response $response) {
+
+})->add($access_mw);
 
 // Accounts --------------------------------------------------------------
 
