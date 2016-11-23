@@ -1,18 +1,19 @@
 <?php
-	class MenuItems{
+
+	class Accounts{
 		public $db;
-		public $menu_items_id;
+		public $a_id;
 
 
-        public function __construct($db, $mid) {
+        public function __construct($db, $aid) {
             $this->db = $db;
-            $this->menu_items_id = $mid;
+            $this->a_id = $aid;
         }
 
         public function select($field) {
-            $stmt = "SELECT " . $field . " FROM MenuItems WHERE id = ?;";
-            $sql = $this->db->prepare($stmt);
-        	$sql->bindParam("i", $menu_items_id);
+        	$stmt = "SELECT " . $field . " FROM Users WHERE id = ?;";
+        	$sql = $this->db->prepare($stmt);
+        	$sql->bindParam("i", $u_id);
 	        $result = $sql->execute();
 
 	        $results = array();
@@ -30,9 +31,6 @@
             }
         }
 
-		public function insert(){
-		
-		}
-	}
+    }
 
 ?>

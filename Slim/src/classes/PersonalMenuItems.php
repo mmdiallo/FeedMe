@@ -3,10 +3,16 @@
 		public $db;
 		public $personal_menu_item_id;
 
-		public function select($field, $menu_items_id) {
+
+		public function __construct($db, $pid) {
+            $this->db = $db;
+            $this->personal_menu_item_id = $pid;
+        }
+
+		public function select($field) {
         	$stmt = "SELECT " . $field . " FROM PersonalMenuItems WHERE id = ?;";
         	$sql = $this->db->prepare($stmt);
-        	$sql->bindParam("i", $menu_items_id);
+        	$sql->bindParam("i", $personal_menu_item_id);
 	        $result = $sql->execute();
 
 	        $results = array();
@@ -20,7 +26,6 @@
             }
             else{
             	$result = "O result";
-            	echo $result;
             	return $result;
             }
         }

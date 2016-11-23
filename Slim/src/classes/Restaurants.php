@@ -1,18 +1,18 @@
 <?php
-	class MenuItems{
+
+	class Restaurants{
 		public $db;
-		public $menu_items_id;
+		public $rest_id;
 
-
-        public function __construct($db, $mid) {
+		public function __construct($db, $rid) {
             $this->db = $db;
-            $this->menu_items_id = $mid;
+            $this->rest_id = $rid;
         }
 
-        public function select($field) {
-            $stmt = "SELECT " . $field . " FROM MenuItems WHERE id = ?;";
-            $sql = $this->db->prepare($stmt);
-        	$sql->bindParam("i", $menu_items_id);
+		public function select($field) {
+        	$stmt = "SELECT " . $field . " FROM Restaurants WHERE id = ?;";
+        	$sql = $this->db->prepare($stmt);
+        	$sql->bindParam("i", $rest_id);
 	        $result = $sql->execute();
 
 	        $results = array();
@@ -30,9 +30,8 @@
             }
         }
 
-		public function insert(){
-		
-		}
+
 	}
+
 
 ?>
