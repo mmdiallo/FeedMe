@@ -1,5 +1,5 @@
 <?php
-    class AccountsHandler {
+    class AccountHandler {
         protected $db;
 
         public function __construct($db) {
@@ -46,6 +46,10 @@
                 }
             }
             return $success;
+        }
+
+        public function login($username, $password) {
+
         }
 
         public function getAccountInformation($username) {
@@ -108,6 +112,8 @@
             return $salted_hash;
         }
 
+        // ACCOUNT TYPES HANDLER ==================================================================
+
         private function getAccountType($account_id) {
             $type = '';
             $account_statement = 'SELECT account_type_id FROM Accounts WHERE id=:id';
@@ -148,6 +154,8 @@
 
             return $id;
         }
+
+        // ========================================================================================
 
         private function createAccount($username, $password_hash, $password_salt, $account_type_id) {
             $success = false;
@@ -190,6 +198,8 @@
             return $id;
         } 
 
+        // USERS HANDLER =========================================================================
+
         private function createUser($account_id) {
             $success = false;
             $statement = 'INSERT OR IGNORE INTO Users(account_id, profile_image_path) VALUES(:account_id, "../images/users/default-user-image.jpg")';
@@ -221,6 +231,8 @@
             return $id;
         }
 
+        // PERSONAL MENU HANDLER =================================================================
+
         private function createPersonalMenu($user_id) {
             $success = false;
             $statement = 'INSERT OR IGNORE INTO PersonalMenus(user_id) VALUES(:user_id)';
@@ -233,6 +245,8 @@
 
             return $success;
         }
+
+        //  RESTAURANTS HANDLER ===================================================================
 
         private function createRestaurant($account_id) {
             $success = false;
@@ -251,6 +265,7 @@
             return $success;
         }
 
+
         private function getRestaurantId($account_id) {
             $id = -1;
             $statement = 'SELECT id FROM Restaurants WHERE account_id=:account_id';
@@ -265,6 +280,8 @@
             return $id;
         }
 
+        // MENUS HANDLER ==========================================================================
+
         private function createMenu($restaurant_id) {
             $success = false;
             $statement = 'INSERT OR IGNORE INTO Menus(restaurant_id) VALUES(:restaurant_id)';
@@ -277,6 +294,8 @@
 
             return $success;
         }
+
+        // HOURS HANDLER ==========================================================================
 
         private function createHours($restaurant_id) {
             $success = false;

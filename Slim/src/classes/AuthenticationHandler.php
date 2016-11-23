@@ -143,6 +143,8 @@
             return $valid;
         }
 
+        // Account Type Handler ===================================================================
+
         private function getAccountTypeId($type) {
             $id = -1;
             $query = '';

@@ -13,7 +13,7 @@ require_once  '../vendor/autoload.php';
 require_once '../classes/DatabaseCreation.php';
 require_once '../classes/Form.php';
 require_once '../classes/AuthenticationHandler.php';
-require_once '../classes/AccountsHandler.php';
+require_once '../classes/AccountHandler.php';
 
 
 $config['displayErrorDetails'] = true;
@@ -88,7 +88,7 @@ $app->post('/create_user_account', function(Request $request, Response $response
     $data = $request->getParsedBody();
     $username = $data['username'];
     $password = $data['password'];
-    $account = new AccountsHandler($this->db);
+    $account = new AccountHandler($this->db);
     $account_creation_success = $account->createUserAccount($username, $password);
 
     if ($account_creation_success) {
@@ -119,7 +119,7 @@ $app->post('/create_restaurant_account', function(Request $request, Response $re
     $data = $request->getParsedBody();
     $username = $data['username'];
     $password = $data['password'];
-    $account = new AccountsHandler($this->db);
+    $account = new AccountHandler($this->db);
     $account_creation_success = $account->createRestaurantAccount($username, $password);
     
     if ($account_creation_success) {
@@ -146,13 +146,13 @@ $app->post('/create_restaurant_account', function(Request $request, Response $re
 })->add($login_authentication_mw);
 
 $app->post('/login', function(Request $request, Response $response) {
-    // $result = $request->getAttribute('result');
-    // $data = $request->getParsedBody();
-    // $username = $data['username'];
-    // $password = $data['password'];
+    $result = $request->getAttribute('result');
+    $data = $request->getParsedBody();
+    $username = $data['username'];
+    $password = $data['password'];
 
-    // $account = new Account($this->db);
-    // $login_success = $account->login($username, $password);
+    $account = new AccountHandler($this->db);
+    $login_success = $account->login($username, $password);
 
 })->add($login_authentication_mw);
 
