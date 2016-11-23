@@ -81,7 +81,7 @@ $authentication_response_2 = function(Request $request, Response $response, $nex
     $current_auth = $authentication->checkAuthentication();
     if ($current_auth) {
         $result['error'] = 'user already logged in';
-        $json = json_encode($result);
+        $json = json_encode($result, JSON_NUMERIC_CHECK);
         $response->getBody()->write($json);
     } else {
         $request = $request->withAttribute('result', $result);
@@ -146,24 +146,23 @@ $app->post('/create_user_account', function(Request $request, Response $response
     if (!$valid_username) {
         $result['error'] = 'invalid username';
     } else {
-        // generate password salt
         $password_salt = $accountHandler->createPasswordSalt();
-        echo '<br>';
-        var_dump($password_salt);
-        echo '<br>';
-
-        // hash password
         $password_hash = $accountHandler->hashPassword($password, $password_salt);
-        var_dump($password_hash);
-        echo '<br>';
-
         $account_type_id = $accountHandler->getAccountTypeId('user');
-        var_dump($account_type_id);
+        $account_creation_success = $accountHandler->createAccount($username, $password_salt, $password_hash, $account_type_id);
 
-        $account_creation_result = createAccount($username, $password_salt, $password_hash, $account_type_id);
+        if ($account_creation_success) {
+            $account_id = $accountHandler->getAccountId($username);
+            $user_id = $accountHandler->getUserId($account_id);
+            $result['account_id'] = $account_id;
+            $result['account_type'] = 'user';
+            $result['user_id'] = $user_id;
+        } else {
+            $result['error'] = 'account creation unsuccessful';
+        }
     }
-    
-    $json = json_encode($result);
+
+    $json = json_encode($result, JSON_NUMERIC_CHECK);
     $response->write($json);
     return $response;
 })->add($authentication_response_2);

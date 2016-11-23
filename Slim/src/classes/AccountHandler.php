@@ -76,10 +76,10 @@
             $prepared_statement->bindValue(':account_type_id', $account_type_id, SQLITE3_INTEGER);
 
             if ($prepared_statement->execute()) {
-                $account_id = getAccountId($username);
+                $account_id = $this->getAccountId($username);
 
                 if ($account_id != -1) {
-                    $success = createUser($account_id);
+                    $success = $this->createUser($account_id);
                 }
                 
             }
@@ -87,7 +87,7 @@
             return $success;
         }
 
-        private function getAccountId($username) {
+        public function getAccountId($username) {
             $id = -1;
             $statement = 'SELECT id FROM Accounts WHERE username=:username';
             $prepared_statement = $this->db->prepare($statement);
@@ -106,20 +106,43 @@
             $statement = 'INSERT INTO Users(account_id) VALUES(:account_id)';
             $prepared_statement = $this->db->prepare($statement);
             $prepared_statement->bindValue(':account_id', $account_id, SQLITE3_INTEGER);
-            if ($prepared_statement->execute()) {
-                $user_id = getUserId($account_id);
-                $success = createPersonalMenu($user_id);
 
+            if ($prepared_statement->execute()) {
+                $user_id = $this->getUserId($account_id);
+
+                if ($user_id != -1) {
+                    $success = $this->createPersonalMenu($user_id);
+                }
             }
+
             return $success;
         }
 
-        private function getUserId($account_id) {
+        public function getUserId($account_id) {
+            $id = -1;
+            $statement = 'SELECT id FROM Users WHERE account_id=:account_id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':account_id', $account_id, SQLITE3_INTEGER);
 
+            if ($query_results = $prepared_statement->execute()) {
+                $row = $query_results->fetchArray();
+                $id = $row['id'];
+            }
+
+            return $id;
         }
 
         private function createPersonalMenu($user_id) {
+            $success = false;
+            $statement = 'INSERT INTO PersonalMenus(user_id) VALUES(:user_id)';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':user_id', $user_id, SQLITE3_INTEGER);
 
+            if ($prepared_statement->execute()) {
+                $success = true;
+            }
+
+            return $success;
         }
 
     }
