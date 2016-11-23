@@ -1,4 +1,6 @@
-<?php 
+<?php
+    require_once 'AccountTypeHandler.php';
+
     class AuthenticationHandler {
 
         protected $db;
@@ -87,7 +89,8 @@
         private function verifyAccountType($account_id, $account_type) {
             $valid = false;
 
-            $account_type_id = $this->getAccountTypeId($account_type);
+            $account_type_handler = new AccountTypeHandler($this->db);
+            $account_type_id = $account_type_handler->getId($account_type);
 
             $statement = 'SELECT * FROM Accounts WHERE id=:id AND account_type_id=:account_type_id';
             $prepared_statement = $this->db->prepare($statement);
@@ -149,26 +152,6 @@
             }
             
             return $valid;
-        }
-
-        // Account Type Handler ===================================================================
-
-        private function getAccountTypeId($type) {
-            $id = -1;
-            $query = '';
-
-            if ($type == 'user') {
-                $query = 'SELECT id FROM AccountTypes WHERE type="user"';
-            } else if ($type == 'restaurant') {
-                $query = 'SELECT id FROM AccountTypes WHERE type="restaurant"';
-            }
-
-            if ($query_results = $this->db->query($query)) {
-                $row = $query_results->fetchArray();
-                $id = $row['id'];
-            }
-
-            return $id;
         }
     }
 ?>

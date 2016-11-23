@@ -216,20 +216,26 @@ $app->post('/login', function(Request $request, Response $response) {
 
 $app->get('/logout', function(Request $request, Response $response) {
     $result = array('error' => null);
-    $authentication = new AuthenticationHandler($this->db);
-    $authentication->endSession();
-    $current_auth = $authentication->checkAuthentication();
+    $auth = $request->getAttribute('auth');
 
-    if (!$current_auth) {
-        $result['status'] = 'logout successful';
+    if ($auth) {
+        $authentication = new AuthenticationHandler($this->db);
+        $authentication->endSession();
+        $current_auth = $authentication->checkAuthentication();
+
+        if (!$current_auth) {
+            $result['status'] = 'logout successful';
+        } else {
+            $result['error'] = 'logout failed';
+        }
     } else {
-        $result['error'] = 'logout failed';
+        $result['error'] = 'user not logged in';
     }
 
     $json = json_encode($result, JSON_NUMERIC_CHECK);
     $response->write($json);
     return $response;
-});
+})->add($session_mw);
 
 // Accounts --------------------------------------------------------------
 
