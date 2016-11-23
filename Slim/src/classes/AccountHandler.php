@@ -49,7 +49,9 @@
         }
 
         public function login($username, $password) {
-
+            $success = false;
+            
+            return $success;
         }
 
         public function getAccountInformation($username) {
