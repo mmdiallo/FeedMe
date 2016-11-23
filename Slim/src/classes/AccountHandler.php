@@ -66,8 +66,60 @@
             return $id;
         }
 
-        public function createAccount($username, $password_hash, $password_salt, $account_type_id {
-            
+        public function createAccount($username, $password_hash, $password_salt, $account_type_id) {
+            $success = false;
+            $statement = 'INSERT INTO Accounts(username, password_hash, password_salt, account_type_id) VALUES(:username, :password_hash, :password_salt, :account_type_id)';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':username', $username, SQLITE3_TEXT);
+            $prepared_statement->bindValue(':password_hash', $password_hash, SQLITE3_TEXT);
+            $prepared_statement->bindValue(':password_salt', $password_salt, SQLITE3_TEXT);
+            $prepared_statement->bindValue(':account_type_id', $account_type_id, SQLITE3_INTEGER);
+
+            if ($prepared_statement->execute()) {
+                $account_id = getAccountId($username);
+
+                if ($account_id != -1) {
+                    $success = createUser($account_id);
+                }
+                
+            }
+
+            return $success;
+        }
+
+        private function getAccountId($username) {
+            $id = -1;
+            $statement = 'SELECT id FROM Accounts WHERE username=:username';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':username', $username, SQLITE3_TEXT);
+
+            if ($query_results = $prepared_statement->execute()) {
+                $row = $query_results->fetchArray();
+                $id = $row['id'];
+            }
+
+            return $id;
+        } 
+
+        private function createUser($account_id) {
+            $success = false;
+            $statement = 'INSERT INTO Users(account_id) VALUES(:account_id)';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':account_id', $account_id, SQLITE3_INTEGER);
+            if ($prepared_statement->execute()) {
+                $user_id = getUserId($account_id);
+                $success = createPersonalMenu($user_id);
+
+            }
+            return $success;
+        }
+
+        private function getUserId($account_id) {
+
+        }
+
+        private function createPersonalMenu($user_id) {
+
         }
 
     }
