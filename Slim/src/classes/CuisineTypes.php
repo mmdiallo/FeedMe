@@ -1,19 +1,18 @@
 <?php
-	class Menus{
+
+	class CuisineTypes{
 		public $db;
-		public $menu_id;
+		public $ctype_id;
 
-
-		public function __construct($db, $mid) {
+		public function __construct($db, $cid) {
             $this->db = $db;
-            $this->menu_id = $mid;
+            $this->ctype_id = $cid;
         }
 
-
-        public function selectAll() {
-        	$stmt = "SELECT * FROM MenuItems WHERE menu_id = ?;";
+		public function select($field) {
+        	$stmt = "SELECT " . $field . " FROM CuisineTypes WHERE id = ?;";
         	$sql = $this->db->prepare($stmt);
-        	$sql->bindParam("i", $menu_id);
+        	$sql->bindParam("i", $ctype_id);
 	        $result = $sql->execute();
 
 	        $results = array();
@@ -22,6 +21,7 @@
             		$results[] = array($field => $row[$field]); 
             	}
            		$json = json_encode($results);
+           		echo $json;
             	return $json;
             }
             else{
@@ -30,10 +30,8 @@
             }
         }
 
-		// public function insert(){
-		// 	$sql = "INSERT INTO Menus DEFAULT VALUES";
-		// 	$result = $this->db->query($sql);
-		// }
+
 	}
+
 
 ?>

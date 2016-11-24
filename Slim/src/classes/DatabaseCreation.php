@@ -1,6 +1,6 @@
 <?php
     class DatabaseCreation {
-        public $db;
+        protected $db;
 
         public function __construct($db) {
             $this->db = $db;
@@ -28,23 +28,23 @@
                     break;
 
                 case 4:
-                    $result = $result . $this->createMenusTable();
-                    break;
-
-                case 5:
                     $result = $result . $this->createCuisineTypesTable();
                     break;
 
-                case 6:
+                case 5:
                     $result = $result . $this->createPriceRatingsTable();
                     break;
 
+                case 6:
+                    $result = $result . $this->createRestaurantsTable();
+                    break;
+
                 case 7:
-                    $result = $result . $this->createHoursTable();
+                    $result = $result . $this->createMenusTable();
                     break;
 
                 case 8:
-                    $result = $result . $this->createRestaurantsTable();
+                    $result = $result . $this->createHoursTable();
                     break;
 
                 case 9:
@@ -66,7 +66,7 @@
             return $result;
         }
 
-        public function createAccountTypesTable() {
+        private function createAccountTypesTable() {
             $result = '';
             $create_table = 'CREATE TABLE IF NOT EXISTS AccountTypes (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
@@ -85,7 +85,7 @@
             return $result;
         }
 
-        public function createAccountsTable() {
+        private function createAccountsTable() {
             $result = '';
             $enable_foreign_keys = 'PRAGMA foreign_keys = ON';
 
@@ -108,7 +108,7 @@
             return $result;
         }
 
-        public function createUsersTable() {
+        private function createUsersTable() {
             $result = '';
             $create_table = 'CREATE TABLE IF NOT EXISTS Users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -126,7 +126,7 @@
             return $result;
         }
 
-        public function createPersonalMenusTable() {
+        private function createPersonalMenusTable() {
             $result = '';
             $create_table = 'CREATE TABLE IF NOT EXISTS PersonalMenus (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -140,10 +140,14 @@
             return $result;
         }   
 
-        public function createMenusTable() {
+        private function createPersonalMenuItemsTable() {
             $result = '';
-            $create_table = 'CREATE TABLE IF NOT EXISTS Menus (
-                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)';
+            $create_table = 'CREATE TABLE IF NOT EXISTS PersonalMenuItems (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                personal_menu_id INTEGER NOT NULL,
+                menu_item_id INTEGER NOT NULL,
+                FOREIGN KEY(personal_menu_id) REFERENCES PersonalMenus(id),
+                FOREIGN KEY(menu_item_id) REFERENCES MenuItems(id))';
 
             if ($this->db->query($create_table)) {
                 $result = $result . 'Table creation sucessful!' . '<br>';
@@ -152,7 +156,7 @@
             return $result;
         }
 
-        public function createCuisineTypesTable() {
+        private function createCuisineTypesTable() {
             $result = '';
             $create_table = 'CREATE TABLE IF NOT EXISTS CuisineTypes (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -165,7 +169,7 @@
             return $result;
         }
 
-        public function createPriceRatingsTable() {
+        private function createPriceRatingsTable() {
             $result = '';
             $create_table = 'CREATE TABLE IF NOT EXISTS PriceRatings (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -189,53 +193,23 @@
             return $result;
         }
 
-        public function createHoursTable() {
-            $result = '';
-            $create_table = 'CREATE TABLE IF NOT EXISTS Hours (
-                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                monday_open TEXT,
-                monday_close TEXT,
-                tuesday_open TEXT,
-                tuesday_close TEXT,
-                wednesday_open TEXT,
-                wednesday_close TEXT,
-                thursday_open TEXT,
-                thursday_close TEXT,
-                friday_open TEXT,
-                friday_close TEXT,
-                saturday_open TEXT,
-                saturday_close TEXT,
-                sunday_open TEXT,
-                sunday_close TEXT)';
-
-            if ($this->db->query($create_table)) {
-                $result = $result . 'Table creation sucessful!' . '<br>';
-            }
-
-            return $result;
-        }
-
-        public function createRestaurantsTable() {
+        private function createRestaurantsTable() {
             $result = '';
             $create_table = 'CREATE TABLE IF NOT EXISTS Restaurants (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                 account_id INTEGER UNIQUE NOT NULL,
-                email TEXT UNIQUE NOT NULL,
-                name TEXT NOT NULL,
+                email TEXT UNIQUE,
+                name TEXT,
                 street_address TEXT UNIQUE,
                 city TEXT,
                 state TEXT,
                 phone_number TEXT,
-                hours_id INTEGER UNIQUE NOT NULL,
-                menu_id INTEGER UNIQUE NOT NULL,
                 cuisine_type_id INTEGER,
                 price_rating_id INTEGER,
                 website_url TEXT UNIQUE,
                 biography TEXT,
                 profile_image_path TEXT,
                 FOREIGN KEY(account_id) REFERENCES Accounts(id),
-                FOREIGN KEY(menu_id) REFERENCES Menus(id)
-                FOREIGN KEY(hours_id) REFERENCES Hours(id),
                 FOREIGN KEY(cuisine_type_id) REFERENCES CuisineTypes(id),
                 FOREIGN KEY(price_rating_id) REFERENCES PriceRatings(id))';
            
@@ -246,28 +220,21 @@
             return $result;
         }
 
-        public function createMealTypesTable() {
+        private function createMenusTable() {
             $result = '';
-            $create_table = 'CREATE TABLE IF NOT EXISTS MealTypes (
+            $create_table = 'CREATE TABLE IF NOT EXISTS Menus (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                type TEXT UNIQUE NOT NULL)';
-            
+                restaurant_id INTEGER UNIQUE NOT NULL,
+                FOREIGN KEY(restaurant_id) REFERENCES Restaurants(id))';
+
             if ($this->db->query($create_table)) {
                 $result = $result . 'Table creation sucessful!' . '<br>';
-                $create_type_breakfast = 'INSERT OR IGNORE INTO MealTypes(type) VALUES(\'breakfast\')';
-                $create_type_lunch = 'INSERT OR IGNORE INTO MealTypes(type) VALUES(\'lunch\')';
-                $create_type_dinner = 'INSERT OR IGNORE INTO MealTypes(type) VALUES(\'dinner\')';
-                $create_type_beverage = 'INSERT OR IGNORE INTO MealTypes(type) VALUES(\'beverage\')';
-                
-                if ($this->db->query($create_type_breakfast) && $this->db->query($create_type_lunch) && $this->db->query($create_type_dinner) && $this->db->query($create_type_beverage)) {
-                    $result = $result . 'Type creation successful!' . '<br>';
-                }
             }
 
             return $result;
         }
 
-        public function createMenuItemsTable() {
+        private function createMenuItemsTable() {
             $result = '';
             $create_table = 'CREATE TABLE IF NOT EXISTS MenuItems (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -289,17 +256,50 @@
             return $result;
         }
 
-        public function createPersonalMenuItemsTable() {
+        private function createHoursTable() {
             $result = '';
-            $create_table = 'CREATE TABLE IF NOT EXISTS PersonalMenuItems (
+            $create_table = 'CREATE TABLE IF NOT EXISTS Hours (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                personal_menu_id INTEGER NOT NULL,
-                menu_item_id INTEGER NOT NULL,
-                FOREIGN KEY(personal_menu_id) REFERENCES PersonalMenus(id),
-                FOREIGN KEY(menu_item_id) REFERENCES MenuItems(id))';
+                restaurant_id INTEGER UNIQUE NOT NULL,
+                monday_open TEXT,
+                monday_close TEXT,
+                tuesday_open TEXT,
+                tuesday_close TEXT,
+                wednesday_open TEXT,
+                wednesday_close TEXT,
+                thursday_open TEXT,
+                thursday_close TEXT,
+                friday_open TEXT,
+                friday_close TEXT,
+                saturday_open TEXT,
+                saturday_close TEXT,
+                sunday_open TEXT,
+                sunday_close TEXT,
+                FOREIGN KEY(restaurant_id) REFERENCES Restaurants(id))';
 
             if ($this->db->query($create_table)) {
                 $result = $result . 'Table creation sucessful!' . '<br>';
+            }
+
+            return $result;
+        }
+
+        private function createMealTypesTable() {
+            $result = '';
+            $create_table = 'CREATE TABLE IF NOT EXISTS MealTypes (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                type TEXT UNIQUE NOT NULL)';
+            
+            if ($this->db->query($create_table)) {
+                $result = $result . 'Table creation sucessful!' . '<br>';
+                $create_type_breakfast = 'INSERT OR IGNORE INTO MealTypes(type) VALUES(\'breakfast\')';
+                $create_type_lunch = 'INSERT OR IGNORE INTO MealTypes(type) VALUES(\'lunch\')';
+                $create_type_dinner = 'INSERT OR IGNORE INTO MealTypes(type) VALUES(\'dinner\')';
+                $create_type_beverage = 'INSERT OR IGNORE INTO MealTypes(type) VALUES(\'beverage\')';
+                
+                if ($this->db->query($create_type_breakfast) && $this->db->query($create_type_lunch) && $this->db->query($create_type_dinner) && $this->db->query($create_type_beverage)) {
+                    $result = $result . 'Type creation successful!' . '<br>';
+                }
             }
 
             return $result;

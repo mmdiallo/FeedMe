@@ -1,5 +1,5 @@
 <?php
-	class Menus{
+	class PersonalMenus{
 		public $db;
 		public $menu_id;
 
@@ -11,7 +11,7 @@
 
 
         public function selectAll() {
-        	$stmt = "SELECT * FROM MenuItems WHERE menu_id = ?;";
+        	$stmt = "SELECT * FROM PersonalMenuItems WHERE personal_menu_id = ?;";
         	$sql = $this->db->prepare($stmt);
         	$sql->bindParam("i", $menu_id);
 	        $result = $sql->execute();

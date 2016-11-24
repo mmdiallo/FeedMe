@@ -1,19 +1,18 @@
 <?php
 
-	class Accounts{
+	class PriceRatings{
 		public $db;
-		public $a_id;
+		public $p_id;
 
-
-        public function __construct($db, $aid) {
+		public function __construct($db, $pid) {
             $this->db = $db;
-            $this->a_id = $aid;
+            $this->p_id = $pid;
         }
 
-        public function select($field) {
-        	$stmt = "SELECT " . $field . " FROM Users WHERE id = ?;";
+		public function select($field) {
+        	$stmt = "SELECT " . $field . " FROM PriceRatings WHERE id = ?;";
         	$sql = $this->db->prepare($stmt);
-        	$sql->bindParam("i", $u_id);
+        	$sql->bindParam("i", $p_id);
 	        $result = $sql->execute();
 
 	        $results = array();
@@ -22,7 +21,6 @@
             		$results[] = array($field => $row[$field]); 
             	}
            		$json = json_encode($results);
-           		echo $json;
             	return $json;
             }
             else{
@@ -31,6 +29,8 @@
             }
         }
 
-    }
+
+	}
+
 
 ?>

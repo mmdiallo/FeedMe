@@ -21,7 +21,6 @@
             		$results[] = array($field => $row[$field]); 
             	}
            		$json = json_encode($results);
-           		echo $json;
             	return $json;
             }
             else{
