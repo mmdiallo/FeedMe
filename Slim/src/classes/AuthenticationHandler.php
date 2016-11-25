@@ -88,10 +88,8 @@
 
         private function verifyAccountType($account_id, $account_type) {
             $valid = false;
-
             $account_type_handler = new AccountTypeHandler($this->db);
             $account_type_id = $account_type_handler->getId($account_type);
-
             $statement = 'SELECT * FROM Accounts WHERE id=:id AND account_type_id=:account_type_id';
             $prepared_statement = $this->db->prepare($statement);
             $prepared_statement->bindValue(':id', $account_id, SQLITE3_INTEGER);
