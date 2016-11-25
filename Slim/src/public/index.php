@@ -262,7 +262,6 @@ $app->get('/', function(Request $request, Response $response) {
 
 
 
-
 // Database Creation Pages
 $app->get('/database_setup/{num: [\d]+}', function(Request $request, Response $response, $args) {
     $script_number = (int)$args['num'];
@@ -282,6 +281,19 @@ $app->get('/database_setup/{num: [\d]+}', function(Request $request, Response $r
 });
 
 // Users routes
+
+$app->post('/users/{uid}/edit', function(Request $request, Response $response, $args) {
+    $uid = $request->getAttribute('uid');
+    $data = $request->getParsedBody();
+    $email = $data['email'];
+    $f_name = $data['first_name'];
+    $l_name = $data['last_name'];
+    $pic_path = $data['image_path'];
+    $user = new Users($this->db, $uid);
+    $response = $user->edit($email, $f_name, $l_name, $pic_path);
+    return $response;
+});
+
 $app->get('/users', function(Request $request, Response $response, $args) {
     $response->getBody()->write('<h1>Please add a user ID</h1>');
     return $response;
@@ -293,6 +305,7 @@ $app->get('/users/{uid}/email', function(Request $request, Response $response, $
     $response = $user->select("email");
     return $response;
 });
+
 
 $app->get('/users/{uid}/first_name', function(Request $request, Response $response, $args) {
     $uid = $request->getAttribute('uid');

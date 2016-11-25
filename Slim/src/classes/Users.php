@@ -11,7 +11,7 @@
         }
 	 
         public function select($field) {
-        	$stmt = "SELECT " . $field . " FROM Users WHERE id = ?;";
+        	$stmt = "SELECT " . $field . " FROM Users WHERE id = ?";
         	$sql = $this->db->prepare($stmt);
         	$sql->bindParam("i", $u_id);
 	        $result = $sql->execute();
@@ -30,30 +30,19 @@
             }
         }
  
-	    public function insert($e, $f, $l, $p) {
-	        $stmt = "INSERT INTO Users (email, first_name, last_name) VALUES(?,?,?)";
+	    public function edit($email, $fname, $lname, $picpath) {
+	        $stmt = "UPDATE Users SET email = ?, first_name = ?, last_name = ?, profile_image_path = ? WHERE id = ?";
 	        $sql = $this->db->prepare($stmt);
-	        $sql->bindParam("sss", $email, $fname, $lname, $picpath);
-	        $email = $e;
-	        $fname = $f;
-	        $lname = $l;
-	        $picpath = $p;
-	        $result = $sql->execute();
+	        $sql->bindParam("ssssi", $email, $fname, $lname, $picpath, $u_id);
+	        $sql->execute();
+	        if ($sql->errno)
+  				echo "FAILED to update " . $sql->error;
+			else 
+				echo "Updated {$sql->affected_rows} rows";
 	    }
 	 
-	    // public function update($field, $id) {
-	    // 	$stmt = "UPDATE Users SET " . $field . " =  ? WHERE id = ?";
-	    // 	$sql = $this->db->prepare($stmt);
-	    // 	$sql->bindParam("si", $f, $uid);
-	    // 	$f = $field;
-	    // 	$uid = $id;
-	    // 	$result = $sql->execute();
-	    // }
+
 	 
-	    public function delete() {
-	        // $sSQL = "DELETE FROM user WHERE username = $mID;";
-	        // $oResult = $this->database->Query($sSQL);
-	    }
 	}
 
 ?>
