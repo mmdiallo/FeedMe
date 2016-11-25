@@ -1,19 +1,19 @@
 <?php
 	class PersonalMenus{
 		public $db;
-		public $menu_id;
+		public $pmenu_id;
 
 
 		public function __construct($db, $mid) {
             $this->db = $db;
-            $this->menu_id = $mid;
+            $this->pmenu_id = $mid;
         }
 
 
         public function selectAll() {
-        	$stmt = "SELECT * FROM PersonalMenuItems WHERE personal_menu_id = ?;";
+        	$stmt = "SELECT * FROM PersonalMenuItems WHERE personal_menu_id = ?";
         	$sql = $this->db->prepare($stmt);
-        	$sql->bindParam("i", $menu_id);
+        	$sql->bindParam("i", $pmenu_id);
 	        $result = $sql->execute();
 
 	        $results = array();
@@ -30,10 +30,13 @@
             }
         }
 
-		// public function insert(){
-		// 	$sql = "INSERT INTO Menus DEFAULT VALUES";
-		// 	$result = $this->db->query($sql);
-		// }
+        public function addItem($menu_item_id) {
+            $stmt = "INSERT into PersonalMenuItems (personal_menu_id, menu_item_id) VALUES (?,?)";
+            $sql = $this->db->prepare($stmt);
+            $sql->bindParam("ii", $pmenu_id, $menu_item_id);
+            $result = $sql->execute();
+        }
+       
 	}
 
 ?>

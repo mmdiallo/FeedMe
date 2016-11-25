@@ -294,6 +294,8 @@ $app->post('/users/{uid}/edit', function(Request $request, Response $response, $
     return $response;
 });
 
+
+
 $app->get('/users', function(Request $request, Response $response, $args) {
     $response->getBody()->write('<h1>Please add a user ID</h1>');
     return $response;
@@ -496,6 +498,15 @@ $app->get('/personalMenus/{pmenu_id}/all_pmenu_items_id', function(Request $requ
     $pmenu_id = $request->getAttribute('pmenu_id');
     $pmenu = new PersonalMenus($this->db, $pmenu_id);
     $response = $pmenu->selectAll();
+    return $response;
+});
+
+$app->post('/personalMenus/{pmenu_id}/edit', function(Request $request, Response $response, $args) {
+    $pmenu_id = $request->getAttribute('pmenu_id');
+    $data = $request->getParsedBody();
+    $menu_item_id = $data['menu_item_id'];
+    $pmenu = new PersonalMenus($this->db, $pmenu_id);
+    $response = $pmenu->addItem($menu_item_id);
     return $response;
 });
 

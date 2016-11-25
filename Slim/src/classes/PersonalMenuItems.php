@@ -29,9 +29,12 @@
             }
         }
 
-		public function insert(){
-		
-		}
+        public function addItem($pmenu_id, $menu_item_id) {
+            $stmt = "INSERT into PersonalMenuItems (personal_menu_id, menu_item_id) VALUES (?,?);";
+            $sql = $this->db->prepare($stmt);
+            $sql->bindParam("ii", $pmenu_id, $menu_item_id);
+            $result = $sql->execute();
+        }
 	}
 
 ?>

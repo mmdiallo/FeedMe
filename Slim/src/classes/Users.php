@@ -40,9 +40,5 @@
 			else 
 				echo "Updated {$sql->affected_rows} rows";
 	    }
-	 
-
-	 
 	}
-
 ?>
