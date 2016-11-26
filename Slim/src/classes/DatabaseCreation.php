@@ -110,7 +110,7 @@
 
         private function createUsersTable() {
             $result = '';
-            $create_table = 'CREATE TABLE IF NOT EXISTS PersonalMenus (
+            $create_table = 'CREATE TABLE IF NOT EXISTS Users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                 account_id INTEGER UNIQUE NOT NULL,
                 email TEXT UNIQUE,
@@ -124,7 +124,7 @@
             }
 
             return $result;
-        }   
+        }
 
         private function createPersonalMenusTable() {
             $result = '';
@@ -248,13 +248,20 @@
 
         private function createMealTypesTable() {
             $result = '';
-            $create_table = 'CREATE TABLE IF NOT EXISTS Menus (
+            $create_table = 'CREATE TABLE IF NOT EXISTS MealTypes (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                restaurant_id INTEGER UNIQUE NOT NULL,
-                FOREIGN KEY(restaurant_id) REFERENCES Restaurants(id))';
-
+                type TEXT UNIQUE NOT NULL)';
+            
             if ($this->db->query($create_table)) {
                 $result = $result . 'Table creation sucessful!' . '<br>';
+                $create_type_breakfast = 'INSERT OR IGNORE INTO MealTypes(type) VALUES(\'breakfast\')';
+                $create_type_lunch = 'INSERT OR IGNORE INTO MealTypes(type) VALUES(\'lunch\')';
+                $create_type_dinner = 'INSERT OR IGNORE INTO MealTypes(type) VALUES(\'dinner\')';
+                $create_type_beverage = 'INSERT OR IGNORE INTO MealTypes(type) VALUES(\'beverage\')';
+                
+                if ($this->db->query($create_type_breakfast) && $this->db->query($create_type_lunch) && $this->db->query($create_type_dinner) && $this->db->query($create_type_beverage)) {
+                    $result = $result . 'Type creation successful!' . '<br>';
+                }
             }
 
             return $result;
@@ -284,48 +291,15 @@
 
         private function createPersonalMenuItemsTable() {
             $result = '';
-            $create_table = 'CREATE TABLE IF NOT EXISTS Hours (
+            $create_table = 'CREATE TABLE IF NOT EXISTS PersonalMenuItems (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                restaurant_id INTEGER UNIQUE NOT NULL,
-                monday_open TEXT,
-                monday_close TEXT,
-                tuesday_open TEXT,
-                tuesday_close TEXT,
-                wednesday_open TEXT,
-                wednesday_close TEXT,
-                thursday_open TEXT,
-                thursday_close TEXT,
-                friday_open TEXT,
-                friday_close TEXT,
-                saturday_open TEXT,
-                saturday_close TEXT,
-                sunday_open TEXT,
-                sunday_close TEXT,
-                FOREIGN KEY(restaurant_id) REFERENCES Restaurants(id))';
+                personal_menu_id INTEGER NOT NULL,
+                menu_item_id INTEGER NOT NULL,
+                FOREIGN KEY(personal_menu_id) REFERENCES PersonalMenus(id),
+                FOREIGN KEY(menu_item_id) REFERENCES MenuItems(id))';
 
             if ($this->db->query($create_table)) {
                 $result = $result . 'Table creation sucessful!' . '<br>';
-            }
-
-            return $result;
-        }
-
-        private function createMealTypesTable() {
-            $result = '';
-            $create_table = 'CREATE TABLE IF NOT EXISTS MealTypes (
-                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                type TEXT UNIQUE NOT NULL)';
-            
-            if ($this->db->query($create_table)) {
-                $result = $result . 'Table creation sucessful!' . '<br>';
-                $create_type_breakfast = 'INSERT OR IGNORE INTO MealTypes(type) VALUES(\'breakfast\')';
-                $create_type_lunch = 'INSERT OR IGNORE INTO MealTypes(type) VALUES(\'lunch\')';
-                $create_type_dinner = 'INSERT OR IGNORE INTO MealTypes(type) VALUES(\'dinner\')';
-                $create_type_beverage = 'INSERT OR IGNORE INTO MealTypes(type) VALUES(\'beverage\')';
-                
-                if ($this->db->query($create_type_breakfast) && $this->db->query($create_type_lunch) && $this->db->query($create_type_dinner) && $this->db->query($create_type_beverage)) {
-                    $result = $result . 'Type creation successful!' . '<br>';
-                }
             }
 
             return $result;

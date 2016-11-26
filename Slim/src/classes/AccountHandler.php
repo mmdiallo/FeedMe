@@ -167,6 +167,11 @@
             $valid_username_pattern = '/^[a-zA-Z][\w]*$/';
 
             if (preg_match($valid_username_pattern, $username)) {
+                $statement = 'SELECT * FROM Accounts WHERE username=:username';
+                $prepared_statement = $this->db->prepare($statement);
+                $prepared_statement->bindValue(':username', $username, SQLITE3_TEXT);
+                
+                if ($query_result = $prepared_statement->execute()) {
                     $result_count = $this->getNumberOfResults($query_result);
 
                     if ($result_count == 0) {

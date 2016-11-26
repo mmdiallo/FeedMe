@@ -10,8 +10,8 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 require '../vendor/autoload.php';
-foreach (glob('../classes/*.php') as $filename)
-{
+
+foreach (glob('../classes/*.php') as $filename) {
     require_once $filename;
 }
 
@@ -251,8 +251,6 @@ $app->post('/users/{uid}/edit', function(Request $request, Response $response, $
     $response = $user->edit($email, $f_name, $l_name, $pic_path);
     return $response;
 });
-
-
 
 $app->get('/users', function(Request $request, Response $response, $args) {
     $response->getBody()->write('<h1>Please add a user ID</h1>');
