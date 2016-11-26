@@ -218,17 +218,13 @@ $app->get('/logout', function(Request $request, Response $response) {
     $authentication = new AuthenticationHandler($this->db);
     $auth = $authentication->checkAuthentication();
 
-    if ($auth) {
-        $authentication->endSession();
-        $current_auth = $authentication->checkAuthentication();
+    $authentication->endSession();
+    $current_auth = $authentication->checkAuthentication();
 
-        if (!$current_auth) {
-            $result['status'] = 'logout successful';
-        } else {
-            $result['error'] = 'logout failed';
-        }
+    if (!$current_auth) {
+        $result['status'] = 'logout successful';
     } else {
-        $result['error'] = 'user not logged in';
+        $result['error'] = 'logout failed';
     }
 
     $json = json_encode($result, JSON_NUMERIC_CHECK);
@@ -249,17 +245,75 @@ $app->get('/current_account', function (Request $request, Response $response) {
 
 // Users -----------------------------------------------------------------
 
-$app->post('/users/{uid}/edit', function(Request $request, Response $response, $args) {
-    $uid = $request->getAttribute('uid');
-    $data = $request->getParsedBody();
-    $email = $data['email'];
-    $f_name = $data['first_name'];
-    $l_name = $data['last_name'];
-    $pic_path = $data['image_path'];
-    $user = new Users($this->db, $uid);
-    $response = $user->edit($email, $f_name, $l_name, $pic_path);
+$app->post('/users/{user_id: [\d]+}/edit', function(Request $request, Response $response, $args) {
+    $result = array('error' => NULL);
+    $authentication = new AuthenticationHandler($this->db);
+    $user_id = $request->getAttribute('user_id');
+    $auth = $authentication->checkAuthentication();
+
+    if ($auth) {
+        $session_info = $authentication->getCurrentSession();
+        if ($session_info['user_id'] == $user_id) {
+            $data = $request->getParsedBody();
+
+            if ($_FILES['profile_image_path']['name'] == '') {
+                $result['file_upload'] = NULL;
+                $user_handler = new UserHandler($this->db);
+                $this->db->exec('BEGIN TRANSACTION');
+                $email_success = $user_handler->updateEmail($user_id, $data['email']);
+                $first_name_success = $user_handler->updateFirstName($user_id, $data['first_name']);
+                $last_name_success = $user_handler->updateLastName($user_id, $data['last_name']);
+
+                if ($email_success && $first_name_success && $last_name_success) {
+                    $this->db->exec('COMMIT');
+                    $result['status'] = 'update successful';
+                } else {
+                    $this->db->exec('ROLLBACK');
+                    $result['error'] = 'update failed';
+                }
+            } else {
+                //Source: http://www.w3schools.com/php/php_file_upload.asp
+                $file_to_upload = $_FILES['profile_image_path']['name'];
+                $image_file_type = pathinfo($file_to_upload, PATHINFO_EXTENSION);
+                $target_file = '../images/users/' . $user_id . '_' . date('Ymdhis') . '.' . $image_file_type;
+                $image_check = getimagesize($_FILES['profile_image_path']['tmp_name']);
+
+                if ($image_check) {
+                    if (move_uploaded_file($_FILES['profile_image_path']['tmp_name'], $target_file)) {
+                        $result['file_upload'] = 'success';
+
+                        $user_handler = new UserHandler($this->db);
+                        $this->db->exec('BEGIN TRANSACTION');
+                        $email_success = $user_handler->updateEmail($user_id, $data['email']);
+                        $first_name_success = $user_handler->updateFirstName($user_id, $data['first_name']);
+                        $last_name_success = $user_handler->updateLastName($user_id, $data['last_name']);
+                        $image_path_success = $user_handler->updateProfileImagePath($user_id, $target_file);
+
+                        if ($email_success && $first_name_success && $last_name_success && $image_path_success) {
+                            $this->db->exec('COMMIT');
+                            $result['status'] = 'update successful';
+                        } else {
+                            $this->db->exec('ROLLBACK');
+                            $result['error'] = 'update failed';
+                        }
+                    } else {
+                        $result['error'] = 'file upload failed';
+                    }
+                } else {
+                    $result['error'] = 'file upload failed';
+                }
+            }
+        } else {
+            $result['error'] = 'not authorized to edit user';
+        }
+    } else {
+        $result['error'] = 'user not logged in';
+    }
+
+    $json = json_encode($result, JSON_NUMERIC_CHECK);
+    $response->getBody()->write($json);
     return $response;
-});
+})->add($access_mw);
 
 $app->get('/users/{uid}/email', function(Request $request, Response $response, $args) {
     $uid = $request->getAttribute('uid');
@@ -298,14 +352,14 @@ $app->get('/personalMenus/{pmenu_id}/all_pmenu_items_id', function(Request $requ
     return $response;
 })->add($access_mw);
 
-$app->post('/personalMenus/{pmenu_id}/add', function(Request $request, Response $response, $args) {
-    $pmenu_id = $request->getAttribute('pmenu_id');
-    $data = $request->getParsedBody();
-    $menu_item_id = $data['menu_item_id'];
-    $pmenu = new PersonalMenus($this->db, $pmenu_id);
-    $response = $pmenu->addItem($menu_item_id);
-    return $response;
-})->add($access_mw);
+// $app->post('/personalMenus/{pmenu_id}/add', function(Request $request, Response $response, $args) {
+//     $pmenu_id = $request->getAttribute('pmenu_id');
+//     $data = $request->getParsedBody();
+//     $menu_item_id = $data['menu_item_id'];
+//     $pmenu = new PersonalMenus($this->db, $pmenu_id);
+//     $response = $pmenu->addItem($menu_item_id);
+//     return $response;
+// })->add($access_mw);
 
 // Personal Menu Items ---------------------------------------------------
 
@@ -316,12 +370,12 @@ $app->get('/personalMenuItems/{personal_menu_items_id}/menu_items_id', function(
     return $response;
 })->add($access_mw);
 
-$app->get('/personalMenuItems/{personal_menu_items_id}/user_id', function(Request $request, Response $response, $args) {
-    $item_id = $request->getAttribute('personal_menu_items_id');
-    $item = new PersonalMenuItems($this->db, $item_id);
-    $response = $item->select("user_id");
-    return $response;
-})->add($access_mw);
+// $app->get('/personalMenuItems/{personal_menu_items_id}/user_id', function(Request $request, Response $response, $args) {
+//     $item_id = $request->getAttribute('personal_menu_items_id');
+//     $item = new PersonalMenuItems($this->db, $item_id);
+//     $response = $item->select("user_id");
+//     return $response;
+// })->add($access_mw);
 
 // Restaurants -----------------------------------------------------------
 
@@ -616,7 +670,7 @@ $app->get('/images/users/{image_path}', function(Request $request, Response $res
 // Editing ---------------------------------------------------------------
 
 // Edit User
-$app->get('/users/{user_id}/edit', function (Request $request, Response $response, $args) {
+$app->get('/users/{user_id: [\d]+}/edit', function (Request $request, Response $response, $args) {
     $authentication = new AuthenticationHandler($this->db);
     $user_id = $request->getAttribute('user_id');
     $auth = $authentication->checkAuthentication();
@@ -625,13 +679,15 @@ $app->get('/users/{user_id}/edit', function (Request $request, Response $respons
         $session_info = $authentication->getCurrentSession();
         if ($session_info['user_id'] == $user_id) {
             $form = new Form;
-            $form_string = $form->editUser($user);
+            $form_string = $form->editUser($user_id, $this->db);
+            $response->getBody()->write($form_string);
         } else {
             $response->getBody()->write('not authorized to edit user');
         }
     } else {
         $response->getBody()->write('not authorized to edit user');
     }
+    return $response;
 });
 
 // Edit Restaurant

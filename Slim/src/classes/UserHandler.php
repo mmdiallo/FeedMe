@@ -71,9 +71,71 @@
             if ($query_result = $prepared_statement->execute()) {
                 $row = $query_result->fetchArray();
                 $image_path = $row['profile_image_path'];
+
+                if (!file_exists($image_path)) {
+                    $this->updateProfileImagePath($id, '../images/users/default-user-image.jpg');
+                    $image_path = '../images/users/default-user-image.jpg';
+                }
             }
 
             return $image_path;
         }
+
+        public function updateEmail($user_id, $email) {
+            $success = false;
+            $statement = 'UPDATE Users SET email=:email WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':email', $email, SQLITE3_TEXT);
+            $prepared_statement->bindValue(':id', $user_id, SQLITE3_INTEGER);
+
+            if ($prepared_statement->execute()) {
+                $success = true;
+            }
+
+            return $success;
+        }
+
+        public function updateFirstName($user_id, $first_name) {
+            $success = false;
+            $statement = 'UPDATE Users SET first_name=:first_name WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':first_name', $first_name, SQLITE3_TEXT);
+            $prepared_statement->bindValue(':id', $user_id, SQLITE3_INTEGER);
+
+            if ($prepared_statement->execute()) {
+                $success = true;
+            }
+
+            return $success;
+        }
+
+        public function updateLastName($user_id, $last_name) {
+            $success = false;
+            $statement = 'UPDATE Users SET last_name=:last_name WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':last_name', $last_name, SQLITE3_TEXT);
+            $prepared_statement->bindValue(':id', $user_id, SQLITE3_INTEGER);
+
+            if ($prepared_statement->execute()) {
+                $success = true;
+            }
+
+            return $success;
+        }
+
+        public function updateProfileImagePath($user_id, $profile_image_path) {
+            $success = false;
+            $statement = 'UPDATE Users SET profile_image_path=:profile_image_path WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':profile_image_path', $profile_image_path, SQLITE3_TEXT);
+            $prepared_statement->bindValue(':id', $user_id, SQLITE3_INTEGER);
+
+            if ($prepared_statement->execute()) {
+                $success = true;
+            }
+
+            return $success;
+        }
+
     }
 ?>
