@@ -298,7 +298,7 @@ $app->get('/personalMenus/{pmenu_id}/all_pmenu_items_id', function(Request $requ
     return $response;
 })->add($access_mw);
 
-$app->post('/personalMenus/{pmenu_id}/edit', function(Request $request, Response $response, $args) {
+$app->post('/personalMenus/{pmenu_id}/add', function(Request $request, Response $response, $args) {
     $pmenu_id = $request->getAttribute('pmenu_id');
     $data = $request->getParsedBody();
     $menu_item_id = $data['menu_item_id'];
@@ -446,7 +446,6 @@ $app->get('/menuItems/{menu_items_id}/menu_id', function(Request $request, Respo
     $item = new MenuItems($this->db, $item_id);
     $response = $item->select("menu_id");
     return $response;
-
 })->add($access_mw);
 
 $app->get('/menuItems/{menu_items_id}/cuisine_type_id', function(Request $request, Response $response, $args) {
@@ -454,7 +453,6 @@ $app->get('/menuItems/{menu_items_id}/cuisine_type_id', function(Request $reques
     $item = new MenuItems($this->db, $item_id);
     $response = $item->select("cuisine_type_id");
     return $response;
-
 })->add($access_mw);
 
 $app->get('/menuItems/{menu_items_id}/meal_type_id', function(Request $request, Response $response, $args) {
@@ -462,7 +460,6 @@ $app->get('/menuItems/{menu_items_id}/meal_type_id', function(Request $request, 
     $item = new MenuItems($this->db, $item_id);
     $response = $item->select("meal_type_id");
     return $response;
-
 })->add($access_mw);
 
 $app->get('/menuItems/{menu_items_id}/image_path', function(Request $request, Response $response, $args) {
@@ -528,6 +525,53 @@ $app->get('/priceratings/{pr_id}/low', function(Request $request, Response $resp
 })->add($access_mw);
 
 // Hours -----------------------------------------------------------------
+
+// FORMS ==========================================================================================
+$app->get('/', function(Request $request, Response $response) {
+    return $response;
+});
+
+$app->get('/login', function(Request $request, Response $response) {
+    $form = new Form;
+    $form_string = $form->loginForm('/login');
+    $response->getBody()->write($form_string);
+    return $response;
+});
+
+// Create User Account Page
+$app->get('/create_user_account', function(Request $request, Response $response) {
+    $form = new Form;
+    $form_string = $form->loginForm('/create_user_account');
+    $response->getBody()->write($form_string);
+    return $response;
+});
+
+// Create Restaurant Account Page
+$app->get('/create_restaurant_account', function(Request $request, Response $response) {
+    $form = new Form;
+    $form_string = $form->loginForm('/create_restaurant_account');
+    $response->getBody()->write($form_string);
+    return $response;
+});
+
+
+$app->get('/users/{user_id}/edit', function (Request $request, Response $response, $args) {
+    $authentication = new AuthenticationHandler($this->db);
+    $user_id = $request->getAttribute('user_id');
+    $auth = $authentication->checkAuthentication();
+
+    if ($auth) {
+        $session_info = $authentication->getCurrentSession();
+        if ($session_info['user_id'] == $user_id) {
+            $form = new Form;
+            $form_string = $form->editUser($user);
+        } else {
+            $response->getBody()->write('not authorized to edit user');
+        }
+    } else {
+        $response->getBody()->write('not authorized to edit user');
+    }
+});
 
 // RUN THE APPLICATION
 $app->run();
