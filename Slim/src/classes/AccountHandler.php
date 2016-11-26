@@ -12,6 +12,20 @@
 
         // ACCOUNT INFORMATION
 
+        public function getUsername($id) {
+            $username = '';
+            $statement = 'SELECT username from Accounts WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+            if ($query_result = $prepared_statement->execute()) {
+                $row = $query_result->fetchArray();
+                $username = $row['username'];
+            }
+
+            return $username;
+        }
+
         private function getAccountId($username) {
             $id = -1;
             $statement = 'SELECT id FROM Accounts WHERE username=:username';
@@ -26,7 +40,7 @@
             return $id;
         } 
 
-        private function getAccountTypeId($account_id) {
+        public function getAccountTypeId($account_id) {
             $account_type_id = -1;
 
             $statement = 'SELECT account_type_id FROM Accounts WHERE id=:id';

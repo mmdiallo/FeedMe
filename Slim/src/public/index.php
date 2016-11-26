@@ -588,6 +588,31 @@ $app->get('/create_restaurant_account', function(Request $request, Response $res
     return $response;
 });
 
+// Profile --------------------------------------------------------------
+
+$app->get('/profile', function(Request $request, Response $response) {
+    $authentication = new AuthenticationHandler($this->db);
+    $auth = $authentication->checkAuthentication();
+    if ($auth) {
+        $session_info = $authentication->getCurrentSession();
+        $profile = new Profile($this->db);
+        $profile_string = $profile->createProfile($session_info['account_id']);
+        $response->getBody()->write($profile_string);
+    } else {
+        $response->getBody()->write('user not logged in');
+    }
+    return $response;
+});
+
+$app->get('/images/users/{image_path}', function(Request $request, Response $response, $args) {
+    $image_path = $request->getAttribute('image_path');
+    $image = file_get_contents('../images/users/' . $image_path);
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $response = $response->withHeader('Content-Type', $finfo->buffer($image));
+    $response->getBody()->write($image);
+    return $response;
+});
+
 // Editing ---------------------------------------------------------------
 
 // Edit User

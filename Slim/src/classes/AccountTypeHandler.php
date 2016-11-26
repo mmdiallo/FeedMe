@@ -36,6 +36,10 @@
                 $type = $type . $row['type'];
             }
 
+            if ($type == '') {
+                $type = NULL;
+            }
+
             return $type;
         }
     }
