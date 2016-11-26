@@ -15,8 +15,27 @@
             if (empty($_SESSION['auth']) || $_SESSION['auth'] == false) {
                 $auth = false;
             } else if ($_SESSION['auth'] == true) {
-                $auth = true;
+                $valid_account_id = $this->verifyAccountId($_SESSION['account_id']);
+
+                if ($valid_account_id) {
+                    $valid_account_type = $this->verifyAccountType($_SESSION['account_id'], $_SESSION['account_type']);
+
+                    if ($valid_account_type) {
+                        $valid_account = false;
+
+                        if ($_SESSION['account_type'] == 'user') {
+                            $valid_account = $this->verifyUserId($_SESSION['user']['user_id']);
+                        } else if ($_SESSION['account_type'] == 'restaurant') {
+                            $valid_account = $this->verifyRestaurantId($_SESSION['restaurant']['restaurant_id']);
+                        }
+
+                        if ($valid_account) {
+                            $auth = true;
+                        } 
+                    } 
+                }   
             }
+
             return $auth;
         }
 
@@ -63,6 +82,20 @@
             unset($_SESSION);
             session_set_cookie_params(0, '/', '', true, true);
             session_start();
+        }
+
+        public function getCurrentSession() {
+            $session_info = array();
+            $session_info['account_id'] = $_SESSION['account_id'];
+            $session_info['account_type'] = $_SESSION['account_type'];
+
+            if ($_SESSION['account_type'] == 'user') {
+                $session_info['user_id'] = $_SESSION['user']['user_id'];
+            } else if ($_SESSION['account_type'] == 'restaurant') {
+                $session_info['restaurant_id'] = $_SESSION['restaurant']['restaurant_id'];
+            }
+
+            return $session_info;
         }
 
         private function verifyAccountId($account_id) {

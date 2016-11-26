@@ -215,10 +215,10 @@ $app->post('/login', function(Request $request, Response $response) {
 
 $app->get('/logout', function(Request $request, Response $response) {
     $result = array('error' => null);
-    $auth = $request->getAttribute('auth');
+    $authentication = new AuthenticationHandler($this->db);
+    $auth = $authentication->checkAuthentication();
 
     if ($auth) {
-        $authentication = new AuthenticationHandler($this->db);
         $authentication->endSession();
         $current_auth = $authentication->checkAuthentication();
 
@@ -232,11 +232,20 @@ $app->get('/logout', function(Request $request, Response $response) {
     }
 
     $json = json_encode($result, JSON_NUMERIC_CHECK);
-    $response->write($json);
+    $response->getBody()->write($json);
     return $response;
-})->add($session_mw);
+});
 
 // Accounts --------------------------------------------------------------
+
+$app->get('/current_account', function (Request $request, Response $response) {
+    $result = $request->getAttribute('result');
+    $authentication = new AuthenticationHandler($this->db);
+    $session_info = $authentication->getCurrentSession();
+    $session_info['error'] = $result['error'];
+    $json = json_encode($session_info, JSON_NUMERIC_CHECK);
+    $response->getBody()->write($json);
+})->add($access_mw);
 
 // Users -----------------------------------------------------------------
 
@@ -252,18 +261,12 @@ $app->post('/users/{uid}/edit', function(Request $request, Response $response, $
     return $response;
 });
 
-$app->get('/users', function(Request $request, Response $response, $args) {
-    $response->getBody()->write('<h1>Please add a user ID</h1>');
-    return $response;
-});
-
 $app->get('/users/{uid}/email', function(Request $request, Response $response, $args) {
     $uid = $request->getAttribute('uid');
     $user = new Users($this->db, $uid);
     $response = $user->select("email");
     return $response;
 });
-
 
 $app->get('/users/{uid}/first_name', function(Request $request, Response $response, $args) {
     $uid = $request->getAttribute('uid');
@@ -591,6 +594,12 @@ $app->get('/create_restaurant_account', function(Request $request, Response $res
     $response->getBody()->write($form_string);
     return $response;
 });
+
+// Profile ---------------------------------------------------------------
+
+$app->get('/profile', function(Request $request, Response $response) {
+
+})->add($access_mw);
 
 // Database Creation -----------------------------------------------------
 
