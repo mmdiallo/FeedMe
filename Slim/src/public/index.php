@@ -526,11 +526,45 @@ $app->get('/priceratings/{pr_id}/low', function(Request $request, Response $resp
 
 // Hours -----------------------------------------------------------------
 
-// FORMS ==========================================================================================
-$app->get('/', function(Request $request, Response $response) {
-    return $response;
-});
+// TESTING ROUTES =================================================================================
 
+// Home ------------------------------------------------------------------
+$app->get('/', function(Request $request, Response $response) {
+    $response->getBody()->write('<h1>Home</h1>');
+    $auth = $request->getAttribute('auth');
+    $session = $request->getAttribute('session');
+    $begin_div = '<div style="margin: 8;">';
+    $end_div = '</div>';
+    $response->getBody()->write($begin_div);
+    if (!$auth) {
+        $login_link = '<a style="padding: 8;" href="/login"> Login </a>';
+        $create_user_account_link = '<a style="padding: 8;" href="/create_user_account"> Create User Account </a>';
+        $create_restaurant_account_link = '<a style="padding: 8;" href="/create_restaurant_account"> Create Restaurant Account </a>';
+        $response->getBody()->write($login_link);
+        $response->getBody()->write($create_user_account_link);
+        $response->getBody()->write($create_restaurant_account_link);
+    } else {
+        $account_id = $session['account_id'];
+        $statement = 'SELECT username FROM Accounts WHERE id=:id';
+        $prepared_statement = $this->db->prepare($statement);
+        $prepared_statement->bindValue(':id', $account_id, SQLITE3_INTEGER);
+        if ($query_result = $prepared_statement->execute()) {
+            $row = $query_result->fetchArray();
+            $username = $row['username'];
+            $response->getBody()->write('<p> Hello, ' . $username . '</p>');
+            $logout_link = '<a style="padding: 8;" href="/logout"> Logout </a>';
+            $response->getBody()->write($begin_div);
+            $response->getBody()->write($logout_link);
+            $response->getBody()->write($end_div);
+        }
+    }
+    $response->getBody()->write($end_div);
+    return $response;
+})->add($session_mw);
+
+// Account Creation ------------------------------------------------------
+
+// Login
 $app->get('/login', function(Request $request, Response $response) {
     $form = new Form;
     $form_string = $form->loginForm('/login');
@@ -554,7 +588,9 @@ $app->get('/create_restaurant_account', function(Request $request, Response $res
     return $response;
 });
 
+// Editing ---------------------------------------------------------------
 
+// Edit User
 $app->get('/users/{user_id}/edit', function (Request $request, Response $response, $args) {
     $authentication = new AuthenticationHandler($this->db);
     $user_id = $request->getAttribute('user_id');
@@ -571,6 +607,28 @@ $app->get('/users/{user_id}/edit', function (Request $request, Response $respons
     } else {
         $response->getBody()->write('not authorized to edit user');
     }
+});
+
+// Edit Restaurant
+
+// Database Creation -----------------------------------------------------
+
+$app->get('/database_setup', function (Request $request, Response $response) {
+    return $response->withStatus(301)->withHeader('Location', '/database_setup/0');
+});
+$app->get('/database_setup/{num: [\d]+}', function(Request $request, Response $response, $args) {
+    $script_number = (int)$args['num'];
+    $database_creation = new DatabaseCreation($this->db);
+    $result = $database_creation->createTable($script_number);
+    $response->getBody()->write($result);
+    if ($result != 'invalid request') {
+        $next_script_number = $script_number + 1;
+        $next_page = '/database_setup/' . $next_script_number;
+        $next_page_link = '<br><a href="' . $next_page . '"> Next </a>';
+        $response->getBody()->write($next_page_link);
+    }
+    $response->getBody()->write('<br><br><a href="/"> Home </a>');
+    return $response;
 });
 
 // RUN THE APPLICATION
