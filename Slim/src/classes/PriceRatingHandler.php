@@ -6,6 +6,17 @@
             $this->db = $db;
         }
 
+        public function getAllPriceRatings() {
+            $ratings = array();
+            $statement = 'SELECT * FROM PriceRatings';
+            if ($query_result = $this->db->query($statement)) {
+                while ($row = $query_result->fetchArray()) {
+                    $ratings[$row['rating']] = array('lowest_price' => $row['lowest_price'], 'highest_price' => $row['highest_price']);
+                }
+            }
+            return $ratings;
+        }
+
         public function getRating($id) {
             $rating = -1;
             $statement = 'SELECT rating FROM PriceRatings WHERE id=:id';

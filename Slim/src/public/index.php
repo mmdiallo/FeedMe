@@ -717,6 +717,26 @@ $app->get('/users/{user_id: [\d]+}/edit', function (Request $request, Response $
 
 // Edit Restaurant
 
+$app->get('/restaurants/{restaurant_id: [\d]+}/edit', function(Request $request, Response $response) {
+    $authentication = new AuthenticationHandler($this->db);
+    $restaurant_id = $request->getAttribute('restaurant_id');
+    $auth = $authentication->checkAuthentication();
+
+    if ($auth) {
+        $session_info = $authentication->getCurrentSession();
+        if ($session_info['restaurant_id'] == $restaurant_id) {
+            $form = new Form;
+            $form_string = $form->editRestaurant($restaurant_id, $this->db);
+            $response->getBody()->write($form_string);
+        } else {
+            $response->getBody()->write('not authorized to edit user');
+        }
+    } else {
+        $response->getBody()->write('not authorized to edit user');
+    }
+    return $response;
+});
+
 // Database Creation -----------------------------------------------------
 
 $app->get('/database_setup', function (Request $request, Response $response) {
