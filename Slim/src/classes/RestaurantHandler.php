@@ -207,12 +207,12 @@
             return $image_path;
         }
 
-        public function updateProfileImagePath($restaurant_id, $profile_image_path) {
+        public function updateProfileImagePath($id, $profile_image_path) {
             $success = false;
             $statement = 'UPDATE Restaurants SET profile_image_path=:profile_image_path WHERE id=:id';
             $prepared_statement = $this->db->prepare($statement);
             $prepared_statement->bindValue(':profile_image_path', $profile_image_path, SQLITE3_TEXT);
-            $prepared_statement->bindValue(':id', $restaurant_id, SQLITE3_INTEGER);
+            $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
 
             if ($prepared_statement->execute()) {
                 $success = true;
@@ -221,5 +221,100 @@
             return $success;
         }
 
+        public function updateEmail($id, $email) {
+            $success = false;
+            $statement = 'UPDATE Restaurants SET email=:email WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':email', $email, SQLITE3_TEXT);
+            $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+            if ($prepared_statement->execute()) {
+                $success = true;
+            }
+
+            return $success;
+        }
+
+        public function updateName($id, $name) {
+            $success = false;
+            $name_match = '/^([A-Za-z]+ *)+$/';
+
+            if (preg_match($name_match, $name)) {
+                $statement  = 'UPDATE Restaurants SET name=:name WHERE id=:id';
+                $prepared_statement = $this->db->prepare($statement);
+                $prepared_statement->bindValue(':name', $name, SQLITE3_TEXT);
+                $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+                if ($prepared_statement->execute()) {
+                    $success = true;
+                }
+            } 
+
+            return $success;
+        }
+
+        public function updateStreetAddress($id, $street_address) {
+            $success = false;
+            $statement = 'UPDATE Restaurants SET street_address=:street_address WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':street_address', $street_address, SQLITE3_TEXT);
+            $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+            if ($prepared_statement->execute()) {
+                $success = true;
+            }
+
+            return $success;
+        }
+
+        public function updateCity($id, $city) {
+            $success = false;
+            $city_match = '/^([A-Za-z]+ *)+$/';
+
+            if (preg_match($city_match, $city)) {
+                $statement  = 'UPDATE Restaurants SET city=:city WHERE id=:id';
+                $prepared_statement = $this->db->prepare($statement);
+                $prepared_statement->bindValue(':city', $city, SQLITE3_TEXT);
+                $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+                if ($prepared_statement->execute()) {
+                    $success = true;
+                }
+            } 
+
+            return $success;
+        }
+
+        public function updateState($id, $state) {
+            $success = false;
+            $state_match = '/^([A-Za-z]+ *)+$/';
+
+            if (preg_match($state_match, $state)) {
+                $statement  = 'UPDATE Restaurants SET state=:state WHERE id=:id';
+                $prepared_statement = $this->db->prepare($statement);
+                $prepared_statement->bindValue(':state', $state, SQLITE3_TEXT);
+                $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+                if ($prepared_statement->execute()) {
+                    $success = true;
+                }
+            } 
+
+            return $success;
+        }
+
+        public function updatePhoneNumber($id, $phone_number) {
+            $success = false;
+            $statement = 'UPDATE Restaurants SET phone_number=:phone_number WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':phone_number', $phone_number, SQLITE3_TEXT);
+            $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+            if ($prepared_statement->execute()) {
+                $success = true;
+            }
+
+            return $success;
+        }
     }
 ?>

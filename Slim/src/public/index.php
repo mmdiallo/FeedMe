@@ -261,8 +261,8 @@ $app->post('/users/{user_id: [\d]+}/edit', function(Request $request, Response $
                 $user_handler = new UserHandler($this->db);
                 $this->db->exec('BEGIN TRANSACTION');
                 $email_success = $user_handler->updateEmail($user_id, $data['email']);
-                $first_name_success = $user_handler->updateFirstName($user_id, $data['first_name']);
-                $last_name_success = $user_handler->updateLastName($user_id, $data['last_name']);
+                $first_name_success = $user_handler->updateFirstName($user_id, $data['first_name'])  && preg_match('/^[A-Za-z]+$/', $data['first_name']);
+                $last_name_success = $user_handler->updateLastName($user_id, $data['last_name']) && preg_match('/^[A-Za-z]+$/', $data['last_name']);
 
                 if ($email_success && $first_name_success && $last_name_success) {
                     $this->db->exec('COMMIT');
@@ -285,8 +285,8 @@ $app->post('/users/{user_id: [\d]+}/edit', function(Request $request, Response $
                         $user_handler = new UserHandler($this->db);
                         $this->db->exec('BEGIN TRANSACTION');
                         $email_success = $user_handler->updateEmail($user_id, $data['email']);
-                        $first_name_success = $user_handler->updateFirstName($user_id, $data['first_name']);
-                        $last_name_success = $user_handler->updateLastName($user_id, $data['last_name']);
+                        $first_name_success = $user_handler->updateFirstName($user_id, $data['first_name'])  && preg_match('/^[A-Za-z]+$/', $data['first_name']);
+                        $last_name_success = $user_handler->updateLastName($user_id, $data['last_name']) && preg_match('/^[A-Za-z]+$/', $data['last_name']);
                         $image_path_success = $user_handler->updateProfileImagePath($user_id, $target_file);
 
                         if ($email_success && $first_name_success && $last_name_success && $image_path_success) {
@@ -382,30 +382,33 @@ $app->get('/personalMenuItems/{personal_menu_items_id}/menu_items_id', function(
 $app->post('/restaurants/{restaurant_id: [\d]+}/edit', function(Request $request, Response $response) {
     $result = array('error' => NULL);
     $authentication = new AuthenticationHandler($this->db);
-    $user_id = $request->getAttribute('restaurant_id');
+    $restaurant_id = $request->getAttribute('restaurant_id');
     $auth = $authentication->checkAuthentication();
 
     if ($auth) {
         $session_info = $authentication->getCurrentSession();
-        if ($session_info['restaurant_id'] == $user_id) {
+        if ($session_info['restaurant_id'] == $restaurant_id) {
             $data = $request->getParsedBody();
 
             if ($_FILES['profile_image_path']['name'] == '') {
                 $result['file_upload'] = NULL;
                 var_dump($data);
-                // $user_handler = new UserHandler($this->db);
-                // $this->db->exec('BEGIN TRANSACTION');
-                // $email_success = $user_handler->updateEmail($user_id, $data['email']);
-                // $first_name_success = $user_handler->updateFirstName($user_id, $data['first_name']);
-                // $last_name_success = $user_handler->updateLastName($user_id, $data['last_name']);
+                $restaurant_handler = new RestaurantHandler($this->db);
+                $this->db->exec('BEGIN TRANSACTION');
+                $email_success = $restaurant_handler->updateEmail($restaurant_id, $data['email']);
+                $name_success = $restaurant_handler->updateName($restaurant_id, $data['name']);
+                $street_address_success = $restaurant_handler->updateStreetAddress($restaurant_id, $data['street_address']);
+                $city_success = $restaurant_handler->updateCity($restaurant_id, $data['city']);
+                $state_success = $restaurant_handler->updateState($restaurant_id, $data['state']);
+                $phone_number_success = $restaurant_handler->updatePhoneNumber($restaurant_id, $data['phone_number']);
 
-                // if ($email_success && $first_name_success && $last_name_success) {
-                //     $this->db->exec('COMMIT');
-                //     $result['status'] = 'update successful';
-                // } else {
-                //     $this->db->exec('ROLLBACK');
-                //     $result['error'] = 'update failed';
-                // }
+                if ($email_success && $name_success && $street_address_success && $city_success && $state_success && $phone_number_success) {
+                    $this->db->exec('COMMIT');
+                    $result['status'] = 'update successful';
+                } else {
+                    $this->db->exec('ROLLBACK');
+                    $result['error'] = 'update failed';
+                }
 
             } else {
                 var_dump($data);
