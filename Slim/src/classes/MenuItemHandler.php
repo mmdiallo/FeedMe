@@ -85,6 +85,11 @@
             if ($query_result = $prepared_statement->execute()) {
                 $row = $query_result->fetchArray();
                 $image_path = $row['image_path'];
+
+                if (!file_exists($image_path)) {
+                    $this->updateImagePath($id, '../images/menu_items/default-menu-item-image.jpg');
+                    $image_path = '../images/menu_items/default-menu-item-image.jpg';
+                }
             }
 
             if ($image_path == '') {
@@ -92,6 +97,20 @@
             }
 
             return $image_path;
+        }
+
+        private function updateImagePath($id, $image_path) {
+            $success = false;
+            $statement = 'UPDATE MenuItems SET image_path=:image_path WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':image_path', $image_path, SQLITE3_TEXT);
+            $prepared_statement->bindValue(':id', $user_id, SQLITE3_INTEGER);
+
+            if ($prepared_statement->execute()) {
+                $success = true;
+            }
+
+            return $success;
         }
 
         public function getCuisineTypeId($id) {

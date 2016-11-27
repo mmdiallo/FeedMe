@@ -357,7 +357,31 @@ $app->get('/personalMenus/{pmenu_id: [\d]+}/add', function(Request $request, Res
     $data = $request->getQueryParams();
     
     if (isset($data['menu_item_id'])) {
-        
+        $authentication = new AuthenticationHandler($this->db);
+        $session_info = $authentication->getCurrentSession();
+        $personal_menu_id = $request->getAttribute('pmenu_id');
+
+        if (isset($session_info['user_id'])) {
+            $personal_menu_handler = new PersonalMenuHandler($this->db);
+            $auth_personal_menu_id = $personal_menu_handler->getId($session_info['user_id']);
+
+            if ($auth_personal_menu_id == $personal_menu_id) {
+                $personal_menu_item_handler = new PersonalMenuItemHandler($this->db);
+                $add_item_success = $personal_menu_item_handler->addItem($personal_menu_id, $data['menu_item_id']);
+                
+                if ($add_item_success) {
+                    $result['status'] = 'addition to personal menu successful';
+                } else {
+                    $result['error'] = 'addition to personal menu failed';
+                }
+
+            } else {
+                $result['error'] = 'not authorized to edit personal menu';
+            }
+
+        } else {
+            $result['error'] = 'not authorized to edit personal menu';
+        }
 
     } else {
         $result['error'] = 'expecting parameter menu_item_id';
