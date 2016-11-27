@@ -683,6 +683,15 @@ $app->get('/images/users/{image_path}', function(Request $request, Response $res
     return $response;
 });
 
+$app->get('/images/restaurants/{image_path}', function(Request $request, Response $response, $args) {
+    $image_path = $request->getAttribute('image_path');
+    $image = file_get_contents('../images/restaurants/' . $image_path);
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $response = $response->withHeader('Content-Type', $finfo->buffer($image));
+    $response->getBody()->write($image);
+    return $response;
+});
+
 // Editing ---------------------------------------------------------------
 
 // Edit User
