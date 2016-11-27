@@ -7,7 +7,7 @@
     require_once 'RestaurantHandler.php';
     require_once 'CuisineTypeHandler.php';
     require_once 'PriceRatingHandler.php';
-    
+
     class Profile {
         protected $db;
 
@@ -48,18 +48,18 @@
                             $personal_menu_id = $personal_menu_handler->getId($user_id);
 
                             $personal_menu_item_handler = new PersonalMenuItemHandler($this->db);
-
                             $personal_menu_item_ids = $personal_menu_item_handler->getAllIds($personal_menu_id);
+
+                            $profile = $profile . '<br><a href="/users/' . htmlentities($user_id) . '/edit"> Edit Profile </a>';
+
+                            echo '<br>';
                             echo '<br>';
                             var_dump($personal_menu_item_ids);
-                            echo '<br>';
-                            $profile = $profile . '<br><a href="/users/' . htmlentities($user_id) . '/edit"> Edit Profile </a>';
                         }
 
                     } else if ($account_type == 'restaurant') {
                         $restaurant_handler = new RestaurantHandler($this->db);
                         $restaurant_id = $restaurant_handler->getId($account_id);
-                        var_dump($restaurant_id);
 
                         if ($restaurant_id != -1) {
                             $email = $restaurant_handler->getEmail($restaurant_id);
@@ -68,6 +68,8 @@
                             $city = $restaurant_handler->getCity($restaurant_id);
                             $state = $restaurant_handler->getState($restaurant_id);
                             $phone_number = $restaurant_handler->getPhoneNumber($restaurant_id);
+                            $time_open = $restaurant_handler->getTimeOpen($restaurant_id);
+                            $time_close = $restaurant_handler->getTimeClose($restaurant_id);
                             $website_url = $restaurant_handler->getWebsiteUrl($restaurant_id);
                             $biography = $restaurant_handler->getBiography($restaurant_id);
                             $profile_image_path = $restaurant_handler->getProfileImagePath($restaurant_id);
@@ -99,9 +101,21 @@
                             $profile = $profile . '<p> City: ' . htmlentities($city) . '</p>';
                             $profile = $profile . '<p> State: ' . htmlentities($state) . '</p>';
                             $profile = $profile . '<p> Phone Number: ' . htmlentities($phone_number) . '</p>';
+                            $profile = $profile . '<p> Open At: ' . htmlentities($time_open) . '</p>';
+                            $profile = $profile . '<p> Close At: ' . htmlentities($time_close) . '</p>';
                             $profile = $profile . '<p> Website: ' . htmlentities($website_url) . '</p>';
                             $profile = $profile . '<p> Biography: ' . htmlentities($biography) . '</p>';
                             $profile = $profile . '<img height=100 width=100 src="' . htmlentities($profile_image_path) . '">';
+                            $profile = $profile . '<br><a href="/restaurants/' . htmlentities($restaurant_id) . '/edit"> Edit Profile </a>';
+                            $menu_handler = new MenuHandler($this->db);
+                            $menu_id = $menu_handler->getId($restaurant_id);
+
+                            $menu_item_handler = new MenuItemHandler($this->db);
+                            $menu_item_ids = $menu_item_handler->getAllIds($menu_id);
+
+                            echo '<br>';
+                            echo '<br>';
+                            var_dump($menu_item_ids);
                         }
                     }
                 }

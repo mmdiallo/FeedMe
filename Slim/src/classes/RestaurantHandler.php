@@ -104,6 +104,34 @@
             return $phone_number;
         }
 
+        public function getTimeOpen($id) {
+            $time_open = -1;
+            $statement = 'SELECT time_open FROM Restaurants where id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+            if ($query_result = $prepared_statement->execute()) {
+                $row = $query_result->fetchArray();
+                $time_open = $row['time_open'];
+            }
+
+            return $time_open;
+        }
+
+        public function getTimeClose($id) {
+            $time_close = -1;
+            $statement = 'SELECT time_close FROM Restaurants where id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+            if ($query_result = $prepared_statement->execute()) {
+                $row = $query_result->fetchArray();
+                $time_close = $row['time_close'];
+            }
+
+            return $time_close;
+        }
+
         public function getCuisineTypeId($id) {
             $cuisine_type_id = -1;
             $statement = 'SELECT cuisine_type_id FROM Restaurants where id=:id';

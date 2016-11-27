@@ -285,7 +285,7 @@
                 $restaurant_id = $restaurant_handler->getId($account_id);
 
                 if ($restaurant_id != -1) {
-                    $success = $this->createMenu($restaurant_id) && $this->createHours($restaurant_id);
+                    $success = $this->createMenu($restaurant_id);
                 }
             }
 
@@ -295,19 +295,6 @@
         private function createMenu($restaurant_id) {
             $success = false;
             $statement = 'INSERT OR IGNORE INTO Menus(restaurant_id) VALUES(:restaurant_id)';
-            $prepared_statement = $this->db->prepare($statement);
-            $prepared_statement->bindValue(':restaurant_id', $restaurant_id, SQLITE3_INTEGER);
-
-            if ($prepared_statement->execute()) {
-                $success = true;
-            }
-
-            return $success;
-        }
-
-        private function createHours($restaurant_id) {
-            $success = false;
-            $statement = 'INSERT OR IGNORE INTO Hours(restaurant_id) VALUES(:restaurant_id)';
             $prepared_statement = $this->db->prepare($statement);
             $prepared_statement->bindValue(':restaurant_id', $restaurant_id, SQLITE3_INTEGER);
 
