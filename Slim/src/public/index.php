@@ -826,6 +826,31 @@ $app->get('/restaurants/{restaurant_id: [\d]+}/edit', function(Request $request,
     return $response;
 });
 
+$app->get('/menus/{menu_id: [\d]+/add}', function(Request $request, Response $response) {
+    $authentication = new AuthenticationHandler($this->db);
+    $menu_id = $request->getAttribute('menu_id');
+    $auth = $authentication->checkAuthentication();
+
+    if ($auth) {
+        $session_info = $authentication->getCurrentSession();
+        $auth_restaurant_id = $session_info['restaurant_id'];
+        $menu_handler = new MenuHandler($this->db);
+        $auth_menu_id = $menu_handler->getId($auth_restaurant_id);
+
+        if ($auth_menu_id == $menu_id) {
+            $form = new Form;
+            $form_string = $form->addMenuItem($menu_id);
+            $response->getBody()->write($form_string);
+        } else {
+            $response->getBody()->write('not authorized to edit user');
+        }
+
+    } else {
+        $response->getBody()->write('not authorized to edit user');
+    }
+    return $response;
+});
+
 // Database Creation -----------------------------------------------------
 
 $app->get('/database_setup', function (Request $request, Response $response) {

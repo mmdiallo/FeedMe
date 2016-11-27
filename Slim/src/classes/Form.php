@@ -103,5 +103,10 @@
 
             return $form;
         }
+
+        public function addMenuItem($menu_id) {
+            $form = '';
+            return $form;
+        }
     }
 ?>

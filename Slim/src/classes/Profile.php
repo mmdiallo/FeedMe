@@ -21,7 +21,7 @@
             $username = $account_handler->getUsername($account_id);
             $account_type_id = $account_handler->getAccountTypeId($account_id);
 
-            if ($account_type_id != -1) {
+            if ($account_type_id != -1 && $account_type_id != NULL) {
                 $account_type_handler = new AccountTypeHandler($this->db);
                 $account_type = $account_type_handler->getType($account_type_id);
 
@@ -33,7 +33,7 @@
                         $user_handler = new UserHandler($this->db);
                         $user_id = $user_handler->getId($account_id);
 
-                        if ($user_id != -1) {
+                        if ($user_id != -1 && $user_id != NULL) {
                             $profile = $profile . $this->buildUserProfile($user_id);
                         }
 
@@ -41,7 +41,7 @@
                         $restaurant_handler = new RestaurantHandler($this->db);
                         $restaurant_id = $restaurant_handler->getId($account_id);
 
-                        if ($restaurant_id != -1) {
+                        if ($restaurant_id != -1 && $restaurant_id != NULL) {
                             $profile = $profile . $this->buildRestaurantProfile($restaurant_id);
                         }
                     }
@@ -104,7 +104,7 @@
             $price_rating_low = -1;
             $price_rating_high = -1;
 
-            if ($price_rating != -1) {
+            if ($price_rating != -1 && $price_rating != NULL) {
                 $price_rating_low = $price_rating_handler->getLowestPrice($price_rating_id);
                 $price_rating_high = $price_rating_handler->getHighestPrice($price_rating_id);
             } else {
@@ -128,15 +128,21 @@
             $profile = $profile . '<img height=100 width=100 src="' . htmlentities($profile_image_path) . '">';
             $profile = $profile . '<br><a href="/restaurants/' . htmlentities($restaurant_id) . '/edit"> Edit Profile </a>';
             $profile = $profile . '<br><a href="/logout"> Logout </a>';
+
             $menu_handler = new MenuHandler($this->db);
             $menu_id = $menu_handler->getId($restaurant_id);
 
-            $menu_item_handler = new MenuItemHandler($this->db);
-            $menu_item_ids = $menu_item_handler->getAllIds($menu_id);
+            if ($menu_id != -1 && $menu_id != NULL) {
 
-            echo '<br>';
-            echo '<br>';
-            var_dump($menu_item_ids);
+                $profile = $profile . '<br><br><a href="/menus/' . htmlentities($menu_id) . '/add"> Add Menu Item </a>';
+
+                $menu_item_handler = new MenuItemHandler($this->db);
+                $menu_item_ids = $menu_item_handler->getAllIds($menu_id);
+
+                echo '<br>';
+                echo '<br>';
+                var_dump($menu_item_ids);
+            }
 
             return $profile;
         }
