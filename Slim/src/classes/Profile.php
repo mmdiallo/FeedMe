@@ -70,6 +70,7 @@
             $profile = $profile . '<p> Last Name: ' . htmlentities($last_name) . '</p>';
             $profile = $profile . '<img height=100 width=100 src="' . htmlentities($profile_image_path) . '">';
             $profile = $profile . '<br><a href="/users/' . htmlentities($user_id) . '/edit"> Edit Profile </a>';
+            $profile = $profile . '<br><a href="/logout"> Logout </a>';
 
             echo '<br>';
             echo '<br>';
@@ -126,6 +127,7 @@
             $profile = $profile . '<p> Biography: ' . htmlentities($biography) . '</p>';
             $profile = $profile . '<img height=100 width=100 src="' . htmlentities($profile_image_path) . '">';
             $profile = $profile . '<br><a href="/restaurants/' . htmlentities($restaurant_id) . '/edit"> Edit Profile </a>';
+            $profile = $profile . '<br><a href="/logout"> Logout </a>';
             $menu_handler = new MenuHandler($this->db);
             $menu_id = $menu_handler->getId($restaurant_id);
 
