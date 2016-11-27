@@ -19,6 +19,20 @@
 
             return $meal_types;
         }
+
+        public function getId($type) {
+            $id = -1;
+            $statement = 'SELECT id FROM MealTypes WHERE type=:type';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':type', $type, SQLITE3_TEXT);
+
+            if ($query_result = $prepared_statement->execute()) {
+                $row = $query_result->fetchArray();
+                $id = $row['id'];
+            }
+
+            return $id;
+        }
     }
 
 ?>

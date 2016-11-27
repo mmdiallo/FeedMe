@@ -589,11 +589,51 @@ $app->post('/menus/{menu_id: [\d]+/add}', function(Request $request, Response $r
 
         if ($auth_menu_id == $menu_id) {
             $data = $request->getParsedBody();
-            var_dump($data);
+            if ($_FILES['image_path']['name'] == '') {
+                $result['file_upload'] = NULL;
+                $this->db->exec('BEGIN TRANSACTION');
+                $menu_item_handler = new MenuItemHandler($this->db);
+                $menu_item_add_success = $menu_item_handler->addMenuItem($menu_id, $data['name'], $data['cuisine_type'], $data['meal_type'], $data['price'], $data['description'], '../images/menu_items/default-menu-item-image.jpg');
+
+                if ($menu_item_add_success) {
+                    $this->db->exec('COMMIT');
+                    $result['status'] = 'update successful';
+                } else {
+                    $this->db->exec('ROLLBACK');
+                    $result['error'] = 'update failed';
+                }
+            } else {
+                //Source: http://www.w3schools.com/php/php_file_upload.asp
+                $file_to_upload = $_FILES['profile_image_path']['name'];
+                $image_file_type = pathinfo($file_to_upload, PATHINFO_EXTENSION);
+                $target_file = '../images/restaurants/' . $restaurant_id . '_' . date('Ymdhis') . '.' . $image_file_type;
+                $image_check = getimagesize($_FILES['profile_image_path']['tmp_name']);
+
+                if ($image_check) {
+                    if (move_uploaded_file($_FILES['profile_image_path']['tmp_name'], $target_file)) {
+                        $result['file_upload'] = 'success';
+                        $this->db->exec('BEGIN TRANSACTION');
+                        $menu_item_handler = new MenuItemHandler($this->db);
+                        $menu_item_add_success = $menu_item_handler->addMenuItem($menu_id, $data['name'], $data['cuisine_type'], $data['meal_type'], $data['price'], $data['description'], $target_file);
+
+                        if ($menu_item_add_success) {
+                            $this->db->exec('COMMIT');
+                            $result['status'] = 'update successful';
+                        } else {
+                            $this->db->exec('ROLLBACK');
+                            $result['error'] = 'update failed';
+                        }
+
+                    } else {
+                        $result['error'] = 'file upload failed';
+                    }
+                } else {
+                    $result['error'] = 'file upload failed';
+                }
+            }
         } else {
             $result['error'] = 'not authorized to edit user';
         }
-
     } else {
         $result['error'] = 'not authorized to edit user';
     }
