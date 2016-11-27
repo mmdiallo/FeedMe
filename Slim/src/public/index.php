@@ -392,7 +392,6 @@ $app->post('/restaurants/{restaurant_id: [\d]+}/edit', function(Request $request
 
             if ($_FILES['profile_image_path']['name'] == '') {
                 $result['file_upload'] = NULL;
-                var_dump($data);
                 $restaurant_handler = new RestaurantHandler($this->db);
                 $this->db->exec('BEGIN TRANSACTION');
                 $email_success = $restaurant_handler->updateEmail($restaurant_id, $data['email']);
@@ -401,8 +400,14 @@ $app->post('/restaurants/{restaurant_id: [\d]+}/edit', function(Request $request
                 $city_success = $restaurant_handler->updateCity($restaurant_id, $data['city']);
                 $state_success = $restaurant_handler->updateState($restaurant_id, $data['state']);
                 $phone_number_success = $restaurant_handler->updatePhoneNumber($restaurant_id, $data['phone_number']);
+                $website_url_success = $restaurant_handler->updateWebsiteUrl($restaurant_id, $data['website_url']);
+                $biography_success = $restaurant_handler->updateBiography($restaurant_id, $data['biography']);
+                $time_open_sucess = $restaurant_handler->updateTimeOpen($restaurant_id, $data['time_open']);
+                $time_close_success = $restaurant_handler->updateTimeClose($restaurant_id, $data['time_close']);
+                $price_rating_success = $restaurant_handler->updatePriceRating($restaurant_id, $data['price_rating']);
+                $cuisine_type_success = $restaurant_handler->updateCuisineType($restaurant_id, $data['cuisine_type']);
 
-                if ($email_success && $name_success && $street_address_success && $city_success && $state_success && $phone_number_success) {
+                if ($email_success && $name_success && $street_address_success && $city_success && $state_success && $phone_number_success && $website_url_success && $biography_success && $time_open_sucess && $time_close_success && $price_rating_success && $cuisine_type_success) {
                     $this->db->exec('COMMIT');
                     $result['status'] = 'update successful';
                 } else {
@@ -411,31 +416,39 @@ $app->post('/restaurants/{restaurant_id: [\d]+}/edit', function(Request $request
                 }
 
             } else {
-                var_dump($data);
                 //Source: http://www.w3schools.com/php/php_file_upload.asp
-                // $file_to_upload = $_FILES['profile_image_path']['name'];
-                // $image_file_type = pathinfo($file_to_upload, PATHINFO_EXTENSION);
-                // $target_file = '../images/users/' . $user_id . '_' . date('Ymdhis') . '.' . $image_file_type;
-                // $image_check = getimagesize($_FILES['profile_image_path']['tmp_name']);
+                $file_to_upload = $_FILES['profile_image_path']['name'];
+                $image_file_type = pathinfo($file_to_upload, PATHINFO_EXTENSION);
+                $target_file = '../images/restaurants/' . $restaurant_id . '_' . date('Ymdhis') . '.' . $image_file_type;
+                $image_check = getimagesize($_FILES['profile_image_path']['tmp_name']);
 
                 if ($image_check) {
                     if (move_uploaded_file($_FILES['profile_image_path']['tmp_name'], $target_file)) {
-                        // $result['file_upload'] = 'success';
+                        $result['file_upload'] = 'success';
 
-                        // $user_handler = new UserHandler($this->db);
-                        // $this->db->exec('BEGIN TRANSACTION');
-                        // $email_success = $user_handler->updateEmail($user_id, $data['email']);
-                        // $first_name_success = $user_handler->updateFirstName($user_id, $data['first_name']);
-                        // $last_name_success = $user_handler->updateLastName($user_id, $data['last_name']);
-                        // $image_path_success = $user_handler->updateProfileImagePath($user_id, $target_file);
+                        $restaurant_handler = new RestaurantHandler($this->db);
+                        $this->db->exec('BEGIN TRANSACTION');
+                        $email_success = $restaurant_handler->updateEmail($restaurant_id, $data['email']);
+                        $name_success = $restaurant_handler->updateName($restaurant_id, $data['name']);
+                        $street_address_success = $restaurant_handler->updateStreetAddress($restaurant_id, $data['street_address']);
+                        $city_success = $restaurant_handler->updateCity($restaurant_id, $data['city']);
+                        $state_success = $restaurant_handler->updateState($restaurant_id, $data['state']);
+                        $phone_number_success = $restaurant_handler->updatePhoneNumber($restaurant_id, $data['phone_number']);
+                        $website_url_success = $restaurant_handler->updateWebsiteUrl($restaurant_id, $data['website_url']);
+                        $biography_success = $restaurant_handler->updateBiography($restaurant_id, $data['biography']);
+                        $time_open_sucess = $restaurant_handler->updateTimeOpen($restaurant_id, $data['time_open']);
+                        $time_close_success = $restaurant_handler->updateTimeClose($restaurant_id, $data['time_close']);
+                        $price_rating_success = $restaurant_handler->updatePriceRating($restaurant_id, $data['price_rating']);
+                        $cuisine_type_success = $restaurant_handler->updateCuisineType($restaurant_id, $data['cuisine_type']);
+                        $image_path_success = $restaurant_handler->updateProfileImagePath($restaurant_id, $target_file);
 
-                        // if ($email_success && $first_name_success && $last_name_success && $image_path_success) {
-                        //     $this->db->exec('COMMIT');
-                        //     $result['status'] = 'update successful';
-                        // } else {
-                        //     $this->db->exec('ROLLBACK');
-                        //     $result['error'] = 'update failed';
-                        // }
+                        if ($email_success && $name_success && $street_address_success && $city_success && $state_success && $phone_number_success && $website_url_success && $biography_success && $time_open_sucess && $time_close_success && $price_rating_success && $cuisine_type_success && $image_path_success) {
+                            $this->db->exec('COMMIT');
+                            $result['status'] = 'update successful';
+                        } else {
+                            $this->db->exec('ROLLBACK');
+                            $result['error'] = 'update failed';
+                        }
                     } else {
                         $result['error'] = 'file upload failed';
                     }

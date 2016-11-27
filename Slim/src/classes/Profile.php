@@ -115,7 +115,7 @@
             $profile = $profile . '<p> Email: ' . htmlentities($email) . '</p>';
             $profile = $profile . '<p> Name: ' . htmlentities($name) . '</p>';
             $profile = $profile . '<p> Cuisine Type: ' . htmlentities($cuisine_type) . '</p>';
-            $profile = $profile . '<p> Price Rating: ' . htmlentities($price_rating) . '(Lowest Price: ' . htmlentities($price_rating_low) . ', Highest Price: ' . htmlentities($price_rating_high) . ') </p>';
+            $profile = $profile . '<p> Price Rating: ' . htmlentities($price_rating) . ' (Lowest Price: ' . htmlentities($price_rating_low) . ', Highest Price: ' . htmlentities($price_rating_high) . ') </p>';
             $profile = $profile . '<p> Address: ' . htmlentities($street_address) . '</p>';
             $profile = $profile . '<p> City: ' . htmlentities($city) . '</p>';
             $profile = $profile . '<p> State: ' . htmlentities($state) . '</p>';

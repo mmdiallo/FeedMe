@@ -31,6 +31,20 @@
             return $rating;
         }
 
+        public function getId($rating) {
+            $id = -1;
+            $statement = 'SELECT id FROM PriceRatings WHERE rating=:rating';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':rating', $rating, SQLITE3_INTEGER);
+
+            if ($query_result = $prepared_statement->execute()) {
+                $row = $query_result->fetchArray();
+                $id = $row['id'];
+            }
+
+            return $id;
+        }
+
         public function getLowestPrice($id) {
             $lowest_price = -1;
             $statement = 'SELECT lowest_price FROM PriceRatings WHERE id=:id';

@@ -79,7 +79,7 @@
             $form = $form . '<br>';
             $form = $form . 'Time Close: <input type="time" name="time_close" value="'. htmlentities($time_close) . '" required>';
             $form = $form . '<br>';
-            $form = $form . 'Website: <input type="url" name="website_url" value="'. htmlentities($website_url) . '" required>';
+            $form = $form . 'Website: <input type="text" name="website_url" value="'. htmlentities($website_url) . '" required>';
             $form = $form . '<br>';
             $form = $form . 'Biography: <textarea name="biography" required>' . htmlentities($biography) . '</textarea>';
             $form = $form . '<br>';

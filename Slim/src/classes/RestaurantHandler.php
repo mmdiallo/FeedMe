@@ -316,5 +316,120 @@
 
             return $success;
         }
+
+        public function updateWebsiteUrl($id, $website_url) {
+            $success = false;
+            $statement = 'UPDATE Restaurants SET website_url=:website_url WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':website_url', $website_url, SQLITE3_TEXT);
+            $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+            if ($prepared_statement->execute()) {
+                $success = true;
+            }
+
+            return $success;
+        }
+
+        public function updateBiography($id, $biography) {
+            $success = false;
+            $statement = 'UPDATE Restaurants SET biography=:biography WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':biography', $biography, SQLITE3_TEXT);
+            $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+            if ($prepared_statement->execute()) {
+                $success = true;
+            }
+
+            return $success;
+        }
+
+        public function updateTimeOpen($id, $time_open) {
+            $success = false;
+            $time_match = '/^\d{2}:\d{2} ?(AM|am|PM|pm)?$/';
+
+            if (preg_match($time_match, $time_open)) {
+                $statement  = 'UPDATE Restaurants SET time_open=:time_open WHERE id=:id';
+                $prepared_statement = $this->db->prepare($statement);
+                $prepared_statement->bindValue(':time_open', $time_open, SQLITE3_TEXT);
+                $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+                if ($prepared_statement->execute()) {
+                    $success = true;
+                }
+            } 
+
+            return $success;
+        }
+
+        public function updateTimeClose($id, $time_close) {
+            $success = false;
+            $time_match = '/^\d{2}:\d{2} ?(AM|am|PM|pm)?$/';
+
+            if (preg_match($time_match, $time_close)) {
+                $statement  = 'UPDATE Restaurants SET time_close=:time_close WHERE id=:id';
+                $prepared_statement = $this->db->prepare($statement);
+                $prepared_statement->bindValue(':time_close', $time_close, SQLITE3_TEXT);
+                $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+                if ($prepared_statement->execute()) {
+                    $success = true;
+                }
+            } 
+
+            return $success;
+        }
+
+        public function updatePriceRating($id, $price_rating) {
+            $success = false;
+            $price_rating_handler = new PriceRatingHandler($this->db);
+            $price_rating_id = $price_rating_handler->getId($price_rating);
+
+            if ($price_rating_id != -1 && $price_rating_id != NULL) {
+                $statement = 'UPDATE Restaurants SET price_rating_id=:price_rating_id WHERE id=:id';
+                $prepared_statement = $this->db->prepare($statement);
+                $prepared_statement->bindValue(':price_rating_id', $price_rating_id, SQLITE3_TEXT);
+                $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+                if ($prepared_statement->execute()) {
+                    $success = true;
+                }
+            }
+
+            return $success;
+        }
+
+        public function updateCuisineType($id, $cuisine_type) {
+            $success = false;
+            $cuisine_type_match = '/^([A-Za-z]+ *)+$/';
+
+            if (preg_match($cuisine_type_match, $cuisine_type)) {
+                $cuisine_type = strtolower($cuisine_type);
+                $cuisine_type_handler = new CuisineTypeHandler($this->db);
+                $cuisine_type_id = $cuisine_type_handler->getId($cuisine_type);
+
+                if ($cuisine_type_id == -1 || $cuisine_type_id == NULL) {
+                    $cuisine_type_add = $cuisine_type_handler->addType($cuisine_type);
+
+                    if ($cuisine_type_add) {
+                        $cuisine_type_id = $cuisine_type_handler->getId($cuisine_type);
+                    }
+                }
+
+                if ($cuisine_type_id != -1 && $cuisine_type_id != NULL) {
+                    $statement = 'UPDATE Restaurants SET cuisine_type_id=:cuisine_type_id WHERE id=:id';
+                    $prepared_statement = $this->db->prepare($statement);
+                    $prepared_statement->bindValue(':cuisine_type_id', $cuisine_type_id, SQLITE3_TEXT);
+                    $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+                    if ($prepared_statement->execute()) {
+                        $success = true;
+                    }
+                }
+            }
+
+            return $success;
+        }
     }
 ?>
