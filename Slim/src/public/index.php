@@ -575,6 +575,34 @@ $app->get('/menus/{menu_id}/all_menu_items_id', function(Request $request, Respo
     return $response;
 })->add($access_mw);
 
+$app->post('/menus/{menu_id: [\d]+/add}', function(Request $request, Response $response) {
+    $result = $request->getAttribute('result');
+    $authentication = new AuthenticationHandler($this->db);
+    $menu_id = $request->getAttribute('menu_id');
+    $auth = $authentication->checkAuthentication();
+
+    if ($auth) {
+        $session_info = $authentication->getCurrentSession();
+        $auth_restaurant_id = $session_info['restaurant_id'];
+        $menu_handler = new MenuHandler($this->db);
+        $auth_menu_id = $menu_handler->getId($auth_restaurant_id);
+
+        if ($auth_menu_id == $menu_id) {
+            $data = $request->getParsedBody();
+            var_dump($data);
+        } else {
+            $result['error'] = 'not authorized to edit user';
+        }
+
+    } else {
+        $result['error'] = 'not authorized to edit user';
+    }
+
+    $json = json_encode($result, JSON_NUMERIC_CHECK);
+    $response->getBody()->write($json);
+    return $response;
+})->add($access_mw);
+
 // Menu Items ------------------------------------------------------------
 
 $app->get('/menuItems/{menu_items_id}/name', function(Request $request, Response $response, $args) {
@@ -826,7 +854,7 @@ $app->get('/restaurants/{restaurant_id: [\d]+}/edit', function(Request $request,
     return $response;
 });
 
-$app->get('/menus/{menu_id: [\d]+/add}', function(Request $request, Response $response) {
+$app->get('/menus/{menu_id: [\d]+}/add', function(Request $request, Response $response) {
     $authentication = new AuthenticationHandler($this->db);
     $menu_id = $request->getAttribute('menu_id');
     $auth = $authentication->checkAuthentication();
@@ -839,7 +867,7 @@ $app->get('/menus/{menu_id: [\d]+/add}', function(Request $request, Response $re
 
         if ($auth_menu_id == $menu_id) {
             $form = new Form;
-            $form_string = $form->addMenuItem($menu_id);
+            $form_string = $form->addMenuItem($menu_id, $this->db);
             $response->getBody()->write($form_string);
         } else {
             $response->getBody()->write('not authorized to edit user');

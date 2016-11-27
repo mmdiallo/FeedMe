@@ -88,9 +88,9 @@
 
             foreach ($all_price_ratings as $rating => $values) {
                 if ($rating == $price_rating) {
-                    $form = $form . '<option value="' . $rating . '" selected> ' . $rating . ': $' . $values['lowest_price'] . '-$' . $values['highest_price'] . '</option>'; 
+                    $form = $form . '<option value="' . htmlentities($rating) . '" selected> ' . htmlentities($rating) . ': $' . htmlentities($values['lowest_price']) . '-$' . htmlentities($values['highest_price']) . '</option>'; 
                 }
-                $form = $form . '<option value="' . $rating . '"> ' . $rating . ': $' . $values['lowest_price'] . '-$' . $values['highest_price'] . '</option>'; 
+                $form = $form . '<option value="' . htmlentities($rating) . '"> ' . htmlentities($rating) . ': $' . htmlentities($values['lowest_price']) . '-$' . htmlentities($values['highest_price']) . '</option>'; 
             }
 
             $form = $form . '</select>';
@@ -104,8 +104,32 @@
             return $form;
         }
 
-        public function addMenuItem($menu_id) {
+        public function addMenuItem($menu_id, $db) {
+            $meal_type_handler = new MealTypeHandler($db);
+            $all_meal_types = $meal_type_handler->getAllMealTypes();
+
             $form = '';
+            $form = $form . '<form enctype="multipart/form-data" method="post" action="' . '/menus/' . htmlentities($menu_id) . '/add">';
+            $form = $form . 'Name: <input type="text" name="name" required>';
+            $form = $form . '<br>';
+            $form = $form . 'Cuisine Type: <input type="text" name="cuisine_type" required>';
+            $form = $form . '<br>';
+            $form = $form . 'Meal Type: <select name="meal_type" required>';
+
+            foreach ($all_meal_types as $meal_type) {
+                $form = $form . '<option value="' . htmlentities($meal_type) . '"> ' . htmlentities($meal_type) . ' </option>';
+            }
+
+            $form = $form . '</select>';
+            $form = $form . '<br>';
+            $form = $form . 'Price: <input type="number" step="0.01" min="0" max="100" name="price" required>';
+            $form = $form . '<br>';
+            $form = $form . 'Description: <textarea name="description" required></textarea>';
+            $form = $form . '<br>';
+            $form = $form . 'Image: <input type="file" accept="image/*" name="image_path">';
+            $form = $form . '<br>';
+            $form = $form . '<input type="submit">';
+            $form = $form . '</form>';
             return $form;
         }
     }
