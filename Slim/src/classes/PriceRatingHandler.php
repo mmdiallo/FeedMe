@@ -1,3 +1,51 @@
 <?php
+    class PriceRatingHandler {
+        protected $db;
 
+        public function __construct($db) {
+            $this->db = $db;
+        }
+
+        public function getRating($id) {
+            $rating = -1;
+            $statement = 'SELECT rating FROM PriceRatings WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+            if ($query_result = $prepared_statement->execute()) {
+                $row = $query_result->fetchArray();
+                $rating = $row['rating'];
+            }
+
+            return $rating;
+        }
+
+        public function getLowestPrice($id) {
+            $lowest_price = -1;
+            $statement = 'SELECT lowest_price FROM PriceRatings WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+            if ($query_result = $prepared_statement->execute()) {
+                $row = $query_result->fetchArray();
+                $lowest_price = $row['lowest_price'];
+            }
+
+            return $lowest_price;
+        }
+
+        public function getHighestPrice($id) {
+            $highest_price = -1;
+            $statement = 'SELECT highest_price FROM PriceRatings WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+            if ($query_result = $prepared_statement->execute()) {
+                $row = $query_result->fetchArray();
+                $highest_price = $row['highest_price'];
+            }
+
+            return $highest_price;
+        }
+    }
 ?>

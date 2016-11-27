@@ -72,9 +72,25 @@
                             $cuisine_type_handler = new CuisineTypeHandler($this->db);
                             $cuisine_type = $cuisine_type_handler->getType($cuisine_type_id);
 
+                            $price_rating_id = $restaurant_handler->getPriceRatingId($restaurant_id);
+                            $price_rating_handler = new PriceRatingHandler($this->db);
+                            $price_rating = $price_rating_handler->getRating($price_rating_id);
+                            $price_rating_low = -1;
+                            $price_rating_high = -1;
+
+                            if ($price_rating != -1) {
+                                $price_rating_low = $price_rating_handler->getLowestPrice($price_rating_id);
+                                $price_rating_high = $price_rating_handler->getHighestPrice($price_rating_id);
+                            } else {
+                                $price_rating = NULL;
+                                $price_rating_low = NULL;
+                                $price_rating_high = NULL;
+                            }
+
                             $profile = $profile . '<p> Email: ' . htmlentities($email) . '</p>';
                             $profile = $profile . '<p> Name: ' . htmlentities($name) . '</p>';
                             $profile = $profile . '<p> Cuisine Type: ' . htmlentities($cuisine_type) . '</p>';
+                            $profile = $profile . '<p> Price Rating: ' . htmlentities($price_rating) . '(Lowest Price: ' . htmlentities($price_rating_low) . ', Highest Price: ' . htmlentities($price_rating_high) . ') </p>';
                             $profile = $profile . '<p> Address: ' . htmlentities($street_address) . '</p>';
                             $profile = $profile . '<p> City: ' . htmlentities($city) . '</p>';
                             $profile = $profile . '<p> State: ' . htmlentities($state) . '</p>';
