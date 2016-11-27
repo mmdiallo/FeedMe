@@ -22,6 +22,114 @@
             return $ids;
         }
 
+        public function getName($id) {
+            $name = '';
+            $statement = 'SELECT name FROM MenuItems WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+            if ($query_result = $prepared_statement->execute()) {
+                $row = $query_result->fetchArray();
+                $name = $row['name'];
+            }
+
+            if ($name == '') {
+                $name = NULL;
+            }
+
+            return $name;
+        }
+
+        public function getPrice($id) {
+            $price = -1;
+            $statement = 'SELECT price FROM MenuItems WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+            if ($query_result = $prepared_statement->execute()) {
+                $row = $query_result->fetchArray();
+                $price = $row['price'];
+            }
+
+            if ($price == -1) {
+                $price = NULL;
+            }
+
+            return $price;
+        }
+
+        public function getDescription($id) {
+            $description = '';
+            $statement = 'SELECT description FROM MenuItems WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+            if ($query_result = $prepared_statement->execute()) {
+                $row = $query_result->fetchArray();
+                $description = $row['description'];
+            }
+
+            if ($description == '') {
+                $description = NULL;
+            }
+
+            return $description;
+        }
+
+        public function getImagePath($id) {
+            $image_path = '';
+            $statement = 'SELECT image_path FROM MenuItems WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+            if ($query_result = $prepared_statement->execute()) {
+                $row = $query_result->fetchArray();
+                $image_path = $row['image_path'];
+            }
+
+            if ($image_path == '') {
+                $image_path = NULL;
+            }
+
+            return $image_path;
+        }
+
+        public function getCuisineTypeId($id) {
+            $cuisine_type_id = -1;
+            $statement = 'SELECT cuisine_type_id FROM MenuItems WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+            if ($query_result = $prepared_statement->execute()) {
+                $row = $query_result->fetchArray();
+                $cuisine_type_id = $row['cuisine_type_id'];
+            }
+
+            if ($cuisine_type_id == -1) {
+                $cuisine_type_id = NULL;
+            }
+
+            return $cuisine_type_id;
+        }
+
+        public function getMealTypeId($id) {
+            $meal_type_id = -1;
+            $statement = 'SELECT meal_type_id FROM MenuItems WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+            if ($query_result = $prepared_statement->execute()) {
+                $row = $query_result->fetchArray();
+                $meal_type_id = $row['meal_type_id'];
+            }
+
+            if ($meal_type_id == -1) {
+                $meal_type_id = NULL;
+            }
+
+            return $meal_type_id;
+        }
+
         public function addMenuItem($menu_id, $name, $cuisine_type, $meal_type, $price, $description, $image_path) {
             $success = false;
             $valid_pattern = '/^([A-Za-z]+ *)+$/';

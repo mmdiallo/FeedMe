@@ -352,6 +352,22 @@ $app->get('/personalMenus/{pmenu_id}/all_pmenu_items_id', function(Request $requ
     return $response;
 })->add($access_mw);
 
+$app->get('/personalMenus/{pmenu_id: [\d]+}/add', function(Request $request, Response $response) {
+    $result = $request->getAttribute('result');
+    $data = $request->getQueryParams();
+    
+    if (isset($data['menu_item_id'])) {
+        
+
+    } else {
+        $result['error'] = 'expecting parameter menu_item_id';
+    }
+
+    $json = json_encode($result, JSON_NUMERIC_CHECK);
+    $response->getBody()->write($json);
+    return $response;
+})->add($access_mw);
+
 // $app->post('/personalMenus/{pmenu_id}/add', function(Request $request, Response $response, $args) {
 //     $pmenu_id = $request->getAttribute('pmenu_id');
 //     $data = $request->getParsedBody();
@@ -843,6 +859,15 @@ $app->get('/images/users/{image_path}', function(Request $request, Response $res
 $app->get('/images/restaurants/{image_path}', function(Request $request, Response $response, $args) {
     $image_path = $request->getAttribute('image_path');
     $image = file_get_contents('../images/restaurants/' . $image_path);
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $response = $response->withHeader('Content-Type', $finfo->buffer($image));
+    $response->getBody()->write($image);
+    return $response;
+});
+
+$app->get('/images/menu_items/{image_path}', function(Request $request, Response $response, $args) {
+    $image_path = $request->getAttribute('image_path');
+    $image = file_get_contents('../images/menu_items/' . $image_path);
     $finfo = new finfo(FILEINFO_MIME_TYPE);
     $response = $response->withHeader('Content-Type', $finfo->buffer($image));
     $response->getBody()->write($image);
