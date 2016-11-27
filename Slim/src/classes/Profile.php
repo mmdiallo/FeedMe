@@ -46,9 +46,10 @@
                             $personal_menu_item_handler = new PersonalMenuItemHandler($this->db);
 
                             $personal_menu_item_ids = $personal_menu_item_handler->getAllIds($personal_menu_id);
-
+                            echo '<br>';
                             var_dump($personal_menu_item_ids);
-
+                            echo '<br>';
+                            $profile = $profile . '<br><a href="/users/' . htmlentities($user_id) . '/edit"> Edit Profile </a>';
                         }
 
                     } else if ($account_type == 'restaurant') {
