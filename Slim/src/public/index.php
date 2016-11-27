@@ -3,7 +3,6 @@
 session_set_cookie_params(0, '/', '', true, true);
 session_name('by_PHPSESSID');
 session_start();
-session_regenerate_id(true);
 
 // SET UP SLIM APPLICATION
 use \Psr\Http\Message\ServerRequestInterface as Request;
@@ -42,6 +41,14 @@ $https_mw = function(Request $request, Response $response, $next) {
 };
 
 $app->add($https_mw);
+
+// $app->add(function(Request $request, Response $response, $next) {
+//     $auth = new AuthenticationHandler();
+//     $current_session = $auth->getCurrentSession();
+//     //var_dump($current_session);
+//     $response = $next($request, $response);
+//     return $response;
+// });
 
 // check session authentication, send authentication and session to route
 $session_mw = function(Request $request, Response $response, $next) {
@@ -615,7 +622,7 @@ $app->get('/menus/{menu_id}/all_menu_items_id', function(Request $request, Respo
     return $response;
 })->add($access_mw);
 
-$app->post('/menus/{menu_id: [\d]+/add}', function(Request $request, Response $response) {
+$app->post('/menus/{menu_id: [\d]+}/add', function(Request $request, Response $response) {
     $result = $request->getAttribute('result');
     $authentication = new AuthenticationHandler($this->db);
     $menu_id = $request->getAttribute('menu_id');
@@ -644,13 +651,14 @@ $app->post('/menus/{menu_id: [\d]+/add}', function(Request $request, Response $r
                 }
             } else {
                 //Source: http://www.w3schools.com/php/php_file_upload.asp
-                $file_to_upload = $_FILES['profile_image_path']['name'];
+                $file_to_upload = $_FILES['image_path']['name'];
                 $image_file_type = pathinfo($file_to_upload, PATHINFO_EXTENSION);
-                $target_file = '../images/restaurants/' . $restaurant_id . '_' . date('Ymdhis') . '.' . $image_file_type;
-                $image_check = getimagesize($_FILES['profile_image_path']['tmp_name']);
+                $target_file = '../images/menu_items/' . $menu_id . '_' . date('Ymdhis') . '.' . $image_file_type;
+                $image_check = getimagesize($_FILES['image_path']['tmp_name']);
 
                 if ($image_check) {
-                    if (move_uploaded_file($_FILES['profile_image_path']['tmp_name'], $target_file)) {
+
+                    if (move_uploaded_file($_FILES['image_path']['tmp_name'], $target_file)) {
                         $result['file_upload'] = 'success';
                         $this->db->exec('BEGIN TRANSACTION');
                         $menu_item_handler = new MenuItemHandler($this->db);
@@ -860,7 +868,6 @@ $app->get('/profile/{account_id: [\d]+}', function(Request $request, Response $r
     $authentication = new AuthenticationHandler($this->db);
     $auth = $authentication->checkAuthentication();
     if ($auth) {
-        $session_info = $authentication->getCurrentSession();
         $profile = new Profile($this->db);
         $profile_string = $profile->createProfile($account_id);
         $response->getBody()->write($profile_string);
@@ -868,7 +875,6 @@ $app->get('/profile/{account_id: [\d]+}', function(Request $request, Response $r
         $response->getBody()->write('user not logged in');
     }
     return $response;
-
 });
 
 $app->get('/images/users/{image_path}', function(Request $request, Response $response, $args) {

@@ -70,11 +70,14 @@
             $profile = $profile . '<p> Last Name: ' . htmlentities($last_name) . '</p>';
             $profile = $profile . '<img height=100 width=100 src="' . htmlentities($profile_image_path) . '">';
             $profile = $profile . '<br><a href="/users/' . htmlentities($user_id) . '/edit"> Edit Profile </a>';
-            $profile = $profile . '<br><a href="/logout"> Logout </a>';
+            //$profile = $profile . '<br><a href="/logout"> Logout </a>';
 
-            echo '<br>';
-            echo '<br>';
-            var_dump($personal_menu_item_ids);
+            $profile = $profile . '<h2> Personal Menu Items </h2>';
+
+            foreach ($personal_menu_item_ids as $p_menu_item_id) {
+                $menu_item_id = $personal_menu_item_handler->getMenuItemId($p_menu_item_id);
+                $profile = $profile . $this->displayMenuItem($menu_item_id);
+            }
 
             return $profile;
         }
@@ -127,7 +130,7 @@
             $profile = $profile . '<p> Biography: ' . htmlentities($biography) . '</p>';
             $profile = $profile . '<img height=100 width=100 src="' . htmlentities($profile_image_path) . '">';
             $profile = $profile . '<br><a href="/restaurants/' . htmlentities($restaurant_id) . '/edit"> Edit Profile </a>';
-            $profile = $profile . '<br><a href="/logout"> Logout </a>';
+            //$profile = $profile . '<br><a href="/logout"> Logout </a>';
 
             $menu_handler = new MenuHandler($this->db);
             $menu_id = $menu_handler->getId($restaurant_id);
@@ -141,43 +144,50 @@
 
                 $profile = $profile . '<h2> Menu Items </h2>';
 
-                foreach ($menu_item_ids as $id) {
-
-                    $mi_name = $menu_item_handler->getName($id);
-                    $mi_price = $menu_item_handler->getPrice($id);
-                    $mi_description = $menu_item_handler->getDescription($id);
-                    $mi_image_path = $menu_item_handler->getImagePath($id);
-                    $mi_cuisine_type_id = $menu_item_handler->getCuisineTypeId($id);
-                    $mi_cuisine_type = $cuisine_type_handler->getType($mi_cuisine_type_id);
-
-                    $meal_type_handler = new MealTypeHandler($this->db);
-                    $mi_meal_type_id = $menu_item_handler->getMealTypeId($id);
-                    $mi_meal_type = $meal_type_handler->getType($mi_meal_type_id);
-
-                    $profile = $profile . '<div style="margin: 8;">';
-                    $profile = $profile . '<h3> Menu Item </h3>';
-                    $profile = $profile . '<img height=100 width=100 src="' . htmlentities($mi_image_path) . '">';
-                    $profile = $profile . '<p> Name: ' . htmlentities($mi_name) . ' </p>';
-                    $profile = $profile . '<p> Price: $' . htmlentities($mi_price) . ' </p>';
-                    $profile = $profile . '<p> Cuisine Type: ' . htmlentities($mi_cuisine_type) . ' </p>';
-                    $profile = $profile . '<p> Meal Type: ' . htmlentities($mi_meal_type) . ' </p>';
-                    $profile = $profile . '<p> Description: ' . htmlentities($mi_description) . ' </p>';
-
-                    $authentication = new AuthenticationHandler($this->db);
-                    $current_session = $authentication->getCurrentSession();
-
-                    if (isset($current_session['user_id'])) {
-                        $personal_menu_handler = new PersonalMenuHandler($this->db);
-                        $personal_menu_id = $personal_menu_handler->getId($current_session['user_id']);
-                        $profile = $profile . '<a href="/personalMenus/' . $personal_menu_id . '/add?menu_item_id=' . $id . '"> Add to Personal Menu </a>';
-                    }
-
-                    $profile = $profile . '</div>';
+                foreach ($menu_item_ids as $menu_item_id) {
+                    $profile = $profile . $this->displayMenuItem($menu_item_id);
                 }
             }
 
             return $profile;
         }
 
+        private function displayMenuItem($menu_item_id) {
+            $profile = '';
+            $menu_item_handler = new MenuItemHandler($this->db);
+            $mi_name = $menu_item_handler->getName($menu_item_id);
+            $mi_price = $menu_item_handler->getPrice($menu_item_id);
+            $mi_description = $menu_item_handler->getDescription($menu_item_id);
+            $mi_image_path = $menu_item_handler->getImagePath($menu_item_id);
+                
+            $cuisine_type_handler = new CuisineTypeHandler($this->db);
+            $mi_cuisine_type_id = $menu_item_handler->getCuisineTypeId($menu_item_id);
+            $mi_cuisine_type = $cuisine_type_handler->getType($mi_cuisine_type_id);
+
+            $meal_type_handler = new MealTypeHandler($this->db);
+            $mi_meal_type_id = $menu_item_handler->getMealTypeId($menu_item_id);
+            $mi_meal_type = $meal_type_handler->getType($mi_meal_type_id);
+
+            $profile = $profile . '<div style="margin: 8;">';
+            $profile = $profile . '<h3> Menu Item </h3>';
+            $profile = $profile . '<img height=100 width=100 src="' . htmlentities($mi_image_path) . '">';
+            $profile = $profile . '<p> Name: ' . htmlentities($mi_name) . ' </p>';
+            $profile = $profile . '<p> Price: $' . htmlentities($mi_price) . ' </p>';
+            $profile = $profile . '<p> Cuisine Type: ' . htmlentities($mi_cuisine_type) . ' </p>';
+            $profile = $profile . '<p> Meal Type: ' . htmlentities($mi_meal_type) . ' </p>';
+            $profile = $profile . '<p> Description: ' . htmlentities($mi_description) . ' </p>';
+
+            $authentication = new AuthenticationHandler($this->db);
+            $current_session = $authentication->getCurrentSession();
+
+            if (!empty($current_session['user_id'])) {
+                $personal_menu_handler = new PersonalMenuHandler($this->db);
+                $personal_menu_id = $personal_menu_handler->getId($current_session['user_id']);
+                $profile = $profile . '<a href="/personalMenus/' . $personal_menu_id . '/add?menu_item_id=' . $menu_item_id . '"> Add to Personal Menu </a>';
+            }
+
+            $profile = $profile . '</div>';
+            return $profile;
+        }
     }
 ?>

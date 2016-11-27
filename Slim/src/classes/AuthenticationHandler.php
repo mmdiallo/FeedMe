@@ -33,13 +33,14 @@
                             $auth = true;
                         } 
                     } 
-                }   
+                }
             }
 
             return $auth;
         }
 
         public function authenticateSession($account_id, $account_type, $account_type_id) {
+            session_regenerate_id(true);
             $valid_account_id = $this->verifyAccountId($account_id);
             
             if ($valid_account_id) {
@@ -78,10 +79,10 @@
 
         public function endSession() {
             session_destroy();
-            session_regenerate_id();
             unset($_SESSION);
             session_set_cookie_params(0, '/', '', true, true);
             session_start();
+            session_regenerate_id(true);
         }
 
         public function getCurrentSession() {

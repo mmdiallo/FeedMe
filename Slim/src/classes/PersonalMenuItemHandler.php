@@ -22,6 +22,24 @@
             return $ids;
         }
 
+        public function getMenuItemId($id) {
+            $menu_item_id = -1;
+            $statement = 'SELECT menu_item_id FROM PersonalMenuItems WHERE id=:id';
+            $prepared_statement = $this->db->prepare($statement);
+            $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
+
+            if ($query_result = $prepared_statement->execute()) {
+                $row = $query_result->fetchArray();
+                $menu_item_id = $row['menu_item_id'];
+            }
+
+            if ($menu_item_id == -1) {
+                $menu_item_id = NULL;
+            }
+
+            return $menu_item_id;
+        }
+
         public function addItem($personal_menu_id, $menu_item_id) {
             $success = false;
             $valid_id_pattern = '/^[\d]+$/';
