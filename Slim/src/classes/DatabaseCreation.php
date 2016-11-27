@@ -44,18 +44,14 @@
                     break;
 
                 case 8:
-                    $result = $result . $this->createHoursTable();
-                    break;
-
-                case 9:
                     $result = $result . $this->createMealTypesTable();
                     break;
 
-                case 10:
+                case 9:
                     $result = $result . $this->createMenuItemsTable();
                     break;
 
-                case 11:
+                case 10:
                     $result = $result . $this->createPersonalMenuItemsTable();
                     break;
 
@@ -192,6 +188,8 @@
                 price_rating_id INTEGER,
                 website_url TEXT UNIQUE,
                 biography TEXT,
+                open_time TEXT,
+                close_time TEXT,
                 profile_image_path TEXT,
                 FOREIGN KEY(account_id) REFERENCES Accounts(id),
                 FOREIGN KEY(cuisine_type_id) REFERENCES CuisineTypes(id),
@@ -209,34 +207,6 @@
             $create_table = 'CREATE TABLE IF NOT EXISTS Menus (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                 restaurant_id INTEGER UNIQUE NOT NULL,
-                FOREIGN KEY(restaurant_id) REFERENCES Restaurants(id))';
-
-            if ($this->db->query($create_table)) {
-                $result = $result . 'Table creation sucessful!' . '<br>';
-            }
-
-            return $result;
-        }
-
-        private function createHoursTable() {
-            $result = '';
-            $create_table = 'CREATE TABLE IF NOT EXISTS Hours (
-                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                restaurant_id INTEGER UNIQUE NOT NULL,
-                monday_open TEXT,
-                monday_close TEXT,
-                tuesday_open TEXT,
-                tuesday_close TEXT,
-                wednesday_open TEXT,
-                wednesday_close TEXT,
-                thursday_open TEXT,
-                thursday_close TEXT,
-                friday_open TEXT,
-                friday_close TEXT,
-                saturday_open TEXT,
-                saturday_close TEXT,
-                sunday_open TEXT,
-                sunday_close TEXT,
                 FOREIGN KEY(restaurant_id) REFERENCES Restaurants(id))';
 
             if ($this->db->query($create_table)) {
