@@ -379,6 +379,79 @@ $app->get('/personalMenuItems/{personal_menu_items_id}/menu_items_id', function(
 
 // Restaurants -----------------------------------------------------------
 
+$app->post('/restaurants/{restaurant_id: [\d]+}/edit', function(Request $request, Response $response) {
+    $result = array('error' => NULL);
+    $authentication = new AuthenticationHandler($this->db);
+    $user_id = $request->getAttribute('restaurant_id');
+    $auth = $authentication->checkAuthentication();
+
+    if ($auth) {
+        $session_info = $authentication->getCurrentSession();
+        if ($session_info['restaurant_id'] == $user_id) {
+            $data = $request->getParsedBody();
+
+            if ($_FILES['profile_image_path']['name'] == '') {
+                $result['file_upload'] = NULL;
+                var_dump($data);
+                // $user_handler = new UserHandler($this->db);
+                // $this->db->exec('BEGIN TRANSACTION');
+                // $email_success = $user_handler->updateEmail($user_id, $data['email']);
+                // $first_name_success = $user_handler->updateFirstName($user_id, $data['first_name']);
+                // $last_name_success = $user_handler->updateLastName($user_id, $data['last_name']);
+
+                // if ($email_success && $first_name_success && $last_name_success) {
+                //     $this->db->exec('COMMIT');
+                //     $result['status'] = 'update successful';
+                // } else {
+                //     $this->db->exec('ROLLBACK');
+                //     $result['error'] = 'update failed';
+                // }
+
+            } else {
+                var_dump($data);
+                //Source: http://www.w3schools.com/php/php_file_upload.asp
+                // $file_to_upload = $_FILES['profile_image_path']['name'];
+                // $image_file_type = pathinfo($file_to_upload, PATHINFO_EXTENSION);
+                // $target_file = '../images/users/' . $user_id . '_' . date('Ymdhis') . '.' . $image_file_type;
+                // $image_check = getimagesize($_FILES['profile_image_path']['tmp_name']);
+
+                if ($image_check) {
+                    if (move_uploaded_file($_FILES['profile_image_path']['tmp_name'], $target_file)) {
+                        // $result['file_upload'] = 'success';
+
+                        // $user_handler = new UserHandler($this->db);
+                        // $this->db->exec('BEGIN TRANSACTION');
+                        // $email_success = $user_handler->updateEmail($user_id, $data['email']);
+                        // $first_name_success = $user_handler->updateFirstName($user_id, $data['first_name']);
+                        // $last_name_success = $user_handler->updateLastName($user_id, $data['last_name']);
+                        // $image_path_success = $user_handler->updateProfileImagePath($user_id, $target_file);
+
+                        // if ($email_success && $first_name_success && $last_name_success && $image_path_success) {
+                        //     $this->db->exec('COMMIT');
+                        //     $result['status'] = 'update successful';
+                        // } else {
+                        //     $this->db->exec('ROLLBACK');
+                        //     $result['error'] = 'update failed';
+                        // }
+                    } else {
+                        $result['error'] = 'file upload failed';
+                    }
+                } else {
+                    $result['error'] = 'file upload failed';
+                }
+            }
+        } else {
+            $result['error'] = 'not authorized to edit user';
+        }
+    } else {
+        $result['error'] = 'user not logged in';
+    }
+
+    $json = json_encode($result, JSON_NUMERIC_CHECK);
+    $response->getBody()->write($json);
+    return $response;
+})->add($access_mw);
+
 $app->get('/restaurants/{rest_id}/account_id', function(Request $request, Response $response, $args) {
     $rest_id = $request->getAttribute('rest_id');
     $restaurant = new Restaurants($this->db, $rest_id);

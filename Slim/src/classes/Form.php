@@ -73,7 +73,7 @@
             $form = $form . '<br>';
             $form = $form . 'State: <input type="text" name="state" value="'. htmlentities($state) . '" required>';
             $form = $form . '<br>';
-            $form = $form . 'Phone Number: <input type="tel" name="state" value="'. htmlentities($phone_number) . '" required>';
+            $form = $form . 'Phone Number: <input type="tel" name="phone_number" value="'. htmlentities($phone_number) . '" required>';
             $form = $form . '<br>';
             $form = $form . 'Time Open: <input type="time" name="time_open" value="'. htmlentities($time_open) . '" required>';
             $form = $form . '<br>';
