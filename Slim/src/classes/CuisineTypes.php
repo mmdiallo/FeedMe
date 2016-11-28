@@ -1,35 +1,25 @@
 <?php
 	class CuisineTypes{
 		public $db;
-		public $ctype_id;
 
-		public function __construct($db, $cid) {
+		public function __construct($db) {
             $this->db = $db;
-            $this->ctype_id = $cid;
         }
 
-		public function select($field) {
-        	$stmt = "SELECT " . $field . " FROM CuisineTypes WHERE id = ?;";
-        	$sql = $this->db->prepare($stmt);
-        	$sql->bindParam("i", $ctype_id);
-	        $result = $sql->execute();
+		public function select($field, $ctype_id) {
+        	$stmt = "SELECT " . $field . " FROM CuisineTypes WHERE id = :id";
 
-	        $results = array();
+            $sql = $this->db->prepare($stmt);
+            $sql->bindValue(':id', $ctype_id, SQLITE3_INTEGER);
+            $result = $sql->execute();
 
-	        if ($result->num_rows > 0) {
-
-            	while($row = $result->fetch_assoc()){
-            		$results[] = array($field => $row[$field]); 
-            	}
-                
-           		$json = json_encode($results);
-           		echo $json;
-            	return $json;
-            }
-
-            else{
-            	$result = "O result";
-            	return $result;
+            $results = array();
+            if ($result !=  false) {
+                while($row = $result->fetchArray()){
+                    $results[] = array($field => $row[$field]); 
+                }
+                $json = json_encode($results);
+                return $json;
             }
         }
 	}

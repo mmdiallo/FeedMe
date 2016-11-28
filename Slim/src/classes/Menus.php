@@ -1,32 +1,26 @@
 <?php
 	class Menus{
 		public $db;
-		public $menu_id;
 
-
-		public function __construct($db, $mid) {
+		public function __construct($db) {
             $this->db = $db;
-            $this->menu_id = $mid;
         }
 
 
-        public function selectAll() {
-        	$stmt = "SELECT * FROM MenuItems WHERE menu_id = ?;";
-        	$sql = $this->db->prepare($stmt);
-        	$sql->bindParam("i", $menu_id);
-	        $result = $sql->execute();
+        public function selectAll($menu_id) {
+        	$stmt = "SELECT * FROM MenuItems WHERE menu_id = :id";
 
-	        $results = array();
-	        if ($result->num_rows > 0) {
-            	while($row = $result->fetch_assoc()){
-            		$results[] = array($field => $row[$field]); 
-            	}
-           		$json = json_encode($results);
-            	return $json;
-            }
-            else{
-            	$result = "O result";
-            	return $result;
+            $sql = $this->db->prepare($stmt);
+            $sql->bindValue(':id', $menu_id, SQLITE3_INTEGER);
+            $result = $sql->execute();
+
+            $results = array();
+            if ($result !=  false) {
+                while($row = $result->fetchArray()){
+                    $results[] = array($field => $row[$field]); 
+                }
+                $json = json_encode($results);
+                return $json;
             }
         }
 	}

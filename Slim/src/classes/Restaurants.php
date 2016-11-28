@@ -1,31 +1,26 @@
 <?php
 	class Restaurants{
 		public $db;
-		public $rest_id;
 
-		public function __construct($db, $rid) {
+		public function __construct($db) {
             $this->db = $db;
-            $this->rest_id = $rid;
         }
 
-		public function select($field) {
-        	$stmt = "SELECT " . $field . " FROM Restaurants WHERE id = ?;";
+		public function select($field, $rest_id) {
+            $stmt = "SELECT " . $field . " FROM Restaurants WHERE id = :id";
+
         	$sql = $this->db->prepare($stmt);
-        	$sql->bindParam("i", $rest_id);
+            $sql->bindValue(':id', $rest_id, SQLITE3_INTEGER);
 	        $result = $sql->execute();
 
 	        $results = array();
-	        if ($result->num_rows > 0) {
-            	while($row = $result->fetch_assoc()){
+	        if ($result !=  false) {
+            	while($row = $result->fetchArray()){
             		$results[] = array($field => $row[$field]); 
             	}
            		$json = json_encode($results);
             	return $json;
-            }
-            else{
-            	$result = "O result";
-            	return $result;
-            }
+            }           
         }
 	}
 ?>

@@ -1,39 +1,36 @@
 <?php
 	class PersonalMenuItems{
 		public $db;
-		public $personal_menu_item_id;
 
 
-		public function __construct($db, $pid) {
+		public function __construct($db) {
             $this->db = $db;
-            $this->personal_menu_item_id = $pid;
         }
 
-		public function select($field) {
-        	$stmt = "SELECT " . $field . " FROM PersonalMenuItems WHERE id = ?;";
-        	$sql = $this->db->prepare($stmt);
-        	$sql->bindParam("i", $personal_menu_item_id);
-	        $result = $sql->execute();
+		public function select($field, $pid) {
+        	$stmt = "SELECT " . $field . " FROM PersonalMenuItems WHERE id = :id";
 
-	        $results = array();
-	        if ($result->num_rows > 0) {
-            	while($row = $result->fetch_assoc()){
-            		$results[] = array($field => $row[$field]); 
-            	}
-           		$json = json_encode($results);
-            	return $json;
-            }
-            else{
-            	$result = "O result";
-            	return $result;
+        	$sql = $this->db->prepare($stmt);
+            $sql->bindValue(':id', $pid, SQLITE3_INTEGER);
+            $result = $sql->execute();
+
+            $results = array();
+            if ($result !=  false) {
+                while($row = $result->fetchArray()){
+                    $results[] = array($field => $row[$field]); 
+                }
+                $json = json_encode($results);
+                return $json;
             }
         }
 
         public function addItem($pmenu_id, $menu_item_id) {
-            $stmt = "INSERT into PersonalMenuItems (personal_menu_id, menu_item_id) VALUES (?,?);";
+            $stmt = "INSERT into PersonalMenuItems (personal_menu_id, menu_item_id) VALUES (:pm_id, :menu_item_id)";
             $sql = $this->db->prepare($stmt);
-            $sql->bindParam("ii", $pmenu_id, $menu_item_id);
+            $sql->bindValue(':pm_id', $pmenu_id, SQLITE3_INTEGER);
+            $sql->bindValue(':menu_item_id', $menu_item_id, SQLITE3_INTEGER);
             $result = $sql->execute();
+            return $result;
         }
 	}
 

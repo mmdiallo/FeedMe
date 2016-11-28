@@ -1,43 +1,37 @@
 <?php
 	class PersonalMenus{
 		public $db;
-		public $pmenu_id;
 
 
-		public function __construct($db, $mid) {
+		public function __construct($db) {
             $this->db = $db;
-            $this->pmenu_id = $mid;
         }
 
 
-        public function selectAll() {
-        	$stmt = "SELECT * FROM PersonalMenuItems WHERE personal_menu_id = ?";
-        	$sql = $this->db->prepare($stmt);
-        	$sql->bindParam("i", $pmenu_id);
-	        $result = $sql->execute();
+        public function selectAll($pm_id) {
+        	$stmt = "SELECT * FROM PersonalMenuItems WHERE personal_menu_id = :id";
+        
+            $sql = $this->db->prepare($stmt);
+            $sql->bindValue(':id', $pm_id, SQLITE3_INTEGER);
+            $result = $sql->execute();
 
-	        $results = array();
-	        if ($result->num_rows > 0) {
-            	while($row = $result->fetch_assoc()){
-            		$results[] = array($field => $row[$field]); 
-            	}
-           		$json = json_encode($results);
-            	return $json;
-            }
-            else{
-            	$result = "O result";
-            	return $result;
+            $results = array();
+            if ($result !=  false) {
+                while($row = $result->fetchArray()){
+                    $results[] = array($field => $row[$field]); 
+                }
+                $json = json_encode($results);
+                return $json;
             }
         }
 
         public function addItem($menu_item_id) {
-            $stmt = "INSERT into PersonalMenuItems (personal_menu_id, menu_item_id) VALUES (?,?)";
+            $stmt = "INSERT into PersonalMenuItems (menu_item_id) VALUES (:id)";
             $sql = $this->db->prepare($stmt);
-            $sql->bindParam("ii", $pmenu_id, $menu_item_id);
+            $sql->bindValue(':id', $menu_item_id, SQLITE3_INTEGER);
             $result = $sql->execute();
             return $result;
-        }
-       
+        }       
 	}
 
 ?>
