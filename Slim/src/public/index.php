@@ -129,7 +129,6 @@ $app->post('/create_user_account', function(Request $request, Response $response
         $this->db->exec('COMMIT');
     } else {
         $this->db->exec('ROLLBACK');
-        $response = $response->withStatus(500);
     }
 
     $json = json_encode($result, JSON_NUMERIC_CHECK);
@@ -238,19 +237,15 @@ $app->get('/current_account', function (Request $request, Response $response) {
     $result = $request->getAttribute('result');
     $authentication = new AuthenticationHandler($this->db);
     $session_info = $authentication->getCurrentSession();
-    $session_info['error'] = $result['error'];
-    $result = array($session_info);
-    $json = json_encode($result, JSON_NUMERIC_CHECK);
+    $json = json_encode($session_info, JSON_NUMERIC_CHECK);
     $response->getBody()->write($json);
 })->add($access_mw);
 
 // Users -----------------------------------------------------------------
 
 $app->get('/users/all_user_ids', function(Request $request, Response $response) {
-    $user = new UserHandler($this->db);
-    $user_ids = $user->getAllIds();
-    $json = json_encode($user_ids);
-    $response->getBody()->write($json);
+    $user = new Users($this->db);
+    $response = $user->selectAllIds();
     return $response;
 })->add($access_mw);
 
@@ -352,19 +347,52 @@ $app->get('/users/{uid: [\d]+}/last_name', function(Request $request, Response $
     return $response;
 })->add($access_mw);
 
-$app->get('/users/{uid: [\d]+}/personal_menu_id', function(Request $request, Response $response, $args) {
+$app->get('/users/{uid: [\d]+}/profile_image_path', function(Request $request, Response $response, $args) {
     $uid = $request->getAttribute('uid');
     $user = new Users($this->db);
-    $response = $user->select("personal_menu_id", $uid);
+    $response = $user->select("profile_image_path", $uid);
+    return $response;
+})->add($access_mw);
+
+$app->get('/users/{uid: [\d]+}/personal_menu_id', function(Request $request, Response $response, $args) {
+    $uid = $request->getAttribute('uid');
+    $personal_menu_handler = new PersonalMenuHandler($this->db);
+    $result = array('personal_menu_id' => $personal_menu_handler->getId($uid));
+
+    if ($result['personal_menu_id'] == NULL) {
+        $result = array('error' => 'failed to get personal menu id');
+    }
+
+    $response->getBody()->write(json_encode($result));
     return $response;
 })->add($access_mw);
 
 // Personal Menus --------------------------------------------------------
 
-$app->get('/personalMenus/{pmenu_id: [\d]+}/all_pmenu_items_id', function(Request $request, Response $response, $args) {
+$app->get('/personalMenus/{pmenu_id: [\d]+}/all_menu_item_ids', function(Request $request, Response $response) {
+    $personal_menu_id = $request->getAttribute('pmenu_id');
+    $personal_menu_item_handler = new PersonalMenuItemHandler($this->db);
+    $personal_menu_item_ids = $personal_menu_item_handler->getAllIds($personal_menu_id);
+    $menu_item_ids = array();
+
+    foreach ($personal_menu_item_ids as $p_menu_item_id) {
+        $menu_item_ids[] = array('menu_item_id' => $personal_menu_item_handler->getMenuItemId($p_menu_item_id));
+    }
+
+    if (empty($menu_item_ids)) {
+        $result = array('error' => 'failed to get personal menu item ids');
+        $json = json_encode($result, JSON_NUMERIC_CHECK);
+        $response->getBody()->write($json);
+    } else {
+        $json = json_encode($menu_item_ids, JSON_NUMERIC_CHECK);
+        $response->getBody()->write($json);
+    }
+})->add($access_mw);
+
+$app->get('/personalMenus/{pmenu_id: [\d]+}/user_id', function(Request $request, Response $response, $args) {
     $pmenu_id = $request->getAttribute('pmenu_id');
-    $pmenu = new PersonalMenus($this->db);
-    $response = $pmenu->selectAll($pmenu_id);
+    $personal_menu = new PersonalMenus($this->db);
+    $response = $personal_menu->select('user_id', $pmenu_id);
     return $response;
 })->add($access_mw);
 
@@ -405,15 +433,6 @@ $app->get('/personalMenus/{pmenu_id: [\d]+}/add', function(Request $request, Res
 
     $json = json_encode($result, JSON_NUMERIC_CHECK);
     $response->getBody()->write($json);
-    return $response;
-})->add($access_mw);
-
-// Personal Menu Items ---------------------------------------------------
-
-$app->get('/personalMenuItems/{personal_menu_items_id: [\d]+}/menu_items_id', function(Request $request, Response $response, $args) {
-    $item_id = $request->getAttribute('personal_menu_items_id');
-    $item = new PersonalMenuItems($this->db);
-    $response = $item->select("menu_items_id", $item_id);
     return $response;
 })->add($access_mw);
 
@@ -508,13 +527,13 @@ $app->post('/restaurants/{restaurant_id: [\d]+}/edit', function(Request $request
     return $response;
 })->add($access_mw);
 
-$app->get('/restaurants/all_restaurant_ids', function(Request $request, Response $response) {
-    $restaurant = new RestaurantHandler($this->db);
-    $restaurant_ids = $restaurant->getAllIds();
-    $json = json_encode($restaurant_ids);
-    $response->getBody()->write($json);
-    return $response;
-})->add($access_mw);
+// $app->get('/restaurants/all_restaurant_ids', function(Request $request, Response $response) {
+//     $restaurant = new RestaurantHandler($this->db);
+//     $restaurant_ids = $restaurant->getAllIds();
+//     $json = json_encode($restaurant_ids);
+//     $response->getBody()->write($json);
+//     return $response;
+// })->add($access_mw);
 
 $app->get('/restaurants/{rest_id: [\d]+}/account_id', function(Request $request, Response $response, $args) {
     $rest_id = $request->getAttribute('rest_id');
@@ -631,6 +650,10 @@ $app->get('/menus/{menu_id: [\d]+}/all_menu_items_id', function(Request $request
     return $response;
 })->add($access_mw);
 
+$app->get('/menus/{menu_id: [\d]+}/restaurant_menu_id', function(Request $request, Response $response, $args) {
+    return $response;
+})->add($access_mw);
+
 $app->post('/menus/{menu_id: [\d]+}/add', function(Request $request, Response $response) {
     $result = $request->getAttribute('result');
     $authentication = new AuthenticationHandler($this->db);
@@ -702,6 +725,10 @@ $app->post('/menus/{menu_id: [\d]+}/add', function(Request $request, Response $r
 
 // Menu Items ------------------------------------------------------------
 
+$app->get('/menuItems/all_menu_item_ids', function(Request $request, Response $response) {
+    return $response;
+})->add($access_mw);
+
 $app->get('/menuItems/{menu_items_id: [\d]+}/name', function(Request $request, Response $response, $args) {
     $item_id = $request->getAttribute('menu_items_id');
     $item = new MenuItems($this->db);
@@ -753,6 +780,10 @@ $app->get('/menuItems/{menu_items_id: [\d]+}/description', function(Request $req
 
 // Meal Types ------------------------------------------------------------
 
+$app->get('/mealTypes/all_meal_type_ids', function(Request $request, Response $response) {
+    return $response;
+})->add($access_mw);
+
 $app->get('/mealtypes/{mtype_id: [\d]+}/type', function(Request $request, Response $response, $args) {
     $mtype_id = $request->getAttribute('mtype_id');
     $m_type = new MealTypes($this->db);
@@ -761,6 +792,10 @@ $app->get('/mealtypes/{mtype_id: [\d]+}/type', function(Request $request, Respon
 })->add($access_mw);
 
 // Cuisine Types ---------------------------------------------------------
+
+$app->get('/cuisineTypes/all_cuisine_type_ids', function(Request $request, Response $response) {
+    return $response;
+})->add($access_mw);
 
 $app->get('/cuisineTypes/{ctype_id: [\d]+}/type', function(Request $request, Response $response, $args) {
     $ctype_id = $request->getAttribute('ctype_id');
@@ -771,21 +806,25 @@ $app->get('/cuisineTypes/{ctype_id: [\d]+}/type', function(Request $request, Res
 
 // Price Ratings ---------------------------------------------------------
 
-$app->get('/priceratings/{pr_id: [\d]+}/rating', function(Request $request, Response $response, $args) {
+$app->get('/priceRatings/all_price_rating_ids', function(Request $request, Response $response) {
+    return $response;
+})->add($access_mw);
+
+$app->get('/priceRatings/{pr_id: [\d]+}/rating', function(Request $request, Response $response, $args) {
     $pr_id = $request->getAttribute('pr_id');
     $pr = new PriceRatings($this->db);
     $response = $pr->select("rating", $pr_id);
     return $response;
 })->add($access_mw);
 
-$app->get('/priceratings/{pr_id: [\d]+}/high', function(Request $request, Response $response, $args) {
+$app->get('/priceRatings/{pr_id: [\d]+}/high', function(Request $request, Response $response, $args) {
     $pr_id = $request->getAttribute('pr_id');
     $pr = new PriceRatings($this->db);
     $response = $pr->select("highest_price", $pr_id);
     return $response;
 })->add($access_mw);
 
-$app->get('/priceratings/{pr_id: [\d]+}/low', function(Request $request, Response $response, $args) {
+$app->get('/priceRatings/{pr_id: [\d]+}/low', function(Request $request, Response $response, $args) {
     $pr_id = $request->getAttribute('pr_id');
     $pr = new PriceRatings($this->db);
     $response = $pr->select("lowest_price", $pr_id);
