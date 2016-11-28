@@ -36,9 +36,9 @@
 	        $sql->bindParam("ssssi", $email, $fname, $lname, $picpath, $u_id);
 	        $sql->execute();
 	        if ($sql->errno)
-  				echo "FAILED to update " . $sql->error;
+  				return "FAILED to update " . $sql->error;
 			else 
-				echo "Updated {$sql->affected_rows} rows";
+				return "Updated {$sql->affected_rows} rows";
 	    }
 	}
 ?>

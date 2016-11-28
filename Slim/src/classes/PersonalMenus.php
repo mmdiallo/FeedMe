@@ -35,6 +35,7 @@
             $sql = $this->db->prepare($stmt);
             $sql->bindParam("ii", $pmenu_id, $menu_item_id);
             $result = $sql->execute();
+            return $result;
         }
        
 	}
