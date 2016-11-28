@@ -18,9 +18,17 @@
             	while($row = $result->fetchArray()){
             		$results[] = array($field => $row[$field]); 
             	}
-           		$json = json_encode($results);
-            	return $json;
-            }           
+                
+            } else {
+                $results['error'] = 'Failed to get ' . $field;
+            }
+
+            if (empty($results)) {
+                $results['error'] = 'Failed to get ' . $field;
+            }
+
+            $json = json_encode($results);
+            return $json;
         }
 	}
 ?>

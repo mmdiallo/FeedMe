@@ -17,13 +17,19 @@
 
             $results = array();
 
-            if ($result !=  false) {
-                
+            if ($result !=  false) {     
                 while($row = $result->fetchArray()){
                     $results[] = array('id' => $row['id']); 
                 }
+                
+            } else {
+                $results['error'] = 'Failed to get ' . $field;
             }
 
+            if (empty($results)) {
+                $results['error'] = 'Failed to get ' . $field;
+            }
+            
             $json = json_encode($results);
             return $json;
         }
