@@ -53,7 +53,32 @@
             return $json;
 
         }
- 
+        
+        public function selectPM_id($uid) {
+            $stmt = "SELECT id FROM PersonalMenus WHERE user_id = :id";
+            
+            $sql = $this->db->prepare($stmt);
+            $sql->bindValue(':id', $uid, SQLITE3_INTEGER);
+            $result = $sql->execute();
+
+            $results = array();
+            if ($result !=  false) {
+                while($row = $result->fetchArray()){
+                    $results[$field] = $row[$field]; 
+                }
+                
+            } else {
+                $results['error'] = 'Failed to get ' . $field;
+            }
+
+            if (empty($results)) {
+                $results['error'] = 'Failed to get ' . $field;
+            }
+
+            $json = json_encode($results);
+            return $json;
+        }
+        
 	    public function edit($email, $fname, $lname, $picpath, $uid) {
             $stmt = "UPDATE Users SET email = :e, first_name = :f, last_name = :l, profile_image_path = :p WHERE id = :id";
 	        $sql = $this->db->prepare($stmt);
