@@ -16,7 +16,7 @@
             $results = array();
             if ($result !=  false) {
                 while($row = $result->fetchArray()){
-                    $results[] = array($field => $row[$field]); 
+                    $results[$field] = $row[$field]; 
                 }
                 
             } else {

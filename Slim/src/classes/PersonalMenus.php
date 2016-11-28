@@ -19,7 +19,7 @@
 
             if ($result !=  false) {     
                 while($row = $result->fetchArray()){
-                    $results[] = array('id' => $row['id']); 
+                    $results[$field] = $row[$field]; 
                 }
                 
             } else {
