@@ -1,5 +1,4 @@
 <?php
-
 	class MealTypes{
 		public $db;
 		public $mtype_id;

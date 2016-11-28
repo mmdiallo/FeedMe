@@ -1,5 +1,4 @@
 <?php
-
 	class Restaurants{
 		public $db;
 		public $rest_id;
@@ -28,9 +27,5 @@
             	return $result;
             }
         }
-
-
 	}
-
-
 ?>

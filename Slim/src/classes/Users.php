@@ -1,5 +1,4 @@
 <?php
-
 	class Users{
 		public $db;
 		public $u_id;
@@ -17,10 +16,13 @@
 	        $result = $sql->execute();
 
 	        $results = array();
+
 	        if ($result->num_rows > 0) {
+
             	while($row = $result->fetch_assoc()){
             		$results[] = array($field => $row[$field]); 
             	}
+                
            		$json = json_encode($results);
             	return $json;
             }
@@ -31,7 +33,7 @@
         }
  
 	    public function edit($email, $fname, $lname, $picpath) {
-	        $stmt = "UPDATE Users SET email = ?, first_name = ?, last_name = ?, profile_image_path = ? WHERE id = ?";
+            $stmt = "UPDATE Users SET email = ?, first_name = ?, last_name = ?, profile_image_path = ? WHERE id = ?";
 	        $sql = $this->db->prepare($stmt);
 	        $sql->bindParam("ssssi", $email, $fname, $lname, $picpath, $u_id);
 	        $sql->execute();

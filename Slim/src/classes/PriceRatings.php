@@ -1,5 +1,4 @@
 <?php
-
 	class PriceRatings{
 		public $db;
 		public $p_id;
@@ -28,9 +27,5 @@
             	return $result;
             }
         }
-
-
 	}
-
-
 ?>
