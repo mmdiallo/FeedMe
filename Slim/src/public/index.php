@@ -547,13 +547,6 @@ $app->get('/restaurants/{rest_id: [\d]+}/phone_number', function(Request $reques
     return $response;
 })->add($access_mw);
 
-$app->get('/restaurants/{rest_id: [\d]+}/hours_id', function(Request $request, Response $response, $args) {
-    $rest_id = $request->getAttribute('rest_id');
-    $restaurant = new Restaurants($this->db);
-    $response = $restaurant->select("hours_id", $rest_id);
-    return $response;
-})->add($access_mw);
-
 $app->get('/restaurants/{rest_id: [\d]+}/menu_id', function(Request $request, Response $response, $args) {
     $rest_id = $request->getAttribute('rest_id');
     $restaurant = new Restaurants($this->db);
@@ -593,6 +586,21 @@ $app->get('/restaurants/{rest_id: [\d]+}/profile_image_path', function(Request $
     $rest_id = $request->getAttribute('rest_id');
     $restaurant = new Restaurants($this->db);
     $response = $restaurant->select("profile_image_path", $rest_id);
+    return $response;
+})->add($access_mw);
+
+
+$app->get('/restaurants/{rest_id: [\d]+}/time_open', function(Request $request, Response $response, $args) {
+    $rest_id = $request->getAttribute('rest_id');
+    $restaurant = new Restaurants($this->db);
+    $response = $restaurant->select("time_open", $rest_id);
+    return $response;
+})->add($access_mw);
+
+$app->get('/restaurants/{rest_id: [\d]+}/time_close', function(Request $request, Response $response, $args) {
+    $rest_id = $request->getAttribute('rest_id');
+    $restaurant = new Restaurants($this->db);
+    $response = $restaurant->select("time_close", $rest_id);
     return $response;
 })->add($access_mw);
 
