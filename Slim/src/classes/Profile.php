@@ -1,13 +1,4 @@
 <?php
-    require_once 'AccountHandler.php';
-    require_once 'AccountTypeHandler.php';
-    require_once 'UserHandler.php';
-    require_once 'PersonalMenuHandler.php';
-    require_once 'PersonalMenuItemHandler.php';
-    require_once 'RestaurantHandler.php';
-    require_once 'CuisineTypeHandler.php';
-    require_once 'PriceRatingHandler.php';
-
     class Profile {
         protected $db;
 

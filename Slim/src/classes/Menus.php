@@ -29,11 +29,5 @@
             	return $result;
             }
         }
-
-		// public function insert(){
-		// 	$sql = "INSERT INTO Menus DEFAULT VALUES";
-		// 	$result = $this->db->query($sql);
-		// }
 	}
-
 ?>

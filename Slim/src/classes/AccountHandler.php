@@ -1,8 +1,4 @@
 <?php
-    require_once 'AccountTypeHandler.php';
-    require_once 'UserHandler.php';
-    require_once 'RestaurantHandler.php';
-
     class AccountHandler {
         protected $db;
 

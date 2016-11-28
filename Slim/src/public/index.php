@@ -42,14 +42,6 @@ $https_mw = function(Request $request, Response $response, $next) {
 
 $app->add($https_mw);
 
-// $app->add(function(Request $request, Response $response, $next) {
-//     $auth = new AuthenticationHandler();
-//     $current_session = $auth->getCurrentSession();
-//     //var_dump($current_session);
-//     $response = $next($request, $response);
-//     return $response;
-// });
-
 // check session authentication, send authentication and session to route
 $session_mw = function(Request $request, Response $response, $next) {
     $authenticationHandler = new AuthenticationHandler($this->db);
@@ -399,15 +391,6 @@ $app->get('/personalMenus/{pmenu_id: [\d]+}/add', function(Request $request, Res
     return $response;
 })->add($access_mw);
 
-// $app->post('/personalMenus/{pmenu_id}/add', function(Request $request, Response $response, $args) {
-//     $pmenu_id = $request->getAttribute('pmenu_id');
-//     $data = $request->getParsedBody();
-//     $menu_item_id = $data['menu_item_id'];
-//     $pmenu = new PersonalMenus($this->db, $pmenu_id);
-//     $response = $pmenu->addItem($menu_item_id);
-//     return $response;
-// })->add($access_mw);
-
 // Personal Menu Items ---------------------------------------------------
 
 $app->get('/personalMenuItems/{personal_menu_items_id: [\d]+}/menu_items_id', function(Request $request, Response $response, $args) {
@@ -416,13 +399,6 @@ $app->get('/personalMenuItems/{personal_menu_items_id: [\d]+}/menu_items_id', fu
     $response = $item->select("menu_items_id");
     return $response;
 })->add($access_mw);
-
-// $app->get('/personalMenuItems/{personal_menu_items_id}/user_id', function(Request $request, Response $response, $args) {
-//     $item_id = $request->getAttribute('personal_menu_items_id');
-//     $item = new PersonalMenuItems($this->db, $item_id);
-//     $response = $item->select("user_id");
-//     return $response;
-// })->add($access_mw);
 
 // Restaurants -----------------------------------------------------------
 
@@ -753,7 +729,7 @@ $app->get('/mealtypes/{mtype_id: [\d]+}/type', function(Request $request, Respon
 
 // Cuisine Types ---------------------------------------------------------
 
-$app->get('/cuisinetypes/{ctype_id: [\d]+}/type', function(Request $request, Response $response, $args) {
+$app->get('/cuisineTypes/{ctype_id: [\d]+}/type', function(Request $request, Response $response, $args) {
     $ctype_id = $request->getAttribute('ctype_id');
     $cuis_type = new CuisineTypes($this->db, $ctype_id);
     $response = $cuis_type->select("type");

@@ -1,6 +1,4 @@
 <?php
-    require_once 'UserHandler.php';
-
     class Form {
     	
         public function loginForm($action_url) {
