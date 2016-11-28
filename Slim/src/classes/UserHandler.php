@@ -6,6 +6,20 @@
             $this->db = $db;
         }
 
+        public function getAllIds() {
+            $ids = array();
+            $statement = 'SELECT id FROM Users';
+
+            if ($query_result = $this->db->query($statement)) {
+
+                while ($row = $query_result->fetchArray()) {
+                    $ids[] = $row['id'];
+                }
+            }
+
+            return $ids;
+        }
+
         public function getId($account_id) {
             $id = -1;
             $statement = 'SELECT id FROM Users WHERE account_id=:account_id';

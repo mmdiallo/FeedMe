@@ -244,6 +244,14 @@ $app->get('/current_account', function (Request $request, Response $response) {
 
 // Users -----------------------------------------------------------------
 
+$app->get('/users/all_user_ids', function(Request $request, Response $response) {
+    $user = new UserHandler($this->db);
+    $user_ids = $user->getAllIds();
+    $json = json_encode($user_ids);
+    $response->getBody()->write($json);
+    return $response;
+})->add($access_mw);
+
 $app->post('/users/{user_id: [\d]+}/edit', function(Request $request, Response $response, $args) {
     $result = array('error' => NULL);
     $authentication = new AuthenticationHandler($this->db);
@@ -494,6 +502,14 @@ $app->post('/restaurants/{restaurant_id: [\d]+}/edit', function(Request $request
     }
 
     $json = json_encode($result, JSON_NUMERIC_CHECK);
+    $response->getBody()->write($json);
+    return $response;
+})->add($access_mw);
+
+$app->get('/restaurants/all_restaurant_ids', function(Request $request, Response $response) {
+    $restaurant = new RestaurantHandler($this->db);
+    $restaurant_ids = $restaurant->getAllIds();
+    $json = json_encode($restaurant_ids);
     $response->getBody()->write($json);
     return $response;
 })->add($access_mw);
