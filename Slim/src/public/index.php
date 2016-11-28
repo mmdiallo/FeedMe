@@ -368,6 +368,11 @@ $app->get('/users/{uid: [\d]+}/personal_menu_id', function(Request $request, Res
 })->add($access_mw);
 
 // Personal Menus --------------------------------------------------------
+$app->get('/personalMenus/all_personal_menu_ids', function(Request $request, Response $response) {
+    $personalMenu = new PersonalMenus($this->db);
+    $response = $personalMenu->selectAllIds();
+    return $response;
+})->add($access_mw);
 
 $app->get('/personalMenus/{pmenu_id: [\d]+}/all_menu_item_ids', function(Request $request, Response $response) {
     $personal_menu_id = $request->getAttribute('pmenu_id');
@@ -643,6 +648,12 @@ $app->get('/restaurants/{rest_id: [\d]+}/time_close', function(Request $request,
 
 // Menus -----------------------------------------------------------------
 
+$app->get('/menus/all_menu_ids', function(Request $request, Response $response) {
+    $menu = new Menus($this->db);
+    $response = $menu->selectAllIds();
+    return $response;
+})->add($access_mw);
+
 $app->get('/menus/{menu_id: [\d]+}/all_menu_items_id', function(Request $request, Response $response, $args) {
     $menu_id = $request->getAttribute('menu_id');
     $menu = new Menus($this->db);
@@ -726,6 +737,8 @@ $app->post('/menus/{menu_id: [\d]+}/add', function(Request $request, Response $r
 // Menu Items ------------------------------------------------------------
 
 $app->get('/menuItems/all_menu_item_ids', function(Request $request, Response $response) {
+    $menuItem = new MenuItems($this->db);
+    $response = $menuItem->selectAllIds();
     return $response;
 })->add($access_mw);
 
@@ -781,6 +794,8 @@ $app->get('/menuItems/{menu_items_id: [\d]+}/description', function(Request $req
 // Meal Types ------------------------------------------------------------
 
 $app->get('/mealTypes/all_meal_type_ids', function(Request $request, Response $response) {
+    $mealType = new MealTypes($this->db);
+    $response = $mealType->selectAllIds();
     return $response;
 })->add($access_mw);
 
@@ -794,6 +809,8 @@ $app->get('/mealtypes/{mtype_id: [\d]+}/type', function(Request $request, Respon
 // Cuisine Types ---------------------------------------------------------
 
 $app->get('/cuisineTypes/all_cuisine_type_ids', function(Request $request, Response $response) {
+    $cuisineType = new CuisineTypes($this->db);
+    $response = $cuisineType->selectAllIds();
     return $response;
 })->add($access_mw);
 
@@ -807,6 +824,8 @@ $app->get('/cuisineTypes/{ctype_id: [\d]+}/type', function(Request $request, Res
 // Price Ratings ---------------------------------------------------------
 
 $app->get('/priceRatings/all_price_rating_ids', function(Request $request, Response $response) {
+    $priceRating = new PriceRatings($this->db);
+    $response = $priceRating->selectAllIds();
     return $response;
 })->add($access_mw);
 

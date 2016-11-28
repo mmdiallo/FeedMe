@@ -30,6 +30,29 @@
             $json = json_encode($results);
             return $json;
         }
+
+        public function selectAllIds() {
+            $stmt = "SELECT id FROM MealTypes";
+            $result = $this->db->query($stmt);
+            $results = array();
+
+            if ($result !=  false) {
+                while($row = $result->fetchArray()){
+                    $results[] = array('id' => $row['id']); 
+            }
+                
+            } else {
+                $results['error'] = 'Failed to get ids';
+            }
+
+            if (empty($results)) {
+                $results['error'] = 'Failed to get ids';
+            }
+
+            $json = json_encode($results);
+            return $json;
+
+        }
 	}
 
 
