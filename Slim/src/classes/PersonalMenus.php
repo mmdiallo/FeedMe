@@ -9,20 +9,23 @@
 
 
         public function selectAll($pm_id) {
-        	$stmt = "SELECT * FROM PersonalMenuItems WHERE personal_menu_id = :id";
+        	$stmt = "SELECT id FROM PersonalMenuItems WHERE personal_menu_id = :id";
         
             $sql = $this->db->prepare($stmt);
             $sql->bindValue(':id', $pm_id, SQLITE3_INTEGER);
             $result = $sql->execute();
 
             $results = array();
+
             if ($result !=  false) {
+                
                 while($row = $result->fetchArray()){
-                    $results[] = array($field => $row[$field]); 
+                    $results[] = array('id' => $row['id']); 
                 }
-                $json = json_encode($results);
-                return $json;
             }
+
+            $json = json_encode($results);
+            return $json;
         }
 
         public function addItem($menu_item_id) {

@@ -129,6 +129,7 @@ $app->post('/create_user_account', function(Request $request, Response $response
         $this->db->exec('COMMIT');
     } else {
         $this->db->exec('ROLLBACK');
+        $response = $response->withStatus(500);
     }
 
     $json = json_encode($result, JSON_NUMERIC_CHECK);
@@ -238,7 +239,8 @@ $app->get('/current_account', function (Request $request, Response $response) {
     $authentication = new AuthenticationHandler($this->db);
     $session_info = $authentication->getCurrentSession();
     $session_info['error'] = $result['error'];
-    $json = json_encode($session_info, JSON_NUMERIC_CHECK);
+    $result = array($session_info);
+    $json = json_encode($result, JSON_NUMERIC_CHECK);
     $response->getBody()->write($json);
 })->add($access_mw);
 
