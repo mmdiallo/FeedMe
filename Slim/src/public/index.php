@@ -355,7 +355,7 @@ $app->get('/users/{uid: [\d]+}/last_name', function(Request $request, Response $
 $app->get('/users/{uid: [\d]+}/personal_menu_id', function(Request $request, Response $response, $args) {
     $uid = $request->getAttribute('uid');
     $user = new Users($this->db);
-    $response = $user->select("personal_menu_id", $uid);
+    $response = $user->selectPM_id($uid);
     return $response;
 })->add($access_mw);
 
