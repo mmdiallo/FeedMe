@@ -322,28 +322,28 @@ $app->post('/users/{user_id: [\d]+}/edit', function(Request $request, Response $
     return $response;
 })->add($access_mw);
 
-$app->get('/users/{uid}/email', function(Request $request, Response $response, $args) {
+$app->get('/users/{uid: [\d]+}/email', function(Request $request, Response $response, $args) {
     $uid = $request->getAttribute('uid');
     $user = new Users($this->db, $uid);
     $response = $user->select("email");
     return $response;
 })->add($access_mw);
 
-$app->get('/users/{uid}/first_name', function(Request $request, Response $response, $args) {
+$app->get('/users/{uid: [\d]+}/first_name', function(Request $request, Response $response, $args) {
     $uid = $request->getAttribute('uid');
     $user = new Users($this->db, $uid);
     $response = $user->select("first_name");
     return $response;
 })->add($access_mw);
 
-$app->get('/users/{uid}/last_name', function(Request $request, Response $response, $args) {
+$app->get('/users/{uid: [\d]+}/last_name', function(Request $request, Response $response, $args) {
     $uid = $request->getAttribute('uid');
     $user = new Users($this->db, $uid);
     $response = $user->select("last_name");
     return $response;
 })->add($access_mw);
 
-$app->get('/users/{uid}/personal_menu_id', function(Request $request, Response $response, $args) {
+$app->get('/users/{uid: [\d]+}/personal_menu_id', function(Request $request, Response $response, $args) {
     $uid = $request->getAttribute('uid');
     $user = new Users($this->db, $uid);
     $response = $user->select("personal_menu_id");
@@ -352,7 +352,7 @@ $app->get('/users/{uid}/personal_menu_id', function(Request $request, Response $
 
 // Personal Menus --------------------------------------------------------
 
-$app->get('/personalMenus/{pmenu_id}/all_pmenu_items_id', function(Request $request, Response $response, $args) {
+$app->get('/personalMenus/{pmenu_id: [\d]+}/all_pmenu_items_id', function(Request $request, Response $response, $args) {
     $pmenu_id = $request->getAttribute('pmenu_id');
     $pmenu = new PersonalMenus($this->db, $pmenu_id);
     $response = $pmenu->selectAll();
@@ -410,7 +410,7 @@ $app->get('/personalMenus/{pmenu_id: [\d]+}/add', function(Request $request, Res
 
 // Personal Menu Items ---------------------------------------------------
 
-$app->get('/personalMenuItems/{personal_menu_items_id}/menu_items_id', function(Request $request, Response $response, $args) {
+$app->get('/personalMenuItems/{personal_menu_items_id: [\d]+}/menu_items_id', function(Request $request, Response $response, $args) {
     $item_id = $request->getAttribute('personal_menu_items_id');
     $item = new PersonalMenuItems($this->db, $item_id);
     $response = $item->select("menu_items_id");
@@ -515,98 +515,98 @@ $app->post('/restaurants/{restaurant_id: [\d]+}/edit', function(Request $request
     return $response;
 })->add($access_mw);
 
-$app->get('/restaurants/{rest_id}/account_id', function(Request $request, Response $response, $args) {
+$app->get('/restaurants/{rest_id: [\d]+}/account_id', function(Request $request, Response $response, $args) {
     $rest_id = $request->getAttribute('rest_id');
     $restaurant = new Restaurants($this->db, $rest_id);
     $response = $restaurant->select("account_id");
     return $response;
 })->add($access_mw);
 
-$app->get('/restaurants/{rest_id}/email', function(Request $request, Response $response, $args) {
+$app->get('/restaurants/{rest_id: [\d]+}/email', function(Request $request, Response $response, $args) {
     $rest_id = $request->getAttribute('rest_id');
     $restaurant = new Restaurants($this->db, $rest_id);
     $response = $restaurant->select("email");
     return $response;
 })->add($access_mw);
 
-$app->get('/restaurants/{rest_id}/name', function(Request $request, Response $response, $args) {
+$app->get('/restaurants/{rest_id: [\d]+}/name', function(Request $request, Response $response, $args) {
     $rest_id = $request->getAttribute('rest_id');
     $restaurant = new Restaurants($this->db, $rest_id);
     $response = $restaurant->select("name");
     return $response;
 })->add($access_mw);
 
-$app->get('/restaurants/{rest_id}/street_address', function(Request $request, Response $response, $args) {
+$app->get('/restaurants/{rest_id: [\d]+}/street_address', function(Request $request, Response $response, $args) {
     $rest_id = $request->getAttribute('rest_id');
     $restaurant = new Restaurants($this->db, $rest_id);
     $response = $restaurant->select("street_address");
     return $response;
 })->add($access_mw);
 
-$app->get('/restaurants/{rest_id}/city', function(Request $request, Response $response, $args) {
+$app->get('/restaurants/{rest_id: [\d]+}/city', function(Request $request, Response $response, $args) {
     $rest_id = $request->getAttribute('rest_id');
     $restaurant = new Restaurants($this->db, $rest_id);
     $response = $restaurant->select("city");
     return $response;
 })->add($access_mw);
 
-$app->get('/restaurants/{rest_id}/state', function(Request $request, Response $response, $args) {
+$app->get('/restaurants/{rest_id: [\d]+}/state', function(Request $request, Response $response, $args) {
     $rest_id = $request->getAttribute('rest_id');
     $restaurant = new Restaurants($this->db, $rest_id);
     $response = $restaurant->select("state");
     return $response;
 })->add($access_mw);
 
-$app->get('/restaurants/{rest_id}/phone_number', function(Request $request, Response $response, $args) {
+$app->get('/restaurants/{rest_id: [\d]+}/phone_number', function(Request $request, Response $response, $args) {
     $rest_id = $request->getAttribute('rest_id');
     $restaurant = new Restaurants($this->db, $rest_id);
     $response = $restaurant->select("phone_number");
     return $response;
 })->add($access_mw);
 
-$app->get('/restaurants/{rest_id}/hours_id', function(Request $request, Response $response, $args) {
+$app->get('/restaurants/{rest_id: [\d]+}/hours_id', function(Request $request, Response $response, $args) {
     $rest_id = $request->getAttribute('rest_id');
     $restaurant = new Restaurants($this->db, $rest_id);
     $response = $restaurant->select("hours_id");
     return $response;
 })->add($access_mw);
 
-$app->get('/restaurants/{rest_id}/menu_id', function(Request $request, Response $response, $args) {
+$app->get('/restaurants/{rest_id: [\d]+}/menu_id', function(Request $request, Response $response, $args) {
     $rest_id = $request->getAttribute('rest_id');
     $restaurant = new Restaurants($this->db, $rest_id);
     $response = $restaurant->select("menu_id");
     return $response;
 })->add($access_mw);
 
-$app->get('/restaurants/{rest_id}/cuisine_type_id', function(Request $request, Response $response, $args) {
+$app->get('/restaurants/{rest_id: [\d]+}/cuisine_type_id', function(Request $request, Response $response, $args) {
     $rest_id = $request->getAttribute('rest_id');
     $restaurant = new Restaurants($this->db, $rest_id);
     $response = $restaurant->select("cuisine_type_id");
     return $response;
 })->add($access_mw);
 
-$app->get('/restaurants/{rest_id}/price_rating_id', function(Request $request, Response $response, $args) {
+$app->get('/restaurants/{rest_id: [\d]+}/price_rating_id', function(Request $request, Response $response, $args) {
     $rest_id = $request->getAttribute('rest_id');
     $restaurant = new Restaurants($this->db, $rest_id);
     $response = $restaurant->select("price_rating_id");
     return $response;
 })->add($access_mw);
 
-$app->get('/restaurants/{rest_id}/website_url', function(Request $request, Response $response, $args) {
+$app->get('/restaurants/{rest_id: [\d]+}/website_url', function(Request $request, Response $response, $args) {
     $rest_id = $request->getAttribute('rest_id');
     $restaurant = new Restaurants($this->db, $rest_id);
     $response = $restaurant->select("website_url");
     return $response;
 })->add($access_mw);
 
-$app->get('/restaurants/{rest_id}/biography', function(Request $request, Response $response, $args) {
+$app->get('/restaurants/{rest_id: [\d]+}/biography', function(Request $request, Response $response, $args) {
     $rest_id = $request->getAttribute('rest_id');
     $restaurant = new Restaurants($this->db, $rest_id);
     $response = $restaurant->select("biography");
     return $response;
 })->add($access_mw);
 
-$app->get('/restaurants/{rest_id}/profile_image_path', function(Request $request, Response $response, $args) {
+$app->get('/restaurants/{rest_id: [\d]+}/profile_image_path', function(Request $request, Response $response, $args) {
     $rest_id = $request->getAttribute('rest_id');
     $restaurant = new Restaurants($this->db, $rest_id);
     $response = $restaurant->select("profile_image_path");
@@ -615,7 +615,7 @@ $app->get('/restaurants/{rest_id}/profile_image_path', function(Request $request
 
 // Menus -----------------------------------------------------------------
 
-$app->get('/menus/{menu_id}/all_menu_items_id', function(Request $request, Response $response, $args) {
+$app->get('/menus/{menu_id: [\d]+}/all_menu_items_id', function(Request $request, Response $response, $args) {
     $menu_id = $request->getAttribute('menu_id');
     $menu = new Menus($this->db, $menu_id);
     $response = $menu->selectAll();
@@ -693,49 +693,49 @@ $app->post('/menus/{menu_id: [\d]+}/add', function(Request $request, Response $r
 
 // Menu Items ------------------------------------------------------------
 
-$app->get('/menuItems/{menu_items_id}/name', function(Request $request, Response $response, $args) {
+$app->get('/menuItems/{menu_items_id: [\d]+}/name', function(Request $request, Response $response, $args) {
     $item_id = $request->getAttribute('menu_items_id');
     $item = new MenuItems($this->db, $item_id);
     $response = $item->select("name");
     return $response;
 })->add($access_mw);
 
-$app->get('/menuItems/{menu_items_id}/menu_id', function(Request $request, Response $response, $args) {
+$app->get('/menuItems/{menu_items_id: [\d]+}/menu_id', function(Request $request, Response $response, $args) {
     $item_id = $request->getAttribute('menu_items_id');
     $item = new MenuItems($this->db, $item_id);
     $response = $item->select("menu_id");
     return $response;
 })->add($access_mw);
 
-$app->get('/menuItems/{menu_items_id}/cuisine_type_id', function(Request $request, Response $response, $args) {
+$app->get('/menuItems/{menu_items_id: [\d]+}/cuisine_type_id', function(Request $request, Response $response, $args) {
     $item_id = $request->getAttribute('menu_items_id');
     $item = new MenuItems($this->db, $item_id);
     $response = $item->select("cuisine_type_id");
     return $response;
 })->add($access_mw);
 
-$app->get('/menuItems/{menu_items_id}/meal_type_id', function(Request $request, Response $response, $args) {
+$app->get('/menuItems/{menu_items_id: [\d]+}/meal_type_id', function(Request $request, Response $response, $args) {
     $item_id = $request->getAttribute('menu_items_id');
     $item = new MenuItems($this->db, $item_id);
     $response = $item->select("meal_type_id");
     return $response;
 })->add($access_mw);
 
-$app->get('/menuItems/{menu_items_id}/image_path', function(Request $request, Response $response, $args) {
+$app->get('/menuItems/{menu_items_id: [\d]+}/image_path', function(Request $request, Response $response, $args) {
     $item_id = $request->getAttribute('menu_items_id');
     $item = new MenuItems($this->db, $item_id);
     $response = $item->select("image_path");
     return $response;
 })->add($access_mw);
 
-$app->get('/menuItems/{menu_items_id}/price', function(Request $request, Response $response, $args) {
+$app->get('/menuItems/{menu_items_id: [\d]+}/price', function(Request $request, Response $response, $args) {
     $item_id = $request->getAttribute('menu_items_id');
     $item = new MenuItems($this->db, $item_id);
     $response = $item->select("price");
     return $response;
 })->add($access_mw);
 
-$app->get('/menuItems/{menu_items_id}/description', function(Request $request, Response $response, $args) {
+$app->get('/menuItems/{menu_items_id: [\d]+}/description', function(Request $request, Response $response, $args) {
     $item_id = $request->getAttribute('menu_items_id');
     $item = new MenuItems($this->db, $item_id);
     $response = $item->select("description");
@@ -744,7 +744,7 @@ $app->get('/menuItems/{menu_items_id}/description', function(Request $request, R
 
 // Meal Types ------------------------------------------------------------
 
-$app->get('/mealtypes/{mtype_id}/type', function(Request $request, Response $response, $args) {
+$app->get('/mealtypes/{mtype_id: [\d]+}/type', function(Request $request, Response $response, $args) {
     $mtype_id = $request->getAttribute('mtype_id');
     $m_type = new MealTypes($this->db, $mtype_id);
     $response = $m_type->select("type");
@@ -753,7 +753,7 @@ $app->get('/mealtypes/{mtype_id}/type', function(Request $request, Response $res
 
 // Cuisine Types ---------------------------------------------------------
 
-$app->get('/cuisinetypes/{ctype_id}/type', function(Request $request, Response $response, $args) {
+$app->get('/cuisinetypes/{ctype_id: [\d]+}/type', function(Request $request, Response $response, $args) {
     $ctype_id = $request->getAttribute('ctype_id');
     $cuis_type = new CuisineTypes($this->db, $ctype_id);
     $response = $cuis_type->select("type");
@@ -762,21 +762,21 @@ $app->get('/cuisinetypes/{ctype_id}/type', function(Request $request, Response $
 
 // Price Ratings ---------------------------------------------------------
 
-$app->get('/priceratings/{pr_id}/rating', function(Request $request, Response $response, $args) {
+$app->get('/priceratings/{pr_id: [\d]+}/rating', function(Request $request, Response $response, $args) {
     $pr_id = $request->getAttribute('pr_id');
     $pr = new PriceRatings($this->db, $pr_id);
     $response = $pr->select("rating");
     return $response;
 })->add($access_mw);
 
-$app->get('/priceratings/{pr_id}/high', function(Request $request, Response $response, $args) {
+$app->get('/priceratings/{pr_id: [\d]+}/high', function(Request $request, Response $response, $args) {
     $pr_id = $request->getAttribute('pr_id');
     $pr = new PriceRatings($this->db, $pr_id);
     $response = $pr->select("highest_price");
     return $response;
 })->add($access_mw);
 
-$app->get('/priceratings/{pr_id}/low', function(Request $request, Response $response, $args) {
+$app->get('/priceratings/{pr_id: [\d]+}/low', function(Request $request, Response $response, $args) {
     $pr_id = $request->getAttribute('pr_id');
     $pr = new PriceRatings($this->db, $pr_id);
     $response = $pr->select("lowest_price");
