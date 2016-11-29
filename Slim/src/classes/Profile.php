@@ -174,7 +174,7 @@
             if (!empty($current_session['user_id'])) {
                 $personal_menu_handler = new PersonalMenuHandler($this->db);
                 $personal_menu_id = $personal_menu_handler->getId($current_session['user_id']);
-                $profile = $profile . '<a href="/personalMenus/' . $personal_menu_id . '/add?menu_item_id=' . $menu_item_id . '"> Add to Personal Menu </a>';
+                $profile = $profile . '<a href="/personalMenus/' . htmlentities($personal_menu_id) . '/add?menu_item_id=' . htmlentities($menu_item_id) . '"> Add to Personal Menu </a>';
             }
 
             $profile = $profile . '</div>';
