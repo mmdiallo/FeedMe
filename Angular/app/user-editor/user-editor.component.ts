@@ -14,22 +14,20 @@ export class UserEditorComponent {
     @Input() model: any[];
     _user: {
     id: number;
-    name: string;
-    bio: string;
+    firstName: string;
+    lastName: string;
     email: string;
     picPath: string;
-    favorites: any[];
+    favorites: any [];
   };
-
-
 
     constructor(private route: ActivatedRoute,
         private router: Router,
         private userEditorService: UserEditorService) {
         this._user = {
             id: 1,
-            name: 'string',
-            bio: 'string',
+            firstName: 'string',
+            lastName: 'string',
             email: 'string',
             picPath: 'string',
             favorites: []

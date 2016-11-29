@@ -18,11 +18,12 @@ export class RestaurantEditorComponent {
     bio: string;
     address: string;
     phoneNumber: string;
+    webURL: string;
     email: string;
     openTime: string;
     closeTime: string;
     picPath: string;
-    menu: any [];
+    menu: any[];
   };
 
 
@@ -36,6 +37,7 @@ export class RestaurantEditorComponent {
                 bio: "BOOM we actually sell other things",
                 address: "2222 WooHoo Lane",
                 phoneNumber: "555-555-5464",
+                webURL: "www.thisthing.com",
                 email: "jjfu@bde.net",
                 openTime: "08:00:00",
                 closeTime: "18:00:00",

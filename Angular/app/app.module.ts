@@ -10,7 +10,6 @@ import { LoginComponent } from './login/login.component';
 import { restLoginComponent } from './restaurantLogin/restaurantLogin.component'
 import { RestaurantProfileComponent } from './restaurantProfile/restaurantProfile.component';
 import { RegisterComponent } from './register/register.component';
-import { RestaurantMenuComponent } from './restaurantMenu/restaurant-menu.component';
 import { UserProfileComponent } from './userProfile/userProfile.component';
 import { FoodFeedComponent } from './foodFeed/foodFeed.component';
 import { UserEditorComponent } from './user-editor/user-editor.component';
@@ -33,11 +32,9 @@ import { RestaurantEditorService } from './services/restaurant-editor.service';
   		{ path: '', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'restaurant', component: RestaurantProfileComponent },
-      { path: 'menu', component: RestaurantMenuComponent },
       { path: 'user', component: UserProfileComponent },
       { path: 'feed', component: FoodFeedComponent }, 
       { path: 'restLogin', component: restLoginComponent },
-      { path: 'menu/:restaurantId', component: RestaurantMenuComponent }, 
   		{ path: 'restaurant/:restaurantId', component: RestaurantProfileComponent },
       { path: 'restaurant/update/:restaurantId', component: RestaurantEditorComponent },
       { path: 'user/:userId', component: UserProfileComponent },
@@ -52,7 +49,6 @@ import { RestaurantEditorService } from './services/restaurant-editor.service';
     RegisterComponent,
     RestaurantProfileComponent,
     RestaurantEditorComponent,
-    RestaurantMenuComponent,
     restLoginComponent,
     UserProfileComponent,
     UserEditorComponent,
