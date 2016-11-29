@@ -443,6 +443,12 @@ $app->get('/personalMenus/{pmenu_id: [\d]+}/add', function(Request $request, Res
 
 // Restaurants -----------------------------------------------------------
 
+$app->get('/restaurants/all_restaurant_ids', function(Request $request, Response $response) {
+    $restaurant = new Restaurants($this->db);
+    $response = $restaurant->selectAllIds();
+    return $response;
+})->add($access_mw);
+
 $app->post('/restaurants/{restaurant_id: [\d]+}/edit', function(Request $request, Response $response) {
     $result = array('error' => NULL);
     $authentication = new AuthenticationHandler($this->db);
@@ -532,14 +538,6 @@ $app->post('/restaurants/{restaurant_id: [\d]+}/edit', function(Request $request
     return $response;
 })->add($access_mw);
 
-// $app->get('/restaurants/all_restaurant_ids', function(Request $request, Response $response) {
-//     $restaurant = new RestaurantHandler($this->db);
-//     $restaurant_ids = $restaurant->getAllIds();
-//     $json = json_encode($restaurant_ids);
-//     $response->getBody()->write($json);
-//     return $response;
-// })->add($access_mw);
-
 $app->get('/restaurants/{rest_id: [\d]+}/account_id', function(Request $request, Response $response, $args) {
     $rest_id = $request->getAttribute('rest_id');
     $restaurant = new Restaurants($this->db);
@@ -591,9 +589,14 @@ $app->get('/restaurants/{rest_id: [\d]+}/phone_number', function(Request $reques
 
 $app->get('/restaurants/{rest_id: [\d]+}/menu_id', function(Request $request, Response $response, $args) {
     $rest_id = $request->getAttribute('rest_id');
-    $restaurant = new Restaurants($this->db);
-    $response = $restaurant->select("menu_id", $rest_id);
-    return $response;
+    $menu_handler = new MenuHandler($this->db);
+    $result = array('menu_id' => $menu_handler->getId($rest_id));
+
+    if ($result['smenu_id'] == NULL) {
+        $result = array('error' => 'failed to get menu id');
+    }
+
+    $response->getBody()->write(json_encode($result));
 })->add($access_mw);
 
 $app->get('/restaurants/{rest_id: [\d]+}/cuisine_type_id', function(Request $request, Response $response, $args) {
@@ -654,14 +657,31 @@ $app->get('/menus/all_menu_ids', function(Request $request, Response $response) 
     return $response;
 })->add($access_mw);
 
-$app->get('/menus/{menu_id: [\d]+}/all_menu_items_id', function(Request $request, Response $response, $args) {
+$app->get('/menus/{menu_id: [\d]+}/all_menu_item_ids', function(Request $request, Response $response, $args) {
     $menu_id = $request->getAttribute('menu_id');
-    $menu = new Menus($this->db);
-    $response = $menu->selectAll($menu_id);
+    $menu_item_handler = new MenuItemHandler($this->db);
+    $menu_item_ids = $menu_item_handler->getAllIds($menu_id);
+
+    if (empty($menu_item_ids)) {
+        $result = array('error' => 'failed to get menu item ids');
+        $json = json_encode($result, JSON_NUMERIC_CHECK);
+        $response->getBody()->write($json);
+    } else {
+        $result = array();
+        foreach ($menu_item_ids as $menu_item_id) {
+            $result[] = array('menu_item_id' => $menu_item_id); 
+        }
+        $json = json_encode($result, JSON_NUMERIC_CHECK);
+        $response->getBody()->write($json);
+    }
+
     return $response;
 })->add($access_mw);
 
-$app->get('/menus/{menu_id: [\d]+}/restaurant_menu_id', function(Request $request, Response $response, $args) {
+$app->get('/menus/{menu_id: [\d]+}/restaurant_id', function(Request $request, Response $response) {
+    $menu_id = $request->getAttribute('menu_id');
+    $menu = new Menus($this->db);
+    $response = $menu->select('restaurant_id', $menu_id);
     return $response;
 })->add($access_mw);
 
@@ -709,10 +729,10 @@ $app->post('/menus/{menu_id: [\d]+}/add', function(Request $request, Response $r
 
                         if ($menu_item_add_success) {
                             $this->db->exec('COMMIT');
-                            $result['status'] = 'update successful';
+                            $result['status'] = 'addition successful';
                         } else {
                             $this->db->exec('ROLLBACK');
-                            $result['error'] = 'update failed';
+                            $result['error'] = 'addition failed';
                         }
 
                     } else {
@@ -723,10 +743,10 @@ $app->post('/menus/{menu_id: [\d]+}/add', function(Request $request, Response $r
                 }
             }
         } else {
-            $result['error'] = 'not authorized to edit user';
+            $result['error'] = 'not authorized to edit menu';
         }
     } else {
-        $result['error'] = 'not authorized to edit user';
+        $result['error'] = 'not authorized to edit menu';
     }
 
     $json = json_encode($result, JSON_NUMERIC_CHECK);
@@ -1008,10 +1028,10 @@ $app->get('/restaurants/{restaurant_id: [\d]+}/edit', function(Request $request,
             $form_string = $form->editRestaurant($restaurant_id, $this->db);
             $response->getBody()->write($form_string);
         } else {
-            $response->getBody()->write('not authorized to edit user');
+            $response->getBody()->write('not authorized to edit restaurant');
         }
     } else {
-        $response->getBody()->write('not authorized to edit user');
+        $response->getBody()->write('not authorized to edit restaurant');
     }
     return $response;
 });
@@ -1032,11 +1052,11 @@ $app->get('/menus/{menu_id: [\d]+}/add', function(Request $request, Response $re
             $form_string = $form->addMenuItem($menu_id, $this->db);
             $response->getBody()->write($form_string);
         } else {
-            $response->getBody()->write('not authorized to edit user');
+            $response->getBody()->write('not authorized to edit menu');
         }
 
     } else {
-        $response->getBody()->write('not authorized to edit user');
+        $response->getBody()->write('not authorized to edit menu');
     }
     return $response;
 });

@@ -39,7 +39,7 @@
 
             if ($result !=  false) {
                 while($row = $result->fetchArray()){
-                    $results[] = array('id' => $row['id']); 
+                    $results[] = array('personal_menu_id' => $row['id']); 
             }
                 
             } else {
