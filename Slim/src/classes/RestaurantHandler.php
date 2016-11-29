@@ -370,6 +370,7 @@
                 $prepared_statement->bindValue(':id', $id, SQLITE3_INTEGER);
 
                 if ($prepared_statement->execute()) {
+                    echo 'yo';
                     $success = true;
                 }
             } 
