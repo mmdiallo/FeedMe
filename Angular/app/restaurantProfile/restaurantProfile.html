@@ -5,6 +5,9 @@
 	<form class="navbar-form navbar-right">
 		<button type="button" class="btn btn-primary" routerLink="/"> Log Out </button>
 	</form>
+	<form class="navbar-form navbar-right">
+		<button type="button" class="btn btn-primary" (click)="navToEdit(restaurant.id)"> Edit Profile </button>
+	</form>
 </nav>
 
 <div class="container">
@@ -12,7 +15,7 @@
 		<div class="col-md-3">
 			<!-- SIDEBAR USERPIC -->
 			<div class="profile-userpic">
-				<img class="picture" [src]="restaurant.picPath" onerror="this.src='../images/food.jpg'" />
+				<img class="picture" [src]="restaurant.picPath" onerror="this.src='../images/placeholder.jpg'" />
 			</div>
 			<!-- END SIDEBAR USERPIC -->
 			<!-- SIDEBAR USER TITLE -->
@@ -63,6 +66,7 @@
 
 
 						<div class="food-name"> {{item.name}} </div>
+						<span class="btn glyphicon glyphicon-trash red" (click)="delete(item); $event.stopPropagation()"></span>
 					</div>
 				</div>
 			</div>

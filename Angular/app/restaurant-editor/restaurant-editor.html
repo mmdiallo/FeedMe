@@ -1,0 +1,39 @@
+<div class="container">
+	<div class="heading">
+		<h1> {{ heading }} </h1>
+	</div>
+	<div class="form-group">
+		<label for="name"> Name </label>
+		<input id="name" class="form-control" [(ngModel)]="_restaurant.name" />
+	</div>
+	<div class="form-group">
+		<label for="bio"> Biography </label>
+		<input name="bio" id="bio" class="form-control" [(ngModel)]="_restaurant.bio" />
+	</div>
+    <div class="form-group">
+		<label for="address"> Address </label>
+		<input name="address" id="address" class="form-control" [(ngModel)]="_restaurant.address" />
+	</div>
+    <div class="form-group">
+		<label for="phone"> Phone Number </label>
+		<input name="phone" id="phone" class="form-control" [(ngModel)]="_restaurant.phoneNumber" />
+	</div>
+    <div class="form-group">
+		<label for="email"> Email </label>
+		<input name="email" id="email" class="form-control" [(ngModel)]="_restaurant.email" />
+	</div>
+    <div class="form-group">
+		<label for="openTime"> Open Time </label>
+		<input name="openTime" id="openTime" class="form-control" [(ngModel)]="_restaurant.openTime" />
+	</div>
+    <div class="form-group">
+		<label for="closeTime"> Close Time </label>
+		<input name="closeTime" id="closeTime" class="form-control" [(ngModel)]="_restaurant.closeTime" />
+	</div>
+	<div class="form-group">
+		<label for="image-path"> Picture Path </label>
+		<input id="image-path" class="form-control" [(ngModel)]="_restaurant.picPath" />
+	</div>
+	<a class="btn btn-primary btn-block btn-lg" (click)="save()"> Save </a>
+	<a class="btn btn-default btn-block btn-lg" (click)="return()"> Back to Profile </a>
+</div>

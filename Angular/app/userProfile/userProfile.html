@@ -5,6 +5,9 @@
 	<form class="navbar-form navbar-right">
 		<button type="button" class="btn btn-primary" routerLink="/"> Log Out </button>
 	</form>
+	<form class="navbar-form navbar-right">
+		<button type="button" class="btn btn-primary" (click)="navToEdit(user.id)"> Edit Profile </button>
+	</form>
 </nav>
 
 <div class="container">
@@ -12,7 +15,7 @@
 		<div class="col-md-3">
 			<!-- SIDEBAR USERPIC -->
 			<div class="profile-userpic">
-				<img class="picture" [src]="user.picPath" onerror="this.src='images/../images/food.jpg'" />
+				<img class="picture" [src]="user.picPath" onerror="this.src='../images/placeholder.jpg'" />
 			</div>
 			<!-- END SIDEBAR USERPIC -->
 			<!-- SIDEBAR USER TITLE -->
@@ -48,9 +51,8 @@
 				<div *ngFor="let item of user.favorites" class="menu-item btn">
 					<div class="food-frame">
 						<img class="picture" [src]="item.picPath" onerror="this.src='../images/food.jpg'" width="200" height="200" />
-
-
-						<!--<div class="food-name"> {{ getFavItem(item.restaurantId,item.menuId).name }} </div>-->
+						<div class="food-name"> {{ item.name }} </div>
+						<span class="btn glyphicon glyphicon-trash red" (click)="delete(item); $event.stopPropagation()"></span>
 					</div>
 				</div>
 			</div>

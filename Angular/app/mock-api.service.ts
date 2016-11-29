@@ -15,12 +15,12 @@ export class MockApiService implements InMemoryDbService {
                 email: "jjfu@bde.net",
                 openTime: "08:00:00",
                 closeTime: "18:00:00",
-                picPath: "",
+                picPath: "../images/emporium.jpg",
                 menu: [
                     {
                         id: 1,
                         name: "Taco Platter",
-                        picPath: "",
+                        picPath: "../images/taco-platter.jpg",
                         description: "",
                         type: "Mexican",
                         time: "Breakfast"
@@ -28,7 +28,7 @@ export class MockApiService implements InMemoryDbService {
                     {
                         id: 2,
                         name: "Fruit Salad",
-                        picPath: "",
+                        picPath: "../images/fruitSalad.jpg",
                         description: "Yummy Yummy",
                         type: "Not Mexican",
                         time: "I don't know"
@@ -36,7 +36,7 @@ export class MockApiService implements InMemoryDbService {
                     {
                         id: 3,
                         name: "Cake",
-                        picPath: "",
+                        picPath: "../images/cake.jpg",
                         description: "Better than Pie",
                         type: "Universally Recognized",
                         time: "Dessert"
@@ -44,7 +44,7 @@ export class MockApiService implements InMemoryDbService {
                     {
                         id: 4,
                         name: "Yogurt",
-                        picPath: "",
+                        picPath: "../images/yogurt.jpg",
                         description: "Gogurt",
                         type: "Processed",
                         time: "Snack"
@@ -52,7 +52,7 @@ export class MockApiService implements InMemoryDbService {
                     {
                         id: 5,
                         name: "Pizza",
-                        picPath: "",
+                        picPath: "../images/pizza.jpg",
                         description: "Not a Fruit",
                         type: "Italian",
                         time: "Lunch/Dinner"
@@ -140,18 +140,28 @@ export class MockApiService implements InMemoryDbService {
         let users = [
             {
                 id: 1,
-                name: "Adam Ashcraft",
-                bio: "Blank",
+                name: "Jeff",
+                bio: "I only Like Faijitas and Guac",
                 email: "dvce@love.com",
-                picPath: "",
+                picPath: "../images/user1.jpg",
                 favorites: [
                     {
-                        restaurantId: 1,
-                        menuId: 2
+                        restaurantId: 2,
+                        menuId: 7,
+                        name: "Steak Fajitas",
+                        picPath: "../images/steak-fajitas.jpg",
+                        description: "I dunno how to describe enchiladas.",
+                        type: "Mexican",
+                        time: "lunch/dinner"
                     },
                     {
-                        restaurantId: 1,
-                        menuId: 4
+                        restaurantId: 2,
+                        menuId: 8,
+                        name: "Side of Guac",
+                        picPath: "../images/guac.jpg",
+                        description: "I dunno how to describe enchiladas.",
+                        type: "Mexican",
+                        time: "lunch/dinner"
                     }
                 ]
             },
@@ -159,20 +169,35 @@ export class MockApiService implements InMemoryDbService {
                 id: 2,
                 name: "John Doe",
                 bio: "I am a massive FOODIE!! I specifically love Italian and Greek food. Check out my menu!",
-                address: "defaultaddress",
+                email: "dvce@love.com",
                 picPath: "../images/user.jpg",
                 favorites: [
                     {
                         restaurantId: 1,
-                        menuId: 2
-                    },
-                    {
-                        restaurantId: 1,
-                        menuId: 4
+                        menuId: 5,
+                        name: "Pizza",
+                        picPath: "../images/pizza.jpg",
+                        description: "Not a Fruit",
+                        type: "Italian",
+                        time: "Lunch/Dinner"
                     },
                     {
                         restaurantId: 2,
-                        menuId: 3
+                        menuId: 6,
+                        name: "Churros",
+                        picPath: "../images/churros.jpg",
+                        description: "I dunno how to describe enchiladas.",
+                        type: "Mexican",
+                        time: "lunch/dinner"
+                    },
+                    {
+                        restaurantId: 2,
+                        menuId: 3,
+                        name: "Enchiladas",
+                        picPath: "../images/enchiladas.jpg",
+                        description: "I dunno how to describe enchiladas.",
+                        type: "Mexican",
+                        time: "lunch/dinner"
                     }
                 ]
             }

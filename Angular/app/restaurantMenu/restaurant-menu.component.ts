@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 
-import { RestaurantMenuUpdateService } from './../services/restaurantMenu.update.service';
 import { RestaurantGetService } from './../services/restaurantGet.service';
 
 
@@ -24,8 +23,7 @@ export class RestaurantMenuComponent {
 
 	constructor(private route: ActivatedRoute,
     private router: Router,
-    private getService: RestaurantGetService,
-    private restaurantMenuUpdateService : RestaurantMenuUpdateService){
+    private getService: RestaurantGetService){
     
 	}
 
@@ -40,7 +38,7 @@ export class RestaurantMenuComponent {
             bio: "defaultbio",
             address: "defaultaddress",
             hours: "defaulthours",
-            picPath: "../images/food.jpg",
+            picPath: "../images/placeholder.jpg",
             menu: [
               {name : "Taco", picPath: "../images/food.jpg"}
             ]

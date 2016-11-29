@@ -13,15 +13,16 @@ import { RegisterComponent } from './register/register.component';
 import { RestaurantMenuComponent } from './restaurantMenu/restaurant-menu.component';
 import { UserProfileComponent } from './userProfile/userProfile.component';
 import { FoodFeedComponent } from './foodFeed/foodFeed.component';
+import { UserEditorComponent } from './user-editor/user-editor.component';
+import { RestaurantEditorComponent } from './restaurant-editor/restaurant-editor.component';
 
 import { AuthenticateService } from './services/login.authenticate.service';
-import { RestaurantUpdateService } from './services/restaurantProfile.update.service';
 import { RestaurantGetService } from './services/restaurantGet.service';
-import { RestaurantMenuUpdateService } from './services/restaurantMenu.update.service';
 import { UserGetService } from './services/userGet.service';
-import { UserUpdateService } from './services/user.update.service';
 import { FoodFeedGetService } from './services/foodFeed.get.service';
 import { MockApiService } from './mock-api.service';
+import { UserEditorService } from './services/user-editor.service';
+import { RestaurantEditorService } from './services/restaurant-editor.service';
 
 @NgModule({
   imports:      [ 
@@ -38,7 +39,9 @@ import { MockApiService } from './mock-api.service';
       { path: 'restLogin', component: restLoginComponent },
       { path: 'menu/:restaurantId', component: RestaurantMenuComponent }, 
   		{ path: 'restaurant/:restaurantId', component: RestaurantProfileComponent },
+      { path: 'restaurant/update/:restaurantId', component: RestaurantEditorComponent },
       { path: 'user/:userId', component: UserProfileComponent },
+      { path: 'user/update/:userId', component: UserEditorComponent },
       { path: 'feed/:userId', component: FoodFeedComponent }
 	]),
   InMemoryWebApiModule.forRoot(MockApiService)
@@ -48,18 +51,19 @@ import { MockApiService } from './mock-api.service';
     LoginComponent,
     RegisterComponent,
     RestaurantProfileComponent,
+    RestaurantEditorComponent,
     RestaurantMenuComponent,
     restLoginComponent,
     UserProfileComponent,
+    UserEditorComponent,
     FoodFeedComponent
   ],
   providers: [ 
 		AuthenticateService,
-    RestaurantUpdateService, 
     RestaurantGetService,
-    RestaurantMenuUpdateService,
+    RestaurantEditorService,
     UserGetService,
-    UserUpdateService,
+    UserEditorService,
     FoodFeedGetService
 		],
   bootstrap:    [ AppComponent ]
