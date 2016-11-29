@@ -49,7 +49,7 @@
                 $prepared_statement->bindValue(':type', $type);
 
                 if ($prepared_statement->execute()) {
-                    $succes = true;
+                    $success = true;
                 }
             }
 
