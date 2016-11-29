@@ -67,10 +67,6 @@
             $form = $form . '<br>';
             $form = $form . 'Street Address: <input type="text" name="street_address" value="'. htmlentities($street_address) . '" required>';
             $form = $form . '<br>';
-            $form = $form . 'City: <input type="text" name="city" value="'. htmlentities($city) . '" required>';
-            $form = $form . '<br>';
-            $form = $form . 'State: <input type="text" name="state" value="'. htmlentities($state) . '" required>';
-            $form = $form . '<br>';
             $form = $form . 'Phone Number: <input type="tel" name="phone_number" value="'. htmlentities($phone_number) . '" required>';
             $form = $form . '<br>';
             $form = $form . 'Time Open: <input type="time" name="time_open" value="'. htmlentities($time_open) . '" required>';

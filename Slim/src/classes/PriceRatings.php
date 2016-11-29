@@ -38,7 +38,7 @@
 
             if ($result !=  false) {
                 while($row = $result->fetchArray()){
-                    $results[] = array('id' => $row['id']); 
+                    $results[] = array('price_rating_id' => $row['id']); 
             }
                 
             } else {

@@ -10,11 +10,12 @@
             $stmt = "SELECT " . $field . " FROM MenuItems WHERE id = :id";
              
             $sql = $this->db->prepare($stmt);
-            $sql->bindValue(':id', $$menu_item_id, SQLITE3_INTEGER);
+            $sql->bindValue(':id', $menu_item_id, SQLITE3_INTEGER);
             $result = $sql->execute();
 
             $results = array();
             if ($result !=  false) {
+
                 while($row = $result->fetchArray()){
                     $results[$field] = $row[$field];  
                 }
@@ -38,7 +39,7 @@
 
             if ($result !=  false) {
                 while($row = $result->fetchArray()){
-                    $results[] = array('id' => $row['id']); 
+                    $results[] = array('menu_item_id' => $row['id']); 
             }
                 
             } else {

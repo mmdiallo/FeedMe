@@ -467,8 +467,8 @@ $app->post('/restaurants/{restaurant_id: [\d]+}/edit', function(Request $request
                 $email_success = $restaurant_handler->updateEmail($restaurant_id, $data['email']);
                 $name_success = $restaurant_handler->updateName($restaurant_id, $data['name']);
                 $street_address_success = $restaurant_handler->updateStreetAddress($restaurant_id, $data['street_address']);
-                $city_success = $restaurant_handler->updateCity($restaurant_id, $data['city']);
-                $state_success = $restaurant_handler->updateState($restaurant_id, $data['state']);
+                //$city_success = $restaurant_handler->updateCity($restaurant_id, $data['city']);
+                //$state_success = $restaurant_handler->updateState($restaurant_id, $data['state']);
                 $phone_number_success = $restaurant_handler->updatePhoneNumber($restaurant_id, $data['phone_number']);
                 $website_url_success = $restaurant_handler->updateWebsiteUrl($restaurant_id, $data['website_url']);
                 $biography_success = $restaurant_handler->updateBiography($restaurant_id, $data['biography']);
@@ -477,7 +477,7 @@ $app->post('/restaurants/{restaurant_id: [\d]+}/edit', function(Request $request
                 $price_rating_success = $restaurant_handler->updatePriceRating($restaurant_id, $data['price_rating']);
                 $cuisine_type_success = $restaurant_handler->updateCuisineType($restaurant_id, $data['cuisine_type']);
 
-                if ($email_success && $name_success && $street_address_success && $city_success && $state_success && $phone_number_success && $website_url_success && $biography_success && $time_open_sucess && $time_close_success && $price_rating_success && $cuisine_type_success) {
+                if ($email_success && $name_success && $street_address_success && $phone_number_success && $website_url_success && $biography_success && $time_open_sucess && $time_close_success && $price_rating_success && $cuisine_type_success) {
                     $this->db->exec('COMMIT');
                     $result['status'] = 'update successful';
                 } else {
@@ -819,7 +819,7 @@ $app->get('/mealTypes/all_meal_type_ids', function(Request $request, Response $r
     return $response;
 })->add($access_mw);
 
-$app->get('/mealtypes/{mtype_id: [\d]+}/type', function(Request $request, Response $response, $args) {
+$app->get('/mealTypes/{mtype_id: [\d]+}/type', function(Request $request, Response $response, $args) {
     $mtype_id = $request->getAttribute('mtype_id');
     $m_type = new MealTypes($this->db);
     $response = $m_type->select("type", $mtype_id);
@@ -856,14 +856,14 @@ $app->get('/priceRatings/{pr_id: [\d]+}/rating', function(Request $request, Resp
     return $response;
 })->add($access_mw);
 
-$app->get('/priceRatings/{pr_id: [\d]+}/high', function(Request $request, Response $response, $args) {
+$app->get('/priceRatings/{pr_id: [\d]+}/highest_price', function(Request $request, Response $response, $args) {
     $pr_id = $request->getAttribute('pr_id');
     $pr = new PriceRatings($this->db);
     $response = $pr->select("highest_price", $pr_id);
     return $response;
 })->add($access_mw);
 
-$app->get('/priceRatings/{pr_id: [\d]+}/low', function(Request $request, Response $response, $args) {
+$app->get('/priceRatings/{pr_id: [\d]+}/lowest_price', function(Request $request, Response $response, $args) {
     $pr_id = $request->getAttribute('pr_id');
     $pr = new PriceRatings($this->db);
     $response = $pr->select("lowest_price", $pr_id);
