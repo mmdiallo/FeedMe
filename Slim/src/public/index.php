@@ -239,10 +239,10 @@ $app->get('/users/all_user_ids', function(Request $request, Response $response) 
     return $response;
 })->add($access_mw);
 
-$app->post('/users/edit/{user_id: [\d]+}', function(Request $request, Response $response, $args) {
+$app->post('/users/edit/{uid: [\d]+}', function(Request $request, Response $response, $args) {
     $result = array('error' => NULL);
     $authentication = new AuthenticationHandler($this->db);
-    $user_id = $request->getAttribute('user_id');
+    $user_id = $request->getAttribute('uid');
     $auth = $authentication->checkAuthentication();
 
     if ($auth) {
