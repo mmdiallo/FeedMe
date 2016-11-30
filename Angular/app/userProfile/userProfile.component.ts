@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 
-import { UserUpdateService } from './../services/user.update.service';
 import { UserGetService } from './../services/userGet.service';
 
 @Component({
@@ -12,36 +11,22 @@ import { UserGetService } from './../services/userGet.service';
 
 export class UserProfileComponent {
 
-  restaurant: {
-    id: number;
-    name: string;
-    bio: string;
-    address: string;
-    phoneNumber: string;
-    email: string;
-    openTime: string;
-    closeTime: string;
-    picPath: string;
-    menu: any[];
-  }
-
   user: {
     id: number;
-    name: string;
-    bio: string;
+    firstName: string;
+    lastName: string;
     email: string;
     picPath: string;
-    favorites: any[];
+    favorites: any [];
   }
 
   constructor(private route: ActivatedRoute,
     private router: Router,
-    private updateService: UserUpdateService,
     private getService: UserGetService) {
     this.user = {
       id: 1,
-      name: 'string',
-      bio: 'string',
+      firstName: 'string',
+      lastName: 'string',
       email: 'string',
       picPath: 'string',
       favorites: []
@@ -56,63 +41,60 @@ export class UserProfileComponent {
     if (!id) {
       this.user = {
         id: 1,
-        name: "Adam Ashcraft",
-        bio: "Blank",
+        firstName: "Jake",
+        lastName: "John",
         email: "dvce@love.com",
         picPath: "../images/user.jpg",
-        favorites: [
-          {
-            restaurantId: 1,
-            menuId: 2
-          },
-          {
-            restaurantId: 1,
-            menuId: 4
-          }
-        ]
+        favorites: []
       }
       return;
     }
 
-    var onload = (data) => {
+    var updateFirstName = (data) => {
       if (data) {
-        this.user = data;
+        this.user.firstName = data;
       }
     }
 
-    this.getService.get(id).then(onload);
-  }
-
-  private getRestaurant(restaurantId) {
-    this.getService.getRestaurant(restaurantId);
-  }
-
-
-  /*
-  this.route.params.forEach((params: Params) => {
-
-    if (params['restaurantId'] !== undefined) {
-      this.restaurant = this.getService.getRestaurant(+params['restaurantId']);
-    } else {
-      this.restaurant = {
-        name: "John Doe",
-          bio: "I am a massive FOODIE!! I specifically love Italian and Greek food. Check out my menu!",
-          address: "defaultaddress",
-          hours: "defaulthours",
-          picPath: "../images/user.jpg",
-          menu: [
-            {name : "Taco", picPath: "../images/taco.jpg"},
-            {name : "Enchiladas", picPath: "../images/enchiladas.jpg"},
-            {name : "Churros", picPath: "../images/churros.jpg"},
-            {name : "Taco Platter", picPath: "../images/taco-platter.jpg"},
-            {name : "Street Tacos", picPath: "../images/taco-tester-platter.jpg"},
-            {name : "Side of Guac", picPath: "../images/guac.jpg"},
-            {name : "Steak Fajitas", picPath: "../images/steak-fajitas.jpg"}
-          ]
+    var updateLastName = (data) => {
+      if (data) {
+        this.user.lastName = data;
       }
-
     }
-  });
-  */
 
+    var updateEmail = (data) => {
+      if (data) {
+        this.user.email = data;
+      }
+    }
+
+    var updatePicPath = (data) => {
+      if (data) {
+        this.user.picPath = data;
+      }
+    }
+
+    var updateFavorites = (data) => {
+      if (data) {
+        this.user.favorites = data;
+      }
+    }
+    
+    this.getService.getFirstName(id).then(updateFirstName);
+    this.getService.getLastName(id).then(updateLastName);
+    this.getService.getEmail(id).then(updateEmail);
+    this.getService.getPicPath(id).then(updatePicPath);
+    this.getService.getFavorites(id).then(updateFavorites);
+  }
+
+  delete(fav) {
+    this.getService.deleteItem(this.user, fav)
+      .then(() => {
+        this.user.favorites = this.user.favorites.filter(f => f !== fav);
+      });
+  }
+
+  navToEdit(id) {
+    this.router.navigate(['/user/update', id]);
+  }
 }
