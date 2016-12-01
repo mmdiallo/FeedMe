@@ -7,6 +7,7 @@
 	</form>
 	<form class="navbar-form navbar-right">
 		<button type="button" class="btn btn-primary" (click)="navToEdit(user.id)"> Edit Profile </button>
+			<button type="button" class="btn btn-primary" (click)= "navToFeed(user.id)"> Food Feed </button>
 	</form>
 </nav>
 
@@ -30,8 +31,7 @@
 			<!-- END SIDEBAR USER TITLE -->
 			<!-- SIDEBAR BUTTONS -->
 			<div class="profile-userbuttons">
-				<button type="button" class="btn btn-success btn-sm">Follow</button>
-				<button type="button" class="btn btn-danger btn-sm" (click)= "navToFeed(user.id)"> Food Feed </button>
+
 			</div>
 			<!-- END SIDEBAR BUTTONS -->
 			<!-- SIDEBAR MENU -->
@@ -47,7 +47,7 @@
 		</div>
 		<div class="col-md-9">
 			<div class="profile-content">
-				<div class="menu-header"> My Menu </div>
+				<div class="menu-header"> {{ user.name }}'s Menu </div>
 				<div *ngFor="let item of user.favorites" class="menu-item btn">
 					<div class="food-frame">
 						<img class="picture" [src]="item.picPath" onerror="this.src='../images/food.jpg'" width="200" height="200" />

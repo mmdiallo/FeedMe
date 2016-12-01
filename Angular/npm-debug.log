@@ -1,0 +1,44 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'start' ]
+2 info using npm@3.10.8
+3 info using node@v6.9.1
+4 verbose run-script [ 'prestart', 'start', 'poststart' ]
+5 info lifecycle FeedMe@~prestart: FeedMe@
+6 silly lifecycle FeedMe@~prestart: no script for prestart, continuing
+7 info lifecycle FeedMe@~start: FeedMe@
+8 verbose lifecycle FeedMe@~start: unsafe-perm in lifecycle true
+9 verbose lifecycle FeedMe@~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/Jmullin17/Desktop/FeedMe/Angular/node_modules/.bin:/usr/local/mysql/bin:/Library/Frameworks/Python.framework/Versions/3.5/bin:/Users/Jmullin17/.rvm/gems/ruby-2.2.1/bin:/Users/Jmullin17/.rvm/gems/ruby-2.2.1@global/bin:/Users/Jmullin17/.rvm/rubies/ruby-2.2.1/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin:/opt/ImageMagick/bin:/Users/Jmullin17/EMIS:/Users/Jmullin17/.rvm/bin:/usr/local/mysql/bin
+10 verbose lifecycle FeedMe@~start: CWD: /Users/Jmullin17/Desktop/FeedMe/Angular
+11 silly lifecycle FeedMe@~start: Args: [ '-c', 'concurrently "npm run tsc:w" "npm run lite" ' ]
+12 info lifecycle FeedMe@~start: Failed to exec start script
+13 verbose stack Error: FeedMe@ start: `concurrently "npm run tsc:w" "npm run lite" `
+13 verbose stack spawn ENOENT
+13 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:33:16)
+13 verbose stack     at emitTwo (events.js:106:13)
+13 verbose stack     at ChildProcess.emit (events.js:191:7)
+13 verbose stack     at maybeClose (internal/child_process.js:877:16)
+13 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
+14 verbose pkgid FeedMe@
+15 verbose cwd /Users/Jmullin17/Desktop/FeedMe/Angular
+16 error Darwin 16.0.0
+17 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "start"
+18 error node v6.9.1
+19 error npm  v3.10.8
+20 error file sh
+21 error code ELIFECYCLE
+22 error errno ENOENT
+23 error syscall spawn
+24 error FeedMe@ start: `concurrently "npm run tsc:w" "npm run lite" `
+24 error spawn ENOENT
+25 error Failed at the FeedMe@ start script 'concurrently "npm run tsc:w" "npm run lite" '.
+25 error Make sure you have the latest version of node.js and npm installed.
+25 error If you do, this is most likely a problem with the FeedMe package,
+25 error not with npm itself.
+25 error Tell the author that this fails on your system:
+25 error     concurrently "npm run tsc:w" "npm run lite"
+25 error You can get information on how to open an issue for this project with:
+25 error     npm bugs FeedMe
+25 error Or if that isn't available, you can get their info via:
+25 error     npm owner ls FeedMe
+25 error There is likely additional logging output above.
+26 verbose exit [ 1, true ]
