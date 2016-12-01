@@ -53,9 +53,37 @@
   <div class="profile-content">
     <div *ngFor="let item of restaurant.menu" class="menu-item btn">
       <div class="food-frame">
-        <img class="picture" [src]="item.picPath" onerror="this.src='../images/food.jpg'" width="200" height="200" />
+        <img data-toggle="modal" data-target="#myModal" class="picture" [src]="item.picPath" onerror="this.src='../images/food.jpg'" width="200" height="200" />
         <div class="food-name"> {{item.name}} </div>
 				<a routerLink="/restaurant/1" class="food-type" >@Restaurant</a>
+				<!-- Modal -->
+				  <div class="modal fade" id="myModal" role="dialog">
+				    <div class="modal-dialog">
+
+				      <!-- Modal content-->
+				      <div class="modal-content">
+				        <div class="modal-header">
+				          <button type="button" class="close" data-dismiss="modal">&times;</button>
+				          <h4 class="modal-title"> Restaurant Name </h4>
+				        </div>
+				        <div class="modal-body">
+
+				        <br><br><br><br>  <p>map</p> <br><br><br><br>
+
+										<div id="container">
+									    <button class="btn btn-primary" > Call </button>
+											<button class="btn btn-primary" > Website </button>
+										</div>
+				        </div>
+				        <div class="modal-footer">
+				          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				        </div>
+				      </div>
+
+				    </div>
+				  </div>
+
+
 				<div class="food-type"> {{item.type}} </div>
         <div class="food-description"> {{item.description}} </div>
 				<span class="btn glyphicon glyphicon-plus-sign red"></span>
