@@ -1,3 +1,15 @@
+<nav class="navbar navbar-default">
+	<a class="navbar-brand" href="#">
+		 FeedMe
+	 </a>
+	<form class="navbar-form navbar-right">
+		<button type="button" class="btn btn-primary" routerLink="/"> Log Out </button>
+	</form>
+	<form class="navbar-form navbar-right">
+		<button type="button" class="btn btn-primary" (click)="navToEdit(restaurant.id)"> Edit Profile </button>
+	</form>
+</nav>
+
 <div class="container">
 	<div class="row profile">
 		<div class="col-md-3">
@@ -18,8 +30,8 @@
 			<!-- END SIDEBAR USER TITLE -->
 			<!-- SIDEBAR BUTTONS -->
 			<div class="profile-userbuttons">
-				<button type="button" class="btn btn-success btn-sm">Follow</button>
-				<button type="button" class="btn btn-danger btn-sm"> Menu </button>
+				<button type="button" class="btn btn-success btn-sm" routerLink="/restaurant"> Back </button>
+				<button type="button" class="btn btn-danger btn-sm"> Call </button>
 			</div>
 			<!-- END SIDEBAR BUTTONS -->
 			<!-- SIDEBAR MENU -->
@@ -104,6 +116,14 @@
 								<input id="title" name="title" type="text" placeholder="Meal Type" class="input-xlarge">
 							</div>
 						</div>
+
+						<div class="col-md-4 " id="controls">
+							<div class="control-group">
+								<label class="control-label" for="title">Image</label>
+								<div class="controls">
+									<input id="title" name="title" type="text" placeholder="Image Path" class="input-xlarge">
+								</div>
+							</div>
 
 
 					</div>
