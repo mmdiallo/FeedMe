@@ -5,19 +5,19 @@ import { RestaurantGetService } from './../services/restaurantGet.service';
 
 @Component({
   selector: 'restaurantProfile',
-  templateUrl: './app/restaurantProfile/restaurantProfile.html',
-  styleUrls: ['./app/restaurantProfile/restaurantProfile.css']
+  templateUrl: './app/restaurantUpload/restaurantUpload.html',
+  styleUrls: ['./app/restaurantUpload/restaurantUpload.css']
 })
 
-export class RestaurantProfileComponent {
+export class RestaurantUploadComponent {
 
   restaurant: {
     id: number;
     name: string;
     bio: string;
     address: string;
+    website: string;
     phoneNumber: string;
-    webURL: string;
     email: string;
     openTime: string;
     closeTime: string;
@@ -33,12 +33,12 @@ export class RestaurantProfileComponent {
       name: 'string',
       bio: 'string',
       address: 'string',
+      website: 'string',
       phoneNumber: 'string',
-      webURL: 'string',
       email: 'sting',
       openTime: 'string',
       closeTime: 'string',
-      picPath: '../images/placeholder.jpg',
+      picPath: 'string',
       menu: []
     }
   }
@@ -54,12 +54,12 @@ export class RestaurantProfileComponent {
         name: "Russell Hallmark's Fruit Emporium",
         bio: "BOOM we actually sell other things",
         address: "2222 WooHoo Lane",
+        website: 'www.restaurant.com',
         phoneNumber: "555-555-5464",
-        webURL: 'www.Thisthing.com',
         email: "jjfu@bde.net",
-        openTime: "08:00:00",
-        closeTime: "18:00:00",
-        picPath: "../images/placeholder.jpg",
+        openTime: "8:00am",
+        closeTime: "5:00pm",
+        picPath: "",
         menu: [
           {
             id: 1,
@@ -115,17 +115,7 @@ export class RestaurantProfileComponent {
     this.getService.getRestaurant(id).then(onload);
   }
 
-  delete(item) {
-    this.getService.deleteItem(this.restaurant, item)
-      .then(() => {
-        this.restaurant.menu = this.restaurant.menu.filter(i => i !== item);
-      });
-  }
-
-  navToEdit(id) {
-    this.router.navigate(['/restaurant/update', id]);
-  }
-  navToUpload(id) {
-    this.router.navigate(['/restaurant/upload', id]);
+  navToProfile(id) {
+    this.router.navigate(['/restaurant/', id]);
   }
 }

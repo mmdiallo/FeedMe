@@ -1,0 +1,71 @@
+<nav class="navbar navbar-default">
+	<a class="navbar-brand" href="#">
+		 FeedMe
+	 </a>
+	<form class="navbar-form navbar-right">
+		<button type="button" class="btn btn-primary" routerLink="/"> Log Out </button>
+	</form>
+	<form class="navbar-form navbar-right">
+		<button type="button" class="btn btn-primary" (click)="navToProfile()"> Back To Profile </button>
+	</form>
+</nav>
+
+<br/><br/>
+<div class="title-banner">
+  My Food Feed
+
+</div>
+<div class="container">
+	<div class="row">
+        <div class="col-md-12">
+            <div id="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-heart"></i> Favorites</button>
+                <button type="button" class="btn btn-default"> <i class="glyphicon glyphicon-usd"></i> Budget</button>
+                <button type="button" class="btn btn-deafult" data-toggle="dropdown" aria-expanded="false"> <i class="glyphicon glyphicon-th"></i> Categories <span class="caret"></span></button>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="#">Mexican</a></li>
+                  <li><a href="#">Italian</a></li>
+                  <li><a href="#">Greek</a></li>
+                  <li><a href="#">Mediterranean</a></li>
+                  <li><a href="#">Korean</a></li>
+                  <li><a href="#">Asian</a></li>
+                </ul>
+                <!--button type="button" class="btn btn-default">Announcements</button-->
+            </div>
+        </div>
+
+	</div>
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="topcis-header">
+                <div class="row">
+                    <div class="col-md-10">
+                    </div>
+                </div>
+            </div>
+<!-- FEED -->
+
+
+
+
+<div class="col-lg-12">
+  <div class="profile-content">
+    <div *ngFor="let item of restaurant.menu" class="menu-item btn">
+      <div class="food-frame">
+        <img class="picture" [src]="item.picPath" onerror="this.src='../images/food.jpg'" width="200" height="200" />
+        <div class="food-name"> {{item.name}} </div>
+        <div class="food-type"> {{item.type}} </div>
+        <div class="food-description"> {{item.description}} </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+    </div>
+
+</div>

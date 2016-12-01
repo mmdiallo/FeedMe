@@ -1,0 +1,118 @@
+<div class="container">
+	<div class="row profile">
+		<div class="col-md-3">
+			<!-- SIDEBAR USERPIC -->
+			<div class="profile-userpic">
+				<img class="picture" [src]="restaurant.picPath" onerror="this.src='../images/food.jpg'" />
+			</div>
+			<!-- END SIDEBAR USERPIC -->
+			<!-- SIDEBAR USER TITLE -->
+			<div class="profile-usertitle">
+				<div class="profile-name">
+					{{ restaurant.name }}
+				</div>
+				<div class="profile-bio">
+					{{ restaurant.bio }}
+				</div>
+			</div>
+			<!-- END SIDEBAR USER TITLE -->
+			<!-- SIDEBAR BUTTONS -->
+			<div class="profile-userbuttons">
+				<button type="button" class="btn btn-success btn-sm">Follow</button>
+				<button type="button" class="btn btn-danger btn-sm"> Menu </button>
+			</div>
+			<!-- END SIDEBAR BUTTONS -->
+			<!-- SIDEBAR MENU -->
+			<div class="profile-usermenu">
+				<ul class="nav">
+					<li class="active">
+						<a href="#">
+							<i class="glyphicon glyphicon-home"></i> {{ restaurant.address }} </a>
+					</li>
+					<li>
+						<a href="#" target="_blank">
+							<i class="glyphicon glyphicon-flag"></i> {{ restaurant.webURL }} </a>
+					</li>
+					<li>
+						<a href="#" target="_blank">
+							<i class="glyphicon glyphicon-flag"></i> {{ restaurant.openTime }} - {{ restaurant.closeTime }} </a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="glyphicon glyphicon-ok"></i> {{ restaurant.phoneNumber }} </a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="glyphicon glyphicon-ok"></i> {{ restaurant.email }} </a>
+					</li>
+				</ul>
+				<!-- END MENU -->
+			</div>
+		</div>
+		<div class="col-md-9">
+			<div class="profile-content">
+				<div class="menu-header"> Upload </div>
+
+				<div class="fff">
+					<div class="thumbnail">
+						<a href="#"><img src="http://placehold.it/230x240" alt=""></a>
+						<!-- File Button -->
+						<div class="control-group">
+							<label class="control-label" for="filebutton">Image File</label>
+							<div class="controls">
+								<input id="filebutton" name="filebutton" class="input-file" type="file">
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-4" id="controls">
+						<div class="control-group">
+							<label class="control-label" for="title">Title</label>
+							<div class="controls">
+								<input id="title" name="title" type="text" placeholder="Name" class="input-xlarge">
+							</div>
+						</div>
+
+
+						<!-- Textarea -->
+						<div class="control-group">
+							<label class="control-label" for="Description">Description</label>
+							<div class="controls">
+								<textarea id="Description" name="Description" placeholder="Description"></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="inputs col-md-4" id="controls">
+						<div class="control-group">
+							<label class="control-label" for="title">Price</label>
+							<div class="controls">
+								<input id="title" name="title" type="text" placeholder="Price" class="input-xlarge">
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label" for="title">Cuisine Type</label>
+							<div class="controls">
+								<input id="title" name="title" type="text" placeholder="Cuisine Type" class="input-xlarge">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 " id="controls">
+						<div class="control-group">
+							<label class="control-label" for="title">Meal</label>
+							<div class="controls">
+								<input id="title" name="title" type="text" placeholder="Meal Type" class="input-xlarge">
+							</div>
+						</div>
+
+
+					</div>
+					<div class="col-md-12" id="submit">
+						<div class="upload-btn">
+							<button class="btn btn-primary" (click)="navToProfile(restaurant.id)">CLICK TO UPLOAD</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>

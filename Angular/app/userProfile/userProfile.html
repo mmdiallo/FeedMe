@@ -23,12 +23,15 @@
 				<div class="profile-name">
 					{{ user.name }}
 				</div>
+				<div class="profile-bio">
+					{{ user.bio }}
+				</div>
 			</div>
 			<!-- END SIDEBAR USER TITLE -->
 			<!-- SIDEBAR BUTTONS -->
 			<div class="profile-userbuttons">
 				<button type="button" class="btn btn-success btn-sm">Follow</button>
-				<button type="button" class="btn btn-danger btn-sm"> Menu </button>
+				<button type="button" class="btn btn-danger btn-sm" (click)= "navToFeed(user.id)"> Food Feed </button>
 			</div>
 			<!-- END SIDEBAR BUTTONS -->
 			<!-- SIDEBAR MENU -->
@@ -49,6 +52,8 @@
 					<div class="food-frame">
 						<img class="picture" [src]="item.picPath" onerror="this.src='../images/food.jpg'" width="200" height="200" />
 						<div class="food-name"> {{ item.name }} </div>
+						<div class="food-type"> {{item.type}}</div>
+						<div class="food-description"> {{item.description}}</div>
 						<span class="btn glyphicon glyphicon-trash red" (click)="delete(item); $event.stopPropagation()"></span>
 					</div>
 				</div>

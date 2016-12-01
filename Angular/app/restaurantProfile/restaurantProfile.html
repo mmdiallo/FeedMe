@@ -31,7 +31,7 @@
 			<!-- SIDEBAR BUTTONS -->
 			<div class="profile-userbuttons">
 				<button type="button" class="btn btn-success btn-sm">Follow</button>
-				<button type="button" class="btn btn-danger btn-sm"> Menu </button>
+				<button type="button" (click)= "navToUpload(restaurant.id)"class="btn btn-danger btn-sm">Menu</button>
 			</div>
 			<!-- END SIDEBAR BUTTONS -->
 			<!-- SIDEBAR MENU -->
@@ -42,16 +42,20 @@
 							<i class="glyphicon glyphicon-home"></i> {{ restaurant.address }} </a>
 					</li>
 					<li>
-						<a href="#">
-							<i class="glyphicon glyphicon-user"></i> {{ restaurant.hours }} </a>
+						<a href="#" target="_blank">
+							<i class="glyphicon glyphicon-flag"></i> {{ restaurant.webURL }} </a>
 					</li>
 					<li>
 						<a href="#" target="_blank">
-							<i class="glyphicon glyphicon-flag"></i> www.banditosdallas.com </a>
+							<i class="glyphicon glyphicon-flag"></i> {{ restaurant.openTime }} - {{ restaurant.closeTime }} </a>
 					</li>
 					<li>
 						<a href="#">
-							<i class="glyphicon glyphicon-ok"></i> (214) 884-9940 </a>
+							<i class="glyphicon glyphicon-ok"></i> {{ restaurant.phoneNumber }} </a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="glyphicon glyphicon-ok"></i> {{ restaurant.email }} </a>
 					</li>
 				</ul>
 				<!-- END MENU -->
@@ -66,6 +70,8 @@
 
 
 						<div class="food-name"> {{item.name}} </div>
+						<div class="food-type"> {{item.type}} </div>
+		        <div class="food-description"> {{item.description}} </div>
 						<span class="btn glyphicon glyphicon-trash red" (click)="delete(item); $event.stopPropagation()"></span>
 					</div>
 				</div>
