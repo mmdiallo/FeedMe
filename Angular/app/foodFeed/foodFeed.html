@@ -55,7 +55,7 @@
       <div class="food-frame">
         <img class="picture" [src]="item.picPath" onerror="this.src='../images/food.jpg'" width="200" height="200" />
         <div class="food-name"> {{item.name}} </div>
-        <div class="food-type"> @Restaurant </div>
+				<a routerLink="/restaurant/1" class="food-type" >@Restaurant</a>
 				<div class="food-type"> {{item.type}} </div>
         <div class="food-description"> {{item.description}} </div>
 				<span class="btn glyphicon glyphicon-plus-sign red"></span>
