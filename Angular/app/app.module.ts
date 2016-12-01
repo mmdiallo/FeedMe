@@ -14,6 +14,7 @@ import { UserProfileComponent } from './userProfile/userProfile.component';
 import { FoodFeedComponent } from './foodFeed/foodFeed.component';
 import { UserEditorComponent } from './user-editor/user-editor.component';
 import { RestaurantEditorComponent } from './restaurant-editor/restaurant-editor.component';
+import { RestaurantUploadComponent } from './restaurantUpload/restaurantUpload.component';
 
 import { AuthenticateService } from './services/login.authenticate.service';
 import { RestaurantGetService } from './services/restaurantGet.service';
@@ -37,6 +38,7 @@ import { RestaurantEditorService } from './services/restaurant-editor.service';
       { path: 'restLogin', component: restLoginComponent },
   		{ path: 'restaurant/:restaurantId', component: RestaurantProfileComponent },
       { path: 'restaurant/update/:restaurantId', component: RestaurantEditorComponent },
+      { path: 'restaurant/upload/:restaurantId', component: RestaurantUploadComponent },
       { path: 'user/:userId', component: UserProfileComponent },
       { path: 'user/update/:userId', component: UserEditorComponent },
       { path: 'feed/:userId', component: FoodFeedComponent }
@@ -49,6 +51,7 @@ import { RestaurantEditorService } from './services/restaurant-editor.service';
     RegisterComponent,
     RestaurantProfileComponent,
     RestaurantEditorComponent,
+    RestaurantUploadComponent,
     restLoginComponent,
     UserProfileComponent,
     UserEditorComponent,
