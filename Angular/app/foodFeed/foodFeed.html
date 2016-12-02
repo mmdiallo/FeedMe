@@ -9,11 +9,12 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" routerLink="/feed" ><img src="../images/logo.png" alt="Dispute Bills"></a>
-				<a class="navbar-brand-text" routerLink="/feed" > feed </a>
+				<a class="navbar-brand-text" > feed </a>
       </div>
       <div id="navbar2" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
-          <li class="active"><a> My Feed </a></li>
+          <li class="active" style="color:#fff;" ><a> Feed </a></li>
+					<li><a (click)="navToProfile()" style="color:#fff;" > Profile </a></li>
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color:#fff;"> My Account <span class="caret"></span></a>
             <ul class="dropdown-menu" id="nav-dropdown" role="menu">

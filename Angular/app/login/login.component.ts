@@ -9,7 +9,7 @@ import { AuthenticateService } from './../services/login.authenticate.service';
   styleUrls: [ './app/login/login.css' ]
 })
 
-export class LoginComponent { 
+export class LoginComponent {
 
   user: {
     id: number;
@@ -19,7 +19,7 @@ export class LoginComponent {
     picPath: string;
     favorites: any [];
   }
-	
+
 	constructor(private route: ActivatedRoute,
     private router: Router,
     private authenticateService : AuthenticateService){
@@ -32,13 +32,13 @@ export class LoginComponent {
       favorites: []
     }
     }
-	
+
     loginToUser() {
       var navToProfile = (data) => {
       if (data) {
         this.user = data;
         this.router.navigate(['/user', this.user.id]);
-        
+
       }
     }
 
