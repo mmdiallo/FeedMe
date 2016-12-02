@@ -14,6 +14,7 @@ export class RestaurantProfileComponent {
   restaurant: {
     id: number;
     name: string;
+    password: string,
     bio: string;
     address: string;
     phoneNumber: string;
@@ -31,6 +32,7 @@ export class RestaurantProfileComponent {
     this.restaurant = {
       id: 1,
       name: 'string',
+      password: "asdf",
       bio: 'string',
       address: 'string',
       phoneNumber: 'string',
@@ -52,6 +54,7 @@ export class RestaurantProfileComponent {
       this.restaurant = {
         id: 1,
         name: "Russell Hallmark's Fruit Emporium",
+        password: "asdf",
         bio: "BOOM we actually sell other things",
         address: "2222 WooHoo Lane",
         phoneNumber: "555-555-5464",
@@ -116,10 +119,8 @@ export class RestaurantProfileComponent {
   }
 
   delete(item) {
-    this.getService.deleteItem(this.restaurant, item)
-      .then(() => {
-        this.restaurant.menu = this.restaurant.menu.filter(i => i !== item);
-      });
+    this.restaurant.menu = this.restaurant.menu.filter(i => i !== item);
+    this.getService.deleteItem(this.restaurant, item);
   }
 
   navToEdit(id) {
@@ -127,5 +128,8 @@ export class RestaurantProfileComponent {
   }
   navToUpload(id) {
     this.router.navigate(['/restaurant/upload', id]);
+  }
+  navToUserProfile(id) {
+    this.router.navigate(['/restaurant/user', id]);
   }
 }

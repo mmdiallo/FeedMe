@@ -9,10 +9,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 const core_1 = require('@angular/core');
+const router_1 = require('@angular/router');
 const login_authenticate_service_1 = require('./../services/login.authenticate.service');
 let LoginComponent = class LoginComponent {
-    constructor(authenticateService) {
+    constructor(route, router, authenticateService) {
+        this.route = route;
+        this.router = router;
         this.authenticateService = authenticateService;
+        this.user = {
+            id: 0,
+            name: '',
+            password: '',
+            email: '',
+            picPath: '',
+            favorites: []
+        };
+    }
+    loginToUser() {
+        var navToProfile = (data) => {
+            if (data) {
+                this.user = data;
+                this.router.navigate(['/user', this.user.id]);
+            }
+        };
+        this.authenticateService.loginUser(this.user).then(navToProfile);
     }
 };
 LoginComponent = __decorate([
@@ -21,7 +41,7 @@ LoginComponent = __decorate([
         templateUrl: './app/login/login.html',
         styleUrls: ['./app/login/login.css']
     }), 
-    __metadata('design:paramtypes', [login_authenticate_service_1.AuthenticateService])
+    __metadata('design:paramtypes', [router_1.ActivatedRoute, router_1.Router, login_authenticate_service_1.AuthenticateService])
 ], LoginComponent);
 exports.LoginComponent = LoginComponent;
 //# sourceMappingURL=login.component.js.map

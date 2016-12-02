@@ -6,9 +6,10 @@
 		<button type="button" class="btn btn-primary" routerLink="/"> Log Out </button>
 	</form>
 	<form class="navbar-form navbar-right">
-		<button type="button" class="btn btn-primary" (click)="navToEdit(restaurant.id)"> Edit Profile </button>
+		<button type="button" class="btn btn-primary" (click)="navToProfile(restaurant.id)"> Return to Profile </button>
 	</form>
 </nav>
+
 
 <div class="container">
 	<div class="row profile">
@@ -30,8 +31,8 @@
 			<!-- END SIDEBAR USER TITLE -->
 			<!-- SIDEBAR BUTTONS -->
 			<div class="profile-userbuttons">
-				<button type="button" class="btn btn-success btn-sm" routerLink="/restaurant"> Back </button>
-				<button type="button" class="btn btn-danger btn-sm"> Call </button>
+				<button type="button" class="btn btn-success btn-sm">Follow</button>
+				<button type="button" class="btn btn-danger btn-sm"> Menu </button>
 			</div>
 			<!-- END SIDEBAR BUTTONS -->
 			<!-- SIDEBAR MENU -->
@@ -72,16 +73,16 @@
 						<div class="control-group">
 							<label class="control-label" for="filebutton">Image File</label>
 							<div class="controls">
-								<input id="filebutton" name="filebutton" class="input-file" type="file">
+								<input id="filebutton" [(ngModel)]="_item.picPath" name="filebutton" class="input-file" type="file">
 							</div>
 						</div>
 					</div>
 
 					<div class="col-md-4" id="controls">
 						<div class="control-group">
-							<label class="control-label" for="title">Title</label>
+							<label class="control-label" for="title">Name</label>
 							<div class="controls">
-								<input id="title" name="title" type="text" placeholder="Name" class="input-xlarge">
+								<input id="title" [(ngModel)]="_item.name" name="title" type="text" placeholder="Name" class="input-xlarge">
 							</div>
 						</div>
 
@@ -90,7 +91,7 @@
 						<div class="control-group">
 							<label class="control-label" for="Description">Description</label>
 							<div class="controls">
-								<textarea id="Description" name="Description" placeholder="Description"></textarea>
+								<textarea id="Description" [(ngModel)]="_item.description" name="Description" placeholder="Description"></textarea>
 							</div>
 						</div>
 					</div>
@@ -105,7 +106,7 @@
 						<div class="control-group">
 							<label class="control-label" for="title">Cuisine Type</label>
 							<div class="controls">
-								<input id="title" name="title" type="text" placeholder="Cuisine Type" class="input-xlarge">
+								<input id="title" [(ngModel)]="_item.type" name="title" type="text" placeholder="Cuisine Type" class="input-xlarge">
 							</div>
 						</div>
 					</div>
@@ -113,23 +114,15 @@
 						<div class="control-group">
 							<label class="control-label" for="title">Meal</label>
 							<div class="controls">
-								<input id="title" name="title" type="text" placeholder="Meal Type" class="input-xlarge">
+								<input id="title" [(ngModel)]="_item.time" name="title" type="text" placeholder="Meal Type" class="input-xlarge">
 							</div>
 						</div>
-
-						<div class="col-md-4 " id="controls">
-							<div class="control-group">
-								<label class="control-label" for="title">Image</label>
-								<div class="controls">
-									<input id="title" name="title" type="text" placeholder="Image Path" class="input-xlarge">
-								</div>
-							</div>
 
 
 					</div>
 					<div class="col-md-12" id="submit">
 						<div class="upload-btn">
-							<button class="btn btn-primary" (click)="navToProfile(restaurant.id)">CLICK TO UPLOAD</button>
+							<button class="btn btn-primary" (click)="addToRestaurant(restaurant.id)">CLICK TO UPLOAD</button>
 						</div>
 					</div>
 

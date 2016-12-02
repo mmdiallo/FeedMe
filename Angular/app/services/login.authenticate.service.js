@@ -9,11 +9,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 const core_1 = require('@angular/core');
+const http_1 = require('@angular/http');
+require('rxjs/add/operator/toPromise');
 let AuthenticateService = class AuthenticateService {
+    constructor(http) {
+        this.http = http;
+        this._restaurantsUrl = 'app/restaurants';
+        this._usersUrl = 'app/users';
+    }
+    loginUser(user) {
+        var pluck = x => (x && x.length) ? x[0] : undefined;
+        return this.http
+            .get(`${this._usersUrl}/?name=${user.name}`)
+            .toPromise()
+            .then(x => pluck(x.json().data))
+            .catch(x => alert(x.json().error));
+    }
+    loginRest(rest) {
+        var pluck = x => (x && x.length) ? x[0] : undefined;
+        return this.http
+            .get(`${this._restaurantsUrl}/?name=${rest.name}`)
+            .toPromise()
+            .then(x => pluck(x.json().data))
+            .catch(x => alert(x.json().error));
+    }
 };
 AuthenticateService = __decorate([
     core_1.Injectable(), 
-    __metadata('design:paramtypes', [])
+    __metadata('design:paramtypes', [http_1.Http])
 ], AuthenticateService);
 exports.AuthenticateService = AuthenticateService;
 //# sourceMappingURL=login.authenticate.service.js.map

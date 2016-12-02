@@ -14,8 +14,8 @@ export class UserEditorComponent {
     @Input() model: any[];
     _user: {
     id: number;
-    firstName: string;
-    lastName: string;
+    password: string;
+    name: string;
     email: string;
     picPath: string;
     favorites: any [];
@@ -26,8 +26,8 @@ export class UserEditorComponent {
         private userEditorService: UserEditorService) {
         this._user = {
             id: 1,
-            firstName: 'string',
-            lastName: 'string',
+            name: 'string',
+            password: 'string',
             email: 'string',
             picPath: 'string',
             favorites: []

@@ -23,6 +23,7 @@ import { FoodFeedGetService } from './services/foodFeed.get.service';
 import { MockApiService } from './mock-api.service';
 import { UserEditorService } from './services/user-editor.service';
 import { RestaurantEditorService } from './services/restaurant-editor.service';
+import { RegisterService } from './services/register.service';
 
 @NgModule({
   imports:      [ 
@@ -63,7 +64,8 @@ import { RestaurantEditorService } from './services/restaurant-editor.service';
     RestaurantEditorService,
     UserGetService,
     UserEditorService,
-    FoodFeedGetService
+    FoodFeedGetService,
+    RegisterService
 		],
   bootstrap:    [ AppComponent ]
 })

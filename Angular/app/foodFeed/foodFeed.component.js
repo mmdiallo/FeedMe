@@ -16,16 +16,29 @@ let FoodFeedComponent = class FoodFeedComponent {
         this.route = route;
         this.router = router;
         this.getService = getService;
-        this.restaurant = {
+        this._returnUser = {
+            id: 0,
+            name: 'string',
+            password: "asdf",
+            email: 'string',
+            picPath: 'string',
+            favorites: []
+        };
+        this._restaurant = {
             id: 1,
             name: 'string',
+            password: "asdf",
             bio: 'string',
             address: 'string',
             phoneNumber: 'string',
+            webURL: 'string',
             email: 'sting',
             openTime: 'string',
             closeTime: 'string',
-            picPath: 'string',
+            picPath: '../images/placeholder.jpg',
+            menu: []
+        };
+        this.feed = {
             menu: []
         };
     }
@@ -33,72 +46,42 @@ let FoodFeedComponent = class FoodFeedComponent {
         this.route.params.forEach(x => this.load(+x['userId']));
     }
     load(id) {
-        this.restaurant = {
-            id: 1,
-            name: "Russell Hallmark's Fruit Emporium",
-            bio: "BOOM we actually sell other things",
-            address: "2222 WooHoo Lane",
-            phoneNumber: "555-555-5464",
-            email: "jjfu@bde.net",
-            openTime: "08:00:00",
-            closeTime: "18:00:00",
-            picPath: "",
-            menu: [
-                {
-                    id: 1,
-                    name: "Taco Platter",
-                    picPath: "../images/taco-platter.jpg",
-                    description: "Great platter of tacos",
-                    type: "Mexican",
-                    time: "Breakfast"
-                },
-                {
-                    id: 2,
-                    name: "Taco",
-                    picPath: "../images/taco.jpg",
-                    description: "A regular Taco",
-                    type: "Mexican",
-                    time: "Lunch/Dinner"
-                },
-                {
-                    id: 3,
-                    name: "Cake",
-                    picPath: "../images/cake.jpg",
-                    description: "Better than Pie",
-                    type: "Universally Recognized",
-                    time: "Dessert"
-                },
-                {
-                    id: 4,
-                    name: "Churros",
-                    picPath: "../images/churros.jpg",
-                    description: "Churros!",
-                    type: "Mexican",
-                    time: "lunch/dinner"
-                },
-                {
-                    id: 5,
-                    name: "Pizza",
-                    picPath: "../images/pizza.jpg",
-                    description: "Not a Fruit",
-                    type: "Italian",
-                    time: "Lunch/Dinner"
-                }
-            ]
+        this._restaurants = [];
+        this.feed = {
+            menu: []
         };
-        var onload = (data) => {
+        var addRestaurants = (data) => {
             if (data) {
-                this.restaurant = data;
+                this._restaurants = data;
+                this.addFood();
             }
         };
         this.saveReturnId(id);
-        this.getService.getFood(id).then(onload);
+        this.getService.getRestaurants().then(addRestaurants);
+    }
+    addFood() {
+        for (let restaurant of this._restaurants) {
+            this.feed.menu = this.feed.menu.concat(restaurant.menu);
+        }
     }
     navToProfile() {
         this.router.navigate(['/user', this._returnId]);
     }
+    navToRestaurant(item) {
+        this.router.navigate(['/restaurant', item.restaurantId]);
+    }
     saveReturnId(id) {
         this._returnId = id;
+        var getUser = (data) => {
+            if (data) {
+                this._returnUser = data[0];
+            }
+        };
+        this.getService.getReturnUser(id).then(getUser);
+    }
+    addToFav(item) {
+        this._returnUser.favorites.push(item);
+        this.getService.addFoodFav(this._returnUser);
     }
 };
 FoodFeedComponent = __decorate([

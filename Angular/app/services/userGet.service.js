@@ -26,7 +26,7 @@ let UserGetService = class UserGetService {
     }
     deleteItem(user, item) {
         return this.http
-            .delete(`${this._apiUrl}/${user.id}`, user.favorites[item.id])
+            .put(`${this._apiUrl}/${user.id}`, user)
             .toPromise()
             .catch(x => alert(x.json().error));
     }

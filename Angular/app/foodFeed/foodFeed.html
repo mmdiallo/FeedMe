@@ -51,11 +51,11 @@
 
 <div class="col-lg-12">
   <div class="profile-content">
-    <div *ngFor="let item of restaurant.menu" class="menu-item btn">
+    <div *ngFor="let item of feed.menu" class="menu-item btn">
       <div class="food-frame">
         <img data-toggle="modal" data-target="#myModal" class="picture" [src]="item.picPath" onerror="this.src='../images/food.jpg'" width="200" height="200" />
         <div class="food-name"> {{item.name}} </div>
-				<a routerLink="/restaurant/1" class="food-type" >@Restaurant</a>
+				<a (click)="navToRestaurant(item)" class="food-type" >@Restaurant</a>
 				<!-- Modal -->
 				  <div class="modal fade" id="myModal" role="dialog">
 				    <div class="modal-dialog">
@@ -86,7 +86,7 @@
 
 				<div class="food-type"> {{item.type}} </div>
         <div class="food-description"> {{item.description}} </div>
-				<span class="btn glyphicon glyphicon-plus-sign red"></span>
+				<span class="btn glyphicon glyphicon-plus-sign red" (click)="addToFav(item)"></span>
       </div>
     </div>
     </div>

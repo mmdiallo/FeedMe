@@ -18,8 +18,8 @@ let UserEditorComponent = class UserEditorComponent {
         this.userEditorService = userEditorService;
         this._user = {
             id: 1,
-            firstName: 'string',
-            lastName: 'string',
+            name: 'string',
+            password: 'string',
             email: 'string',
             picPath: 'string',
             favorites: []

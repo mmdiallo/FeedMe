@@ -16,9 +16,18 @@ let RestaurantUploadComponent = class RestaurantUploadComponent {
         this.route = route;
         this.router = router;
         this.getService = getService;
+        this._item = {
+            restaurantId: 0,
+            name: '',
+            picPath: '',
+            description: '',
+            type: '',
+            time: ''
+        };
         this.restaurant = {
             id: 1,
             name: 'string',
+            password: "asdf",
             bio: 'string',
             address: 'string',
             website: 'string',
@@ -38,6 +47,7 @@ let RestaurantUploadComponent = class RestaurantUploadComponent {
             this.restaurant = {
                 id: 1,
                 name: "Russell Hallmark's Fruit Emporium",
+                password: "asdf",
                 bio: "BOOM we actually sell other things",
                 address: "2222 WooHoo Lane",
                 website: 'www.restaurant.com',
@@ -100,6 +110,10 @@ let RestaurantUploadComponent = class RestaurantUploadComponent {
     }
     navToProfile(id) {
         this.router.navigate(['/restaurant/', id]);
+    }
+    addToRestaurant(id) {
+        this.restaurant.menu.push(this._item);
+        this.getService.addItem(this.restaurant);
     }
 };
 RestaurantUploadComponent = __decorate([

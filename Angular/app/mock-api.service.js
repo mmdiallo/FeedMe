@@ -15,6 +15,7 @@ let MockApiService = class MockApiService {
             {
                 id: 1,
                 name: "Russell Hallmark's Fruit Emporium",
+                password: "asdf",
                 bio: "BOOM we actually sell other things",
                 address: "2222 WooHoo Lane",
                 phoneNumber: "555-555-5464",
@@ -25,7 +26,7 @@ let MockApiService = class MockApiService {
                 picPath: "../images/emporium.jpg",
                 menu: [
                     {
-                        id: 1,
+                        restaurantId: 1,
                         name: "Taco Platter",
                         picPath: "../images/taco-platter.jpg",
                         description: "",
@@ -33,7 +34,7 @@ let MockApiService = class MockApiService {
                         time: "Breakfast"
                     },
                     {
-                        id: 2,
+                        restaurantId: 1,
                         name: "Fruit Salad",
                         picPath: "../images/fruitSalad.jpg",
                         description: "Yummy Yummy",
@@ -41,7 +42,7 @@ let MockApiService = class MockApiService {
                         time: "I don't know"
                     },
                     {
-                        id: 3,
+                        restaurantId: 1,
                         name: "Cake",
                         picPath: "../images/cake.jpg",
                         description: "Better than Pie",
@@ -49,7 +50,7 @@ let MockApiService = class MockApiService {
                         time: "Dessert"
                     },
                     {
-                        id: 4,
+                        restaurantId: 1,
                         name: "Yogurt",
                         picPath: "../images/yogurt.jpg",
                         description: "Gogurt",
@@ -57,7 +58,7 @@ let MockApiService = class MockApiService {
                         time: "Snack"
                     },
                     {
-                        id: 5,
+                        restaurantId: 1,
                         name: "Pizza",
                         picPath: "../images/pizza.jpg",
                         description: "Not a Fruit",
@@ -69,6 +70,7 @@ let MockApiService = class MockApiService {
             {
                 id: 2,
                 name: "Bandito's Restaurant",
+                password: "asdf",
                 bio: "If you're craving the original Austin Style Tex Mex taste that hasn't been around since the 1970's and '80's -- You've found it.  We flavor every item with a little Willie, Waylon, and a touch of Jerry Jeff Walker. ",
                 address: "6615 Snider Plaza, Dallas, TX 75205",
                 phoneNumber: "214-555-5464",
@@ -79,7 +81,7 @@ let MockApiService = class MockApiService {
                 picPath: "../images/mexican-restaurant-prof-pic.jpg",
                 menu: [
                     {
-                        id: 1,
+                        restaurantId: 2,
                         name: "Taco Bowl",
                         picPath: "../images/tacobowl.jpg",
                         description: "They have taco bowls... Bowled....Tacos",
@@ -87,7 +89,7 @@ let MockApiService = class MockApiService {
                         time: "lunch"
                     },
                     {
-                        id: 2,
+                        restaurantId: 2,
                         name: "Taco",
                         picPath: "../images/taco.jpg",
                         description: "A regular Taco",
@@ -95,7 +97,7 @@ let MockApiService = class MockApiService {
                         time: "Lunch/Dinner"
                     },
                     {
-                        id: 3,
+                        restaurantId: 2,
                         name: "Enchiladas",
                         picPath: "../images/enchiladas.jpg",
                         description: "I dunno how to describe enchiladas.",
@@ -103,7 +105,7 @@ let MockApiService = class MockApiService {
                         time: "lunch/dinner"
                     },
                     {
-                        id: 4,
+                        restaurantId: 2,
                         name: "Taco Platter",
                         picPath: "../images/taco-platter.jpg",
                         description: "A Platter of Tacos",
@@ -111,7 +113,7 @@ let MockApiService = class MockApiService {
                         time: "lunch/dinner"
                     },
                     {
-                        id: 5,
+                        restaurantId: 2,
                         name: "Street Tacos",
                         picPath: "../images/taco-tester-platter.jpg",
                         description: "Even Better, More 'Edgy' Tacos",
@@ -119,7 +121,7 @@ let MockApiService = class MockApiService {
                         time: "lunch/dinner"
                     },
                     {
-                        id: 6,
+                        restaurantId: 2,
                         name: "Churros",
                         picPath: "../images/churros.jpg",
                         description: "Churros!",
@@ -127,7 +129,7 @@ let MockApiService = class MockApiService {
                         time: "lunch/dinner"
                     },
                     {
-                        id: 7,
+                        restaurantId: 2,
                         name: "Side of Guac",
                         picPath: "../images/guac.jpg",
                         description: "Guac Dip for those Chips",
@@ -135,7 +137,7 @@ let MockApiService = class MockApiService {
                         time: "lunch/dinner"
                     },
                     {
-                        id: 8,
+                        restaurantId: 2,
                         name: "Steak Fajitas",
                         picPath: "../images/steak-fajitas.jpg",
                         description: "So hot man. So hot.",
@@ -149,13 +151,13 @@ let MockApiService = class MockApiService {
             {
                 id: 1,
                 name: "Jeff",
+                password: "asdf",
                 bio: "I only Like Faijitas and Guac",
                 email: "dvce@love.com",
                 picPath: "../images/user1.jpg",
                 favorites: [
                     {
                         restaurantId: 2,
-                        menuId: 7,
                         name: "Steak Fajitas",
                         picPath: "../images/steak-fajitas.jpg",
                         description: "So hot man. So hot.",
@@ -164,7 +166,6 @@ let MockApiService = class MockApiService {
                     },
                     {
                         restaurantId: 2,
-                        menuId: 8,
                         name: "Side of Guac",
                         picPath: "../images/guac.jpg",
                         description: "Guac Dip for those Chips",
@@ -176,13 +177,13 @@ let MockApiService = class MockApiService {
             {
                 id: 2,
                 name: "John Doe",
+                password: "asdf",
                 bio: "I am a massive FOODIE!! I specifically love Italian and Greek food. Check out my menu!",
                 email: "dvce@love.com",
                 picPath: "../images/user.jpg",
                 favorites: [
                     {
                         restaurantId: 1,
-                        menuId: 5,
                         name: "Pizza",
                         picPath: "../images/pizza.jpg",
                         description: "Not a Fruit",
@@ -191,7 +192,6 @@ let MockApiService = class MockApiService {
                     },
                     {
                         restaurantId: 2,
-                        menuId: 6,
                         name: "Churros",
                         picPath: "../images/churros.jpg",
                         description: "Chorros!!",
@@ -200,7 +200,6 @@ let MockApiService = class MockApiService {
                     },
                     {
                         restaurantId: 2,
-                        menuId: 3,
                         name: "Enchiladas",
                         picPath: "../images/enchiladas.jpg",
                         description: "I dunno how to describe enchiladas.",

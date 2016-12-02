@@ -9,11 +9,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 const core_1 = require('@angular/core');
+const http_1 = require('@angular/http');
+require('rxjs/add/operator/toPromise');
 let FoodFeedGetService = class FoodFeedGetService {
+    constructor(http) {
+        this.http = http;
+        this._apiUrl = 'app/restaurants';
+        this._userUrl = 'app/users';
+    }
+    getRestaurants() {
+        return this.http.get(this._apiUrl)
+            .toPromise()
+            .then(x => x.json().data);
+    }
+    getReturnUser(id) {
+        return this.http.get(`${this._userUrl}/?id=${id}`)
+            .toPromise()
+            .then(x => x.json().data);
+    }
+    addFoodFav(user) {
+        return this.http
+            .put(`${this._userUrl}/${user.id}`, user)
+            .toPromise()
+            .then(() => user)
+            .catch(x => alert(x.json().error));
+    }
 };
 FoodFeedGetService = __decorate([
     core_1.Injectable(), 
-    __metadata('design:paramtypes', [])
+    __metadata('design:paramtypes', [http_1.Http])
 ], FoodFeedGetService);
 exports.FoodFeedGetService = FoodFeedGetService;
 //# sourceMappingURL=foodFeed.get.service.js.map

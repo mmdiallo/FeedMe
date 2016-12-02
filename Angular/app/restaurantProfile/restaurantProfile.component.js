@@ -19,6 +19,7 @@ let RestaurantProfileComponent = class RestaurantProfileComponent {
         this.restaurant = {
             id: 1,
             name: 'string',
+            password: "asdf",
             bio: 'string',
             address: 'string',
             phoneNumber: 'string',
@@ -38,6 +39,7 @@ let RestaurantProfileComponent = class RestaurantProfileComponent {
             this.restaurant = {
                 id: 1,
                 name: "Russell Hallmark's Fruit Emporium",
+                password: "asdf",
                 bio: "BOOM we actually sell other things",
                 address: "2222 WooHoo Lane",
                 phoneNumber: "555-555-5464",
@@ -99,16 +101,17 @@ let RestaurantProfileComponent = class RestaurantProfileComponent {
         this.getService.getRestaurant(id).then(onload);
     }
     delete(item) {
-        this.getService.deleteItem(this.restaurant, item)
-            .then(() => {
-            this.restaurant.menu = this.restaurant.menu.filter(i => i !== item);
-        });
+        this.restaurant.menu = this.restaurant.menu.filter(i => i !== item);
+        this.getService.deleteItem(this.restaurant, item);
     }
     navToEdit(id) {
         this.router.navigate(['/restaurant/update', id]);
     }
     navToUpload(id) {
         this.router.navigate(['/restaurant/upload', id]);
+    }
+    navToUserProfile(id) {
+        this.router.navigate(['/restaurant/user', id]);
     }
 };
 RestaurantProfileComponent = __decorate([

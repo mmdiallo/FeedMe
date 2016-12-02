@@ -14,6 +14,7 @@ export class UserProfileComponent {
   user: {
     id: number;
     name: string;
+    password: string;
     email: string;
     picPath: string;
     favorites: any [];
@@ -25,6 +26,7 @@ export class UserProfileComponent {
     this.user = {
       id: 1,
       name: 'string',
+      password: 'string',
       email: 'string',
       picPath: 'string',
       favorites: []
@@ -40,6 +42,7 @@ export class UserProfileComponent {
       this.user = {
         id: 1,
         name: "Jake",
+        password: 'string',
         email: "dvce@love.com",
         picPath: "../images/user.jpg",
         favorites: []
@@ -57,10 +60,8 @@ export class UserProfileComponent {
   }
 
   delete(fav) {
-    this.getService.deleteItem(this.user, fav)
-      .then(() => {
-        this.user.favorites = this.user.favorites.filter(f => f !== fav);
-      });
+    this.user.favorites = this.user.favorites.filter(f => f !== fav);
+    this.getService.deleteItem(this.user, fav);
   }
 
   navToEdit(id) {

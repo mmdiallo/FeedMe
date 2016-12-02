@@ -31,6 +31,7 @@ const foodFeed_get_service_1 = require('./services/foodFeed.get.service');
 const mock_api_service_1 = require('./mock-api.service');
 const user_editor_service_1 = require('./services/user-editor.service');
 const restaurant_editor_service_1 = require('./services/restaurant-editor.service');
+const register_service_1 = require('./services/register.service');
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -73,7 +74,8 @@ AppModule = __decorate([
             restaurant_editor_service_1.RestaurantEditorService,
             userGet_service_1.UserGetService,
             user_editor_service_1.UserEditorService,
-            foodFeed_get_service_1.FoodFeedGetService
+            foodFeed_get_service_1.FoodFeedGetService,
+            register_service_1.RegisterService
         ],
         bootstrap: [app_component_1.AppComponent]
     }), 

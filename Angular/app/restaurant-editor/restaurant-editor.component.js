@@ -19,6 +19,7 @@ let RestaurantEditorComponent = class RestaurantEditorComponent {
         this._restaurant = {
             id: 1,
             name: "Russell Hallmark's Fruit Emporium",
+            password: "asdf",
             bio: "BOOM we actually sell other things",
             address: "2222 WooHoo Lane",
             phoneNumber: "555-555-5464",

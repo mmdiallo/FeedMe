@@ -18,10 +18,18 @@ export class RestaurantGetService {
 			.catch(x => alert(x.json().error));
     }
 
-    deleteItem(restaurant: any, item: any): Promise<void> {
+    deleteItem(restaurant: any, item: any): Promise<any> {
         return this.http
-            .delete(`${this._apiUrl}/${restaurant.id}`, restaurant.menu[item.id])
+            .put(`${this._apiUrl}/${restaurant.id}`, restaurant)
             .toPromise()
             .catch(x => alert(x.json().error));
+    }
+
+    addItem(restaurant: any): Promise<any> {
+        return this.http
+			.put(`${this._apiUrl}/${restaurant.id}`, restaurant)
+			.toPromise()
+            .then(() => restaurant)
+			.catch(x => alert(x.json().error));
     }
 }

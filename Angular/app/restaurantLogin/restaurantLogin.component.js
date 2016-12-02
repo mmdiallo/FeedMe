@@ -9,10 +9,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 const core_1 = require('@angular/core');
+const router_1 = require('@angular/router');
 const login_authenticate_service_1 = require('./../services/login.authenticate.service');
 let restLoginComponent = class restLoginComponent {
-    constructor(authenticateService) {
+    constructor(route, router, authenticateService) {
+        this.route = route;
+        this.router = router;
         this.authenticateService = authenticateService;
+        this.restaurant = {
+            id: 1,
+            name: '',
+            password: "",
+            bio: '',
+            address: '',
+            phoneNumber: '',
+            webURL: '',
+            email: '',
+            openTime: '',
+            closeTime: '',
+            picPath: '',
+            menu: []
+        };
+    }
+    loginToRest() {
+        var navToProfile = (data) => {
+            if (data) {
+                this.restaurant = data;
+                this.router.navigate(['/restaurant', this.restaurant.id]);
+            }
+        };
+        this.authenticateService.loginRest(this.restaurant).then(navToProfile);
     }
 };
 restLoginComponent = __decorate([
@@ -21,7 +47,7 @@ restLoginComponent = __decorate([
         templateUrl: './app/restaurantLogin/restaurantLogin.html',
         styleUrls: ['./app/restaurantLogin/restaurantLogin.css']
     }), 
-    __metadata('design:paramtypes', [login_authenticate_service_1.AuthenticateService])
+    __metadata('design:paramtypes', [router_1.ActivatedRoute, router_1.Router, login_authenticate_service_1.AuthenticateService])
 ], restLoginComponent);
 exports.restLoginComponent = restLoginComponent;
 //# sourceMappingURL=restaurantLogin.component.js.map

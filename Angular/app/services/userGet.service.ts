@@ -18,9 +18,9 @@ export class UserGetService {
             .catch(x => alert(x.json().error));
     }
 
-    deleteItem(user: any, item: any): Promise<void> {
+    deleteItem(user: any, item: any): Promise<any> {
         return this.http
-            .delete(`${this._apiUrl}/${user.id}`, user.favorites[item.id])
+            .put(`${this._apiUrl}/${user.id}`, user)
             .toPromise()
             .catch(x => alert(x.json().error));
     }

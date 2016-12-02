@@ -6,8 +6,8 @@
 		<button type="button" class="btn btn-primary" routerLink="/"> Log Out </button>
 	</form>
 	<form class="navbar-form navbar-right">
-		<button type="button" class="btn btn-primary" (click)="navToEdit(user.id)"> Edit Profile </button>
-			<button type="button" class="btn btn-primary" routerLink="/feed"> Food Feed </button>
+		<button type="button" class="btn btn-primary" (click)="navToEdit(restaurant.id)"> Edit Profile </button>
+		<button type="button" class="btn btn-primary" (click)="navToUserProfile"> Back To Profile </button>
 	</form>
 </nav>
 
@@ -31,8 +31,8 @@
 			<!-- END SIDEBAR USER TITLE -->
 			<!-- SIDEBAR BUTTONS -->
 			<div class="profile-userbuttons">
-				<button type="button" (click)= "navToUpload(restaurant.id)"class="btn btn-success btn-sm">Upload</button>
-				<button type="button" (click)= "navToUpload(restaurant.id)"class="btn btn-danger btn-sm">Call</button>
+				<button type="button" (click)= "navToUpload(restaurant.id)"class="btn btn-danger btn-sm">Upload</button>
+				<button type="button" (click)= "navToUpload(restaurant.id)"class="btn btn-success btn-sm">Call</button>
 			</div>
 			<!-- END SIDEBAR BUTTONS -->
 			<!-- SIDEBAR MENU -->

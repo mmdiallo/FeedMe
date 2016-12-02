@@ -11,9 +11,19 @@ import { RestaurantGetService } from './../services/restaurantGet.service';
 
 export class RestaurantUploadComponent {
 
+  _item: {
+    restaurantId: number,
+    name: string,
+    picPath: string,
+    description: string,
+    type: string,
+    time: string
+  }
+
   restaurant: {
     id: number;
     name: string;
+    password: string,
     bio: string;
     address: string;
     website: string;
@@ -28,9 +38,20 @@ export class RestaurantUploadComponent {
   constructor(private route: ActivatedRoute,
     private router: Router,
     private getService: RestaurantGetService) {
+    
+    this._item = {
+    restaurantId: 0,
+    name: '',
+    picPath: '',
+    description: '',
+    type: '',
+    time: ''
+    }
+
     this.restaurant = {
       id: 1,
       name: 'string',
+      password: "asdf",
       bio: 'string',
       address: 'string',
       website: 'string',
@@ -52,6 +73,7 @@ export class RestaurantUploadComponent {
       this.restaurant = {
         id: 1,
         name: "Russell Hallmark's Fruit Emporium",
+        password: "asdf",
         bio: "BOOM we actually sell other things",
         address: "2222 WooHoo Lane",
         website: 'www.restaurant.com',
@@ -117,5 +139,10 @@ export class RestaurantUploadComponent {
 
   navToProfile(id) {
     this.router.navigate(['/restaurant/', id]);
+  }
+
+  addToRestaurant(id) {
+    this.restaurant.menu.push(this._item);
+    this.getService.addItem(this.restaurant);
   }
 }

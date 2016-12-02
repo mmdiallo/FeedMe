@@ -11,36 +11,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 const core_1 = require('@angular/core');
 const http_1 = require('@angular/http');
 require('rxjs/add/operator/toPromise');
-let RestaurantGetService = class RestaurantGetService {
+let RegisterService = class RegisterService {
     constructor(http) {
         this.http = http;
         this._apiUrl = 'app/restaurants';
+        this._userUrl = 'app/users';
     }
-    getRestaurant(id) {
-        var pluck = x => (x && x.length) ? x[0] : undefined;
+    addRestaurant(restaurant) {
         return this.http
-            .get(`${this._apiUrl}/?id=${id}`)
-            .toPromise()
-            .then(x => pluck(x.json().data))
-            .catch(x => alert(x.json().error));
-    }
-    deleteItem(restaurant, item) {
-        return this.http
-            .put(`${this._apiUrl}/${restaurant.id}`, restaurant)
-            .toPromise()
-            .catch(x => alert(x.json().error));
-    }
-    addItem(restaurant) {
-        return this.http
-            .put(`${this._apiUrl}/${restaurant.id}`, restaurant)
+            .post(this._apiUrl, restaurant)
             .toPromise()
             .then(() => restaurant)
             .catch(x => alert(x.json().error));
     }
+    addUser(user) {
+        return this.http
+            .post(this._userUrl, user)
+            .toPromise()
+            .then(() => user)
+            .catch(x => alert(x.json().error));
+    }
 };
-RestaurantGetService = __decorate([
+RegisterService = __decorate([
     core_1.Injectable(), 
     __metadata('design:paramtypes', [http_1.Http])
-], RestaurantGetService);
-exports.RestaurantGetService = RestaurantGetService;
-//# sourceMappingURL=restaurantGet.service.js.map
+], RegisterService);
+exports.RegisterService = RegisterService;
+//# sourceMappingURL=register.service.js.map
