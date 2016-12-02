@@ -104,6 +104,7 @@ let RestaurantUploadComponent = class RestaurantUploadComponent {
         var onload = (data) => {
             if (data) {
                 this.restaurant = data;
+                this._item.restaurantId = this.restaurant.id;
             }
         };
         this.getService.getRestaurant(id).then(onload);

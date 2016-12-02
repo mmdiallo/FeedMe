@@ -7,7 +7,7 @@ export class MockApiService implements InMemoryDbService {
 
         let restaurants = [
             {
-                id: 2,
+                id: 1,
                 name: "Russell Hallmark's Fruit Emporium",
                 password: "asdf",
                 bio: "BOOM we actually sell other things",
@@ -62,7 +62,7 @@ export class MockApiService implements InMemoryDbService {
                 ]
             },
             {
-                id: 1,
+                id: 2,
                 name: "Bandito's Restaurant",
                 password: "asdf",
                 bio: "If you're craving the original Austin Style Tex Mex taste that hasn't been around since the 1970's and '80's -- You've found it.  We flavor every item with a little Willie, Waylon, and a touch of Jerry Jeff Walker. ",
@@ -77,7 +77,7 @@ export class MockApiService implements InMemoryDbService {
                     {
                         restaurantId: 2,
                         name: "Taco Bowl",
-                        picPath: "../images/tacobowl.jpg",
+                        picPath: "../images/taco-bowl.jpg",
                         description: "They have taco bowls... Bowled....Tacos",
                         type: "Mexican",
                         time: "lunch"
@@ -145,7 +145,7 @@ export class MockApiService implements InMemoryDbService {
 
         let users = [
             {
-                id: 2,
+                id: 1,
                 name: "Jeff",
                 password: "asdf",
                 bio: "I only Like Faijitas and Guac",
@@ -171,7 +171,7 @@ export class MockApiService implements InMemoryDbService {
                 ]
             },
             {
-                id: 1,
+                id: 2,
                 name: "John Doe",
                 password: "asdf",
                 bio: "I am a massive FOODIE!! I specifically love Italian and Greek food. Check out my menu!",

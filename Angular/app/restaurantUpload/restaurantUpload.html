@@ -15,7 +15,7 @@
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color:#fff;"> My Account <span class="caret"></span></a>
 					<ul class="dropdown-menu" id="nav-dropdown" role="menu">
-						<li><a (click)="navToProfile()">My Profile</a></li>
+						<li><a (click)="navToProfile(restaurant.id)">My Profile</a></li>
 						<li><a (click)="navToEdit(restaurant.id)"> Edit Profile </a></li>
 						<li class="divider"></li>
 						<li><a routerLink="/" >Sign Out</a></li>

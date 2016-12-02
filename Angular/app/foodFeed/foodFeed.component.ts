@@ -133,4 +133,7 @@ export class FoodFeedComponent {
     this.getService.addFoodFav(this._returnUser);
 
   }
+  navToFeed() {
+    this.router.navigate(['/feed', this._returnId]);
+  }
 }

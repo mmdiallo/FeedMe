@@ -84,6 +84,9 @@ let FoodFeedComponent = class FoodFeedComponent {
         this._returnUser.favorites.push(item);
         this.getService.addFoodFav(this._returnUser);
     }
+    navToFeed() {
+        this.router.navigate(['/feed', this._returnId]);
+    }
 };
 FoodFeedComponent = __decorate([
     core_1.Component({

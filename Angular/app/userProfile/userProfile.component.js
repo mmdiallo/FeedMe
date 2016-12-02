@@ -57,6 +57,9 @@ let UserProfileComponent = class UserProfileComponent {
     navToFeed(id) {
         this.router.navigate(['/feed', id]);
     }
+    navToRestaurant(item) {
+        this.router.navigate(['/restaurant', item.restaurantId]);
+    }
 };
 UserProfileComponent = __decorate([
     core_1.Component({

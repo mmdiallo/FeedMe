@@ -70,4 +70,7 @@ export class UserProfileComponent {
   navToFeed(id) {
     this.router.navigate(['/feed', id]);
   }
+  navToRestaurant(item) {
+    this.router.navigate(['/restaurant', item.restaurantId]);
+  }
 }
