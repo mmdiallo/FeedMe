@@ -68,7 +68,7 @@ export class MockApiService implements InMemoryDbService {
                 bio: "If you're craving the original Austin Style Tex Mex taste that hasn't been around since the 1970's and '80's -- You've found it.  We flavor every item with a little Willie, Waylon, and a touch of Jerry Jeff Walker. ",
                 address: "6615 Snider Plaza, Dallas, TX 75205",
                 phoneNumber: "214-555-5464",
-                webURL: 'www.Banditos.com',
+                webURL: 'http://www.banditostexmex.com/',
                 email: "jjfu@bde.net",
                 openTime: "08:00:00",
                 closeTime: "18:00:00",
