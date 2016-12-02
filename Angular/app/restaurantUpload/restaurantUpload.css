@@ -1,9 +1,79 @@
+/** Nav Bar **/
+
 .navbar{
   background-color: #3b5998;
 }
 
+.navbar-right{
+  color: #fff;
+}
+
+.navbar button{
+  background-color: #3b5998;
+  border: #3b5998;
+}
+
 .navbar-brand{
   color: #fff;
+}
+
+.navbar-right{
+  float: right;
+  margin: 0px;
+}
+.nav-btns{
+  margin: 10px;
+}
+
+.title-banner {
+  font-size: 40px;
+  width: 250px;
+  margin-left: auto ;
+  margin-right: auto ;
+  margin-bottom: 5px ;
+  font-family: "Trebuchet MS";
+}
+
+.navbar-brand {
+  padding: 0px;
+}
+.navbar-brand>img {
+  height: 100%;
+  width: auto;
+  margin-left: 10px;
+}
+
+.navbar-brand-text {
+  font-family: "Verdana";
+  margin-top: 13px;
+  color: #fff;
+  font-size: 15px;
+  display: flex;
+}
+
+
+.example2 .navbar-brand>img {
+  padding: 7px 15px;
+}
+
+.navbar-alignit .navbar-header {
+	  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  height: 50px;
+}
+.navbar-alignit .navbar-brand {
+	top: 50%;
+	display: block;
+	position: relative;
+	height: auto;
+	transform: translate(0,-50%);
+	margin-right: 15px;
+  margin-left: 15px;
+}
+
+.navbar-nav>li>.dropdown-menu {
+	z-index: 9999;
 }
 
 .col-md-3{

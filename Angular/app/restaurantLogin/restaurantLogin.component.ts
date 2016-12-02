@@ -9,7 +9,7 @@ import { AuthenticateService } from './../services/login.authenticate.service';
   styleUrls: [ './app/restaurantLogin/restaurantLogin.css' ]
 })
 
-export class restLoginComponent { 
+export class restLoginComponent {
 
   restaurant: {
     id: number;
@@ -44,13 +44,13 @@ export class restLoginComponent {
       menu: []
     }
     }
-	
+
     loginToRest() {
       var navToProfile = (data) => {
       if (data) {
         this.restaurant = data;
         this.router.navigate(['/restaurant', this.restaurant.id]);
-        
+
       }
     }
 

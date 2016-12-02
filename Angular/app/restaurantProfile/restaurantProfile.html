@@ -13,12 +13,11 @@
 		</div>
 		<div id="navbar2" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a routerLink="/feed">Home</a></li>
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color:#fff;"> My Account <span class="caret"></span></a>
 					<ul class="dropdown-menu" id="nav-dropdown" role="menu">
-						<li><a (click)="navToProfile()">My Profile</a></li>
 						<li><a (click)="navToEdit(restaurant.id)"> Edit Profile </a></li>
+						<li><a (click)= "navToUpload(restaurant.id)">Upload </a></li>
 						<li class="divider"></li>
 						<li><a routerLink="/" >Sign Out</a></li>
 					</ul>
@@ -53,7 +52,7 @@
 			<!-- END SIDEBAR USER TITLE -->
 			<!-- SIDEBAR BUTTONS -->
 			<div class="profile-userbuttons">
-				<button type="button" (click)= "navToUpload(restaurant.id)"class="btn btn-danger btn-sm">Upload</button>
+				<button type="button" (click)= "navToUpload(restaurant.id)"class="btn btn-danger btn-sm">Website</button>
 				<button type="button" (click)= "navToUpload(restaurant.id)"class="btn btn-success btn-sm">Call</button>
 			</div>
 			<!-- END SIDEBAR BUTTONS -->

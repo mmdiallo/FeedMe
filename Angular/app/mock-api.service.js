@@ -13,7 +13,7 @@ let MockApiService = class MockApiService {
     createDb() {
         let restaurants = [
             {
-                id: 1,
+                id: 2,
                 name: "Russell Hallmark's Fruit Emporium",
                 password: "asdf",
                 bio: "BOOM we actually sell other things",
@@ -68,7 +68,7 @@ let MockApiService = class MockApiService {
                 ]
             },
             {
-                id: 2,
+                id: 1,
                 name: "Bandito's Restaurant",
                 password: "asdf",
                 bio: "If you're craving the original Austin Style Tex Mex taste that hasn't been around since the 1970's and '80's -- You've found it.  We flavor every item with a little Willie, Waylon, and a touch of Jerry Jeff Walker. ",
@@ -149,7 +149,7 @@ let MockApiService = class MockApiService {
         ];
         let users = [
             {
-                id: 1,
+                id: 2,
                 name: "Jeff",
                 password: "asdf",
                 bio: "I only Like Faijitas and Guac",
@@ -175,7 +175,7 @@ let MockApiService = class MockApiService {
                 ]
             },
             {
-                id: 2,
+                id: 1,
                 name: "John Doe",
                 password: "asdf",
                 bio: "I am a massive FOODIE!! I specifically love Italian and Greek food. Check out my menu!",
