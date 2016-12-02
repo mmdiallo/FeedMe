@@ -159,15 +159,11 @@ background-color: #fafafa;
 
 .food-description {
   font-size: 10px;
-  max-width: 250px;
-  max-height: 30px;
-  padding-left: 4px;
-  padding-right: 4px;
   overflow-x: auto; /* Use horizontal scroller if needed */
-      white-space: pre-wrap; /* css-3 */
-      white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
-      word-wrap: break-word; /* Internet Explorer 5.5+ */
-      white-space : normal;
+  white-space: pre-wrap; /* css-3 */
+  white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
+  white-space : normal;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;

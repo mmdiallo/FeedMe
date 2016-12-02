@@ -29,7 +29,7 @@ let MockApiService = class MockApiService {
                         restaurantId: 1,
                         name: "Taco Platter",
                         picPath: "../images/taco-platter.jpg",
-                        description: " Beef, chicken, and pork tacos. Hand crafted on flour or corn tortillas made in house.",
+                        description: "Beef, chicken, and pork tacos. Hand crafted on flour or corn tortillas made in house. Beef, chicken, and pork tacos. Hand crafted on flour or corn tortillas made in house.",
                         type: "Mexican",
                         time: "Breakfast"
                     },
