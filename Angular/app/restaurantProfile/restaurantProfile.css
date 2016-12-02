@@ -1,3 +1,5 @@
+/** Nav Bar **/
+
 .navbar{
   background-color: #3b5998;
 }
@@ -6,17 +8,80 @@
   color: #fff;
 }
 
-.col-md-3{
-  background-color: #f2f2f2;
-  border-radius: 10px;
-  padding: 5px;
+.navbar-right{
+  float: right;
+  margin: 0px;
+}
+.nav-btns{
+  margin: 10px;
+}
+
+.title-banner {
+  font-size: 40px;
+  width: 260px;
+  margin-left: auto ;
+  margin-right: auto ;
+  margin-bottom: 5px ;
+}
+
+
+
+/** Food Frame **/
+
+.food-frame {
+  width: 250px;
+  background-color: #3b5998;
+  border-radius:10px;
+  color: #fff;
 }
 
 .picture {
     width: 100%;
     height: 33%;
-    border-radius: 10px;
+    border-top-right-radius: 10px;
+    border-top-left-radius:10px;
+}
+
+.food-description {
+  font-size: 10px;
+  margin-bottom: 10px;
+  max-width: 250px;
+  max-height: 30px;
+  padding-left: 4px;
+  padding-right: 4px;
+  overflow-x: auto; /* Use horizontal scroller if needed */
+      white-space: pre-wrap; /* css-3 */
+      white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+      word-wrap: break-word; /* Internet Explorer 5.5+ */
+      white-space : normal;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.menu-header {
+    font-size: 30px;
     padding: 10px;
+}
+
+.food-name{
+  font-size: 14px;
+  padding: 2px;
+  font-weight:bold;
+
+}
+.food-type{
+  font-size: 12px;
+  padding: 2px;
+
+}
+
+/** Page Layout **/
+
+.col-md-3{
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  padding: 5px;
 }
 
 .center {
@@ -25,12 +90,6 @@
 
 .left {
     text-align: left;
-}
-
-.food-frame {
-  width: 250px;
-  background-color: #f2f2f2;
-  border-radius: 10px;
 }
 
 .menu-header {
@@ -49,12 +108,6 @@
 
 .profile-userbuttons{
   padding: 10px;
-}
-
-.food-name{
-  font-size: 14px;
-  padding: 5px;
-
 }
 
 .profile-content{

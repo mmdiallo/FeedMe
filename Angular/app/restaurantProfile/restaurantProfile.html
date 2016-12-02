@@ -2,13 +2,16 @@
 	<a class="navbar-brand" href="#">
 		 FeedMe
 	 </a>
-	<form class="navbar-form navbar-right">
-		<button type="button" class="btn btn-primary" routerLink="/"> Log Out </button>
-	</form>
-	<form class="navbar-form navbar-right">
-		<button type="button" class="btn btn-primary" (click)="navToEdit(restaurant.id)"> Edit Profile </button>
+	<form class="navbar navbar-right">
+		<div class="nav-btns">
+			<button type="button" class="btn btn-primary" (click)="navToEdit(restaurant.id)"> Edit Profile </button>
+			<button type="button" class="btn btn-primary" routerLink="/feed"> Food Feed </button>
+		</div>
 	</form>
 </nav>
+
+
+
 
 <div class="container">
 	<div class="row profile">

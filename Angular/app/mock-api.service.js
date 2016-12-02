@@ -29,7 +29,7 @@ let MockApiService = class MockApiService {
                         restaurantId: 1,
                         name: "Taco Platter",
                         picPath: "../images/taco-platter.jpg",
-                        description: "",
+                        description: " Beef, chicken, and pork tacos. Hand crafted on flour or corn tortillas made in house.",
                         type: "Mexican",
                         time: "Breakfast"
                     },
@@ -61,7 +61,7 @@ let MockApiService = class MockApiService {
                         restaurantId: 1,
                         name: "Pizza",
                         picPath: "../images/pizza.jpg",
-                        description: "Not a Fruit",
+                        description: "Delicious wood fired oven backed pizza ",
                         type: "Italian",
                         time: "Lunch/Dinner"
                     }
@@ -186,7 +186,7 @@ let MockApiService = class MockApiService {
                         restaurantId: 1,
                         name: "Pizza",
                         picPath: "../images/pizza.jpg",
-                        description: "Not a Fruit",
+                        description: "Delicious wood fired oven backed pizza. Delicious wood fired oven backed pizza",
                         type: "Italian",
                         time: "Lunch/Dinner"
                     },

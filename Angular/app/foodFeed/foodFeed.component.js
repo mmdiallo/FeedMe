@@ -80,6 +80,7 @@ let FoodFeedComponent = class FoodFeedComponent {
         this.getService.getReturnUser(id).then(getUser);
     }
     addToFav(item) {
+        alert("Food added!");
         this._returnUser.favorites.push(item);
         this.getService.addFoodFav(this._returnUser);
     }

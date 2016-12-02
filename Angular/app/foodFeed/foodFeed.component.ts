@@ -128,7 +128,9 @@ export class FoodFeedComponent {
   }
 
   addToFav(item) {
+    alert("Food added!");
     this._returnUser.favorites.push(item);
     this.getService.addFoodFav(this._returnUser);
+
   }
 }

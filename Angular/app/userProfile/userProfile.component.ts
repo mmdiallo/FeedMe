@@ -41,7 +41,7 @@ export class UserProfileComponent {
     if (!id) {
       this.user = {
         id: 1,
-        name: "Jake",
+        name: "User",
         password: 'string',
         email: "dvce@love.com",
         picPath: "../images/user.jpg",
