@@ -11,7 +11,6 @@ import { RegisterService } from './../services/register.service';
 })
 
 export class RegisterComponent { 
-
     name: string;
     password: string;
     email: string;
@@ -39,7 +38,6 @@ export class RegisterComponent {
     menu: any[];
   }
   
-
   user : {
     id: number;
     name: string;
