@@ -87,6 +87,22 @@ let FoodFeedComponent = class FoodFeedComponent {
     navToFeed() {
         this.router.navigate(['/feed', this._returnId]);
     }
+    getItemRestaurant(item) {
+        var assignRestaurant = (data) => {
+            if (data) {
+                this._restaurant = data;
+            }
+        };
+        this.getService.getRestaurant(item).then(assignRestaurant);
+    }
+    getItemPhone(item) {
+        var assignRestaurant = (data) => {
+            if (data) {
+                this._restaurant = data;
+            }
+        };
+        this.getService.getRestaurant(item).then(assignRestaurant);
+    }
 };
 FoodFeedComponent = __decorate([
     core_1.Component({

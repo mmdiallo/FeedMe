@@ -34,6 +34,14 @@ let FoodFeedGetService = class FoodFeedGetService {
             .then(() => user)
             .catch(x => alert(x.json().error));
     }
+    getRestaurant(item) {
+        var pluck = x => (x && x.length) ? x[0] : undefined;
+        return this.http
+            .get(`${this._apiUrl}/?id=${item.restaurantId}`)
+            .toPromise()
+            .then(x => pluck(x.json().data))
+            .catch(x => alert(x.json().error));
+    }
 };
 FoodFeedGetService = __decorate([
     core_1.Injectable(), 
