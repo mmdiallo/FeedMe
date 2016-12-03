@@ -56,20 +56,28 @@ let RegisterComponent = class RegisterComponent {
         if (!id) {
             return;
         }
-        var onload = (data) => {
+        var onloadU = (data) => {
             if (data) {
                 this.user = data;
             }
             else {
             }
         };
-        this.authenticateService.addUser(id).then(onload);
-        this.authenticateService.addRestaurant(id).then(onload);
+        var onloadR = (data) => {
+            if (data) {
+                this.restaurant = data;
+            }
+            else {
+            }
+        };
+        this.authenticateService.addUser(id).then(onloadU);
+        this.authenticateService.addRestaurant(id).then(onloadR);
     }
     addUser() {
         this.user.name = this.name;
         this.user.password = this.password;
         this.user.email = this.email;
+        this.user.picPath = this.picPath;
         this.restaurant.bio = '';
         this.restaurant.address = '';
         this.restaurant.phoneNumber = '';
@@ -83,6 +91,7 @@ let RegisterComponent = class RegisterComponent {
         this.restaurant.name = this.name;
         this.restaurant.password = this.password;
         this.restaurant.email = this.email;
+        this.restaurant.picPath = this.picPath;
         this.restaurant.bio = this.bio;
         this.restaurant.address = this.address;
         this.restaurant.phoneNumber = this.phoneNumber;

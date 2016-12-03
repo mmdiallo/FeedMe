@@ -535,3 +535,21 @@ label {
 .form-group {
   margin-left: 70px !important;
 }
+
+.controls {
+  width: 50px !important;
+}
+
+#picPath {
+  width: 250px !important;
+  margin-left: 115px;
+}
+
+.control-label {
+  text-align: center;
+  margin-left: 130px;
+}
+
+.image {
+  margin-left: 130px;
+}

@@ -25,48 +25,63 @@
 					<div class="bar"></div>
 				</div>
 
-				<div class="form-group check">
-					<input id="Restaurant Owner" type="checkbox" [(ngModel)]="isOwner" name="isOwner" />
-					<label class="nocss" for="Restaurant Owner">Restaurant Owner</label>
+				<div class="thumbnail">
+					<br>
+					<div class="control-group">
+						<label class="control-label" for="picPath">Profile Pic</label>
+						<div class="controls">
+							<input id="picPath" [(ngModel)]="picPath" name="picPath" class="input-file" type="file">
+						</div>
+					</div>
+					<br>
+				</div>
+				
+				<br>
+		
+				<div class="thumbnail">
+					<br>
+					<div class="form-group check ">
+						<input id="Restaurant Owner" type="checkbox" [(ngModel)]="isOwner" name="isOwner" />
+						<label class="nocss" for="Restaurant Owner">Restaurant Owner</label>
 					<div class="bar"></div>
+					</div>
 				</div>
 
 				<br>
 				<br>
-				<br>
 
 				<div class="input-container" [hidden]="!isOwner">
-					<input type="text" id="Bio" required [(ngModel)]="restaurant.bio" name="bio"/>
+					<input type="text" id="Bio" required [(ngModel)]="bio" name="bio"/>
 					<label for="Bio">Short Bio</label>
 					<div class="bar"></div>
 				</div>
 
 				<div class="input-container" [hidden]="!isOwner">
-					<input type="text" id="Address" required [(ngModel)]="restaurant.address" name="address" />
+					<input type="text" id="Address" required [(ngModel)]="address" name="address" />
 					<label for="Address">Address</label>
 					<div class="bar"></div>
 				</div>
 
 				<div class="input-container" [hidden]="!isOwner">
-					<input type="text" id="PhoneNumber" required [(ngModel)]="restaurant.phoneNumber" name="phoneNumber" />
+					<input type="text" id="PhoneNumber" required [(ngModel)]="phoneNumber" name="phoneNumber" />
 					<label for="PhoneNumber">Phone Number</label>
 					<div class="bar"></div>
 				</div>
 
 				<div class="input-container" [hidden]="!isOwner">
-					<input type="text" id="WebURL" required [(ngModel)]="restaurant.webURL" name="webURL" />
+					<input type="text" id="WebURL" required [(ngModel)]="webURL" name="webURL" />
 					<label for="WebURL">Website</label>
 					<div class="bar"></div>
 				</div>
 
 				<div class="input-container" [hidden]="!isOwner">
-					<input type="text" id="OpenTime" required [(ngModel)]="restaurant.openTime" name="openTime" />
+					<input type="text" id="OpenTime" required [(ngModel)]="openTime" name="openTime" />
 					<label for="OpenTime">Opening Time</label>
 					<div class="bar"></div>
 				</div>
 
 				<div class="input-container" [hidden]="!isOwner">
-					<input type="text" id="CloseTime" required [(ngModel)]="restaurant.closeTime" name="closeTime" />
+					<input type="text" id="CloseTime" required [(ngModel)]="closeTime" name="closeTime" />
 					<label for="CloseTime">Closing Time</label>
 					<div class="bar"></div>
 				</div>

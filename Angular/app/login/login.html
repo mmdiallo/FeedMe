@@ -1,44 +1,43 @@
 <body>
 	<div class="gradient-overlay">
 		<div background="../images/food.jpg"></div>
+	</div>
+	<div class="pen-title"></div>
+	<div class="container">
+		<div class="card"></div>
+		<div class="card">
+			<h1 class="title">User Login</h1>
+			<form>
+				<div class="input-container">
+					<input type="text" name="name" [(ngModel)]="user.name" id="Username" required="required" />
+					<label for="Username">Username</label>
+					<div class="bar"></div>
+				</div>
+
+				<div class="input-container">
+					<input type="password" name="password" [(ngModel)]="user.password" id="Password" required="required" />
+					<label for="Password">Password</label>
+					<div class="bar"></div>
+				</div>
+				
+				<div class="button-container">
+					<button class="btn" (click)="loginToUser()"><span>Submit</span></button>
+				</div>
+
+				<br>
+
+				<div class="button-container">
+					<button routerLink="restLogin"><span>Restaurant login</span></button>
+				</div>
+
+				<br>
+
+				<div class="button-container">
+					<button routerLink="/register"><span>Create an account</span></button>
+				</div>
+
+				<div class="footer"><a href="#">Forgot your password?</a></div>
+			</form>
 		</div>
-		<div class="pen-title"></div>
-		<div class="container">
-			<div class="card"></div>
-			<div class="card">
-				<h1 class="title">User Login</h1>
-				<form>
-					<div class="input-container">
-						<input type="text" name="name" [(ngModel)]="user.name"  id="Username" required="required" />
-						<label for="Username">Username</label>
-						<div class="bar"></div>
-					</div>
-					<div class="input-container">
-						<input type="password" name="password" [(ngModel)]="user.password" id="Password" required="required" />
-						<label for="Password">Password</label>
-						<div class="bar"></div>
-					</div>
-					<div class="button-container">
-						<button class="btn" (click)="loginToUser()"><span>Submit</span></button>
-					</div>
-
-					<br>
-
-					<div class="button-container">
-						<button routerLink="restLogin"><span>Restaurant login</span></button>
-					</div>
-
-					<br>
-
-
-					<div class="button-container">
-						<button routerLink="/register"><span>Create an account</span></button>
-					</div>
-
-
-					<div class="footer"><a href="#">Forgot your password?</a></div>
-				</form>
-			</div>
-
-		</div>
+	</div>
 </body>
