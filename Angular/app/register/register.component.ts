@@ -79,7 +79,7 @@ export class RegisterComponent {
     this.restaurant = {
       id: 1,
       name: '',
-      password: "",
+      password: '',
       bio: '',
       address: '',
       phoneNumber: '',
