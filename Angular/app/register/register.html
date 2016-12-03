@@ -8,19 +8,19 @@
 			<h1 class="title">Register</h1>
 			<form>
 				<div class="input-container">
-					<input type="text" id="Name" required="required" [(ngModel)]="name" name="name" />
+					<input type="text" id="Name" required [(ngModel)]="name" name="name" />
 					<label for="Name">Name</label>
 					<div class="bar"></div>
 				</div>
 
 				<div class="input-container">
-					<input type="password" id="Password" required="required" [(ngModel)]="password" name="password" />
+					<input type="password" id="Password" required [(ngModel)]="password" name="password" />
 					<label for="Password">Password</label>
 					<div class="bar"></div>
 				</div>
 
 				<div class="input-container">
-					<input type="text" id="Email" required="required" [(ngModel)]="email" name="email" />
+					<input type="text" id="Email" required [(ngModel)]="email" name="email" />
 					<label for="Email">Email</label>
 					<div class="bar"></div>
 				</div>
@@ -36,37 +36,37 @@
 				<br>
 
 				<div class="input-container" [hidden]="!isOwner">
-					<input type="text" id="Bio" required="required" [(ngModel)]="restaurant.bio" name="bio"/>
+					<input type="text" id="Bio" required [(ngModel)]="restaurant.bio" name="bio"/>
 					<label for="Bio">Short Bio</label>
 					<div class="bar"></div>
 				</div>
 
 				<div class="input-container" [hidden]="!isOwner">
-					<input type="text" id="Address" required="required" [(ngModel)]="restaurant.address" name="address" />
+					<input type="text" id="Address" required [(ngModel)]="restaurant.address" name="address" />
 					<label for="Address">Address</label>
 					<div class="bar"></div>
 				</div>
 
 				<div class="input-container" [hidden]="!isOwner">
-					<input type="text" id="PhoneNumber" required="required" [(ngModel)]="restaurant.phoneNumber" name="phoneNumber" />
+					<input type="text" id="PhoneNumber" required [(ngModel)]="restaurant.phoneNumber" name="phoneNumber" />
 					<label for="PhoneNumber">Phone Number</label>
 					<div class="bar"></div>
 				</div>
 
 				<div class="input-container" [hidden]="!isOwner">
-					<input type="text" id="WebURL" required="required" [(ngModel)]="restaurant.webURL" name="webURL" />
+					<input type="text" id="WebURL" required [(ngModel)]="restaurant.webURL" name="webURL" />
 					<label for="WebURL">Website</label>
 					<div class="bar"></div>
 				</div>
 
 				<div class="input-container" [hidden]="!isOwner">
-					<input type="text" id="OpenTime" required="required" [(ngModel)]="restaurant.openTime" name="openTime" />
+					<input type="text" id="OpenTime" required [(ngModel)]="restaurant.openTime" name="openTime" />
 					<label for="OpenTime">Opening Time</label>
 					<div class="bar"></div>
 				</div>
 
 				<div class="input-container" [hidden]="!isOwner">
-					<input type="text" id="CloseTime" required="required" [(ngModel)]="restaurant.closeTime" name="closeTime" />
+					<input type="text" id="CloseTime" required [(ngModel)]="restaurant.closeTime" name="closeTime" />
 					<label for="CloseTime">Closing Time</label>
 					<div class="bar"></div>
 				</div>
