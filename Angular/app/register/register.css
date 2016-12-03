@@ -3,7 +3,7 @@
 }
 
 body {
-  background: url("../images/food.jpg");
+  background: url("../images/food.jpg") no-repeat fixed;
   color: #666666;
   font-family: 'RobotoDraft', 'Roboto', sans-serif;
   font-size: 14px;
@@ -11,6 +11,7 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+  height: 200%;
 }
 
  .gradient-overlay { 
@@ -20,7 +21,7 @@ body {
   position: absolute;
   top: 0;
   width: 100%;
-  height: 133%;
+  height: 832.5%;
 }
 
 .pen-title {
@@ -523,4 +524,14 @@ label {
   line-height: 1;
   text-transform: uppercase;
   overflow: hidden;
+}
+
+.nocss {
+  font-weight: 100;
+  font-size: 20px;
+  margin-left: 5px;
+}
+
+.form-group {
+  margin-left: 70px !important;
 }

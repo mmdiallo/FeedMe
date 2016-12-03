@@ -1,7 +1,5 @@
 <body>
-	<div class="gradient-overlay">
-		<div background="../images/food.jpg"></div>
-	</div>
+	<div class="gradient-overlay"></div>
 	<div class="pen-title">
 	</div>
 	<div class="container">
@@ -10,29 +8,79 @@
 			<h1 class="title">Register</h1>
 			<form>
 				<div class="input-container">
-					<input type="text" id="Username" required="required" />
-					<label for="Username">Username</label>
+					<input type="text" id="Name" required="required" [(ngModel)]="name" name="name" />
+					<label for="Name">Name</label>
 					<div class="bar"></div>
 				</div>
+
 				<div class="input-container">
-					<input type="password" id="Password" required="required" />
+					<input type="password" id="Password" required="required" [(ngModel)]="password" name="password" />
 					<label for="Password">Password</label>
 					<div class="bar"></div>
 				</div>
+
 				<div class="input-container">
-					<input type="password" id="Repeat Password" required="required" />
-					<label for="Repeat Password">Repeat Password</label>
+					<input type="text" id="Email" required="required" [(ngModel)]="email" name="email" />
+					<label for="Email">Email</label>
 					<div class="bar"></div>
 				</div>
 
-        <div class="input-container">
-					<input type="text" id="Restaurant Owner" required="required" />
-					<label for="Restaurant Owner">Restaurant Owner?</label>
+				<div class="form-group check">
+					<input id="Restaurant Owner" type="checkbox" [(ngModel)]="isOwner" name="isOwner" />
+					<label class="nocss" for="Restaurant Owner">Restaurant Owner</label>
 					<div class="bar"></div>
 				</div>
 
-				<div class="button-container">
-					<button><span>Next</span></button>
+				<br>
+				<br>
+				<br>
+
+				<div class="input-container" [hidden]="!isOwner">
+					<input type="text" id="Bio" required="required" [(ngModel)]="restaurant.bio" name="bio"/>
+					<label for="Bio">Short Bio</label>
+					<div class="bar"></div>
+				</div>
+
+				<div class="input-container" [hidden]="!isOwner">
+					<input type="text" id="Address" required="required" [(ngModel)]="restaurant.address" name="address" />
+					<label for="Address">Address</label>
+					<div class="bar"></div>
+				</div>
+
+				<div class="input-container" [hidden]="!isOwner">
+					<input type="text" id="PhoneNumber" required="required" [(ngModel)]="restaurant.phoneNumber" name="phoneNumber" />
+					<label for="PhoneNumber">Phone Number</label>
+					<div class="bar"></div>
+				</div>
+
+				<div class="input-container" [hidden]="!isOwner">
+					<input type="text" id="WebURL" required="required" [(ngModel)]="restaurant.webURL" name="webURL" />
+					<label for="WebURL">Website</label>
+					<div class="bar"></div>
+				</div>
+
+				<div class="input-container" [hidden]="!isOwner">
+					<input type="text" id="OpenTime" required="required" [(ngModel)]="restaurant.openTime" name="openTime" />
+					<label for="OpenTime">Opening Time</label>
+					<div class="bar"></div>
+				</div>
+
+				<div class="input-container" [hidden]="!isOwner">
+					<input type="text" id="CloseTime" required="required" [(ngModel)]="restaurant.closeTime" name="closeTime" />
+					<label for="CloseTime">Closing Time</label>
+					<div class="bar"></div>
+				</div>
+
+				<div>
+					
+				</div>
+
+				<div class="button-container" [hidden]="!isOwner">
+					<button (click)="addRestaurant()"><span>Register</span></button>
+				</div>
+
+				<div class="button-container" [hidden]="isOwner">
+					<button (click)="addUser()"><span>Register</span></button>
 				</div>
 
 				<br>
