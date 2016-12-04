@@ -37,7 +37,7 @@
 		<div class="col-md-3">
 			<!-- SIDEBAR USERPIC -->
 			<div class="profile-userpic">
-				<img class="picture" [src]="restaurant.picPath" onerror="this.src='../images/placeholder.jpg'" />
+				<img class="prof-picture" [src]="restaurant.picPath" onerror="this.src='../images/placeholder.jpg'" />
 			</div>
 			<!-- END SIDEBAR USERPIC -->
 			<!-- SIDEBAR USER TITLE -->
@@ -52,8 +52,8 @@
 			<!-- END SIDEBAR USER TITLE -->
 			<!-- SIDEBAR BUTTONS -->
 			<div class="profile-userbuttons">
-				<button type="button" class="btn btn-danger btn-sm">Website</button>
-				<button type="button" class="btn btn-success btn-sm">Call</button>
+				<a class="btn btn-danger btn-sm" href="tel:{{restaurant.phoneNumber}}"> Call </a>
+				<a class="btn btn-success btn-sm" href="{{restaurant.webURL}}" > Website </a>
 			</div>
 			<!-- END SIDEBAR BUTTONS -->
 			<!-- SIDEBAR MENU -->
