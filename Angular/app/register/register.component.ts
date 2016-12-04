@@ -54,7 +54,8 @@ export class RegisterComponent {
   }
 
   ngOnInit() {  
-    this.route.params.forEach(x => this.load(+x['id']));
+    this.route.params.forEach(x => this.load(+x['user.id']));
+    this.route.params.forEach(x => this.load(+x['restaurant.id']));
 
     this.name = '';
     this.password = '';
@@ -77,7 +78,7 @@ export class RegisterComponent {
     }
     
     this.restaurant = {
-      id: 1,
+      id: 0,
       name: '',
       password: '',
       bio: '',
@@ -112,9 +113,9 @@ export class RegisterComponent {
 
 			}
 		};
-		
+
+		this.authenticateService.addRestaurant(id).then(onloadR);
 		this.authenticateService.addUser(id).then(onloadU);
-    this.authenticateService.addRestaurant(id).then(onloadR);
 	}
 
   addUser() {
@@ -153,6 +154,4 @@ export class RegisterComponent {
     alert(message);
 		this.router.navigateByUrl('')
 	}
-
-
 }

@@ -18,7 +18,8 @@ let RegisterComponent = class RegisterComponent {
         this.authenticateService = authenticateService;
     }
     ngOnInit() {
-        this.route.params.forEach(x => this.load(+x['id']));
+        this.route.params.forEach(x => this.load(+x['user.id']));
+        this.route.params.forEach(x => this.load(+x['restaurant.id']));
         this.name = '';
         this.password = '';
         this.email = '';
@@ -38,7 +39,7 @@ let RegisterComponent = class RegisterComponent {
             favorites: []
         };
         this.restaurant = {
-            id: 1,
+            id: 0,
             name: '',
             password: '',
             bio: '',
@@ -70,8 +71,8 @@ let RegisterComponent = class RegisterComponent {
             else {
             }
         };
-        this.authenticateService.addUser(id).then(onloadU);
         this.authenticateService.addRestaurant(id).then(onloadR);
+        this.authenticateService.addUser(id).then(onloadU);
     }
     addUser() {
         this.user.name = this.name;
