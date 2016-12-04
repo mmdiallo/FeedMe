@@ -38,7 +38,7 @@ export class RestaurantUploadComponent {
   constructor(private route: ActivatedRoute,
     private router: Router,
     private getService: RestaurantGetService) {
-    
+
     this._item = {
     restaurantId: 0,
     name: '',
@@ -145,5 +145,7 @@ export class RestaurantUploadComponent {
   addToRestaurant(id) {
     this.restaurant.menu.push(this._item);
     this.getService.addItem(this.restaurant);
+    this.navToProfile(id);
+    alert("Delicious!");
   }
 }

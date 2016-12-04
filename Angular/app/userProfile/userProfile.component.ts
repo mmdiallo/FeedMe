@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 
 import { UserGetService } from './../services/userGet.service';
+import { FoodFeedComponent } from './../foodFeed/foodFeed.component';
 
 @Component({
   selector: 'userProfile',

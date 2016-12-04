@@ -26,7 +26,7 @@ export class FoodFeedComponent {
   _restaurant: {
     id: number;
     name: string;
-    password: string,
+    password: string;
     bio: string;
     address: string;
     phoneNumber: string;

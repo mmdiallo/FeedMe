@@ -76,6 +76,10 @@
 	z-index: 9999;
 }
 
+/** Modal **/
+#btns-container{
+  margin: 15px;
+}
 
 /** Page Layout **/
 

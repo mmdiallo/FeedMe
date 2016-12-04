@@ -76,6 +76,10 @@
 .navbar-nav>li>.dropdown-menu {
 	z-index: 9999;
 }
+/** Modal **/
+#btns-container{
+  margin: 15px;
+}
 
 /** Page layout **/
 #container{

@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="https://unpkg.com/purecss@0.6.0/build/pure-min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <nav class="navbar navbar-default">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -83,63 +86,43 @@
 			<div class="profile-content">
 				<div class="menu-header"> Upload </div>
 
-				<div class="fff">
 					<div class="thumbnail">
 						<img src="http://placehold.it/230x240" alt="">
 						<!-- File Button -->
-						<div class="control-group">
 							<label class="control-label" for="filebutton">Image File</label>
-							<div class="controls">
 								<input id="filebutton" [(ngModel)]="_item.picPath" name="filebutton" class="input-file" type="file">
-							</div>
-						</div>
 					</div>
 
-					<div class="col-md-4" id="controls">
-						<div class="control-group">
-							<label class="control-label" for="title">Name</label>
-							<div class="controls">
-								<input id="title" [(ngModel)]="_item.name" name="title" type="text" placeholder="Name" class="input-xlarge">
-							</div>
-						</div>
-
-
-						<!-- Textarea -->
-						<div class="control-group">
-							<label class="control-label" for="Description">Description</label>
-							<div class="controls">
-								<textarea id="Description" [(ngModel)]="_item.description" name="Description" placeholder="Description"></textarea>
-							</div>
-						</div>
+					<div class="col-md-6">
+						<form class="pure-form">
+									<input id="title" [(ngModel)]="_item.name" name="title" type="text" placeholder="Name" class="input-xlarge"> <br/>
+									<textarea id="Description" [(ngModel)]="_item.description" name="Description" placeholder="Description"></textarea> <br/>
+									<input type="number" min="1" step="any" class="input-xlarge" placeholder="Price" id="price-input"/>
+						</form>
 					</div>
-					<div class="inputs col-md-4" id="controls">
-						<div class="control-group">
-							<label class="control-label" for="title">Price</label>
-							<div class="controls">
-								<input id="title" name="title" type="text" placeholder="Price" class="input-xlarge">
-							</div>
-						</div>
 
-						<div class="control-group">
-							<label class="control-label" for="title">Cuisine Type</label>
-							<div class="controls">
-								<input id="title" [(ngModel)]="_item.type" name="title" type="text" placeholder="Cuisine Type" class="input-xlarge">
-							</div>
-						</div>
+					<div class="col-md-6">
+								<select id="cuisine-input" [(ngModel)]="_item.type" class="input-xlarge" >
+										<option value="" disabled selected>Cuisine Type</option>
+										  <option value="Breakfast">Mexican</option>
+										  <option value="Lunch">American</option>
+										  <option value="Dinner">Italian</option>
+											<option value="Drinks">French</option>
+										  <option value="Late Night">Korean</option>
+								</select> <br>
+							<select id="meal-input" [(ngModel)]="_item.time" class="input-xlarge">
+									  <option value="" disabled selected>Meal Type</option>
+										<option value="Breakfast">Breakfast</option>
+										<option value="Lunch">Lunch</option>
+										<option value="Dinner">Dinner</option>
+										<option value="Drinks">Drinks</option>
+										<option value="Late Night">Late Night</option>
+							</select>
 					</div>
-					<div class="col-md-4 " id="controls">
-						<div class="control-group">
-							<label class="control-label" for="title">Meal</label>
-							<div class="controls">
-								<input id="title" [(ngModel)]="_item.time" name="title" type="text" placeholder="Meal Type" class="input-xlarge">
-							</div>
-						</div>
 
-
-					</div>
 					<div class="col-md-12" id="submit">
 						<div class="upload-btn">
-							<button class="btn btn-primary" (click)="addToRestaurant(restaurant.id)">CLICK TO UPLOAD</button>
+							<button class="btn btn-primary" (click)="addToRestaurant(restaurant.id)">ADD to your menu</button>
 						</div>
 					</div>
 

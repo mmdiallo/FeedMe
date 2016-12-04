@@ -115,6 +115,8 @@ let RestaurantUploadComponent = class RestaurantUploadComponent {
     addToRestaurant(id) {
         this.restaurant.menu.push(this._item);
         this.getService.addItem(this.restaurant);
+        this.navToProfile(id);
+        alert("Delicious!");
     }
 };
 RestaurantUploadComponent = __decorate([

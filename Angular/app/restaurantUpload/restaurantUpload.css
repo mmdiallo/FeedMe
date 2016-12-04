@@ -93,6 +93,15 @@
   background-color: #f2f2f2;
 }
 
+.pure-form input, textarea {
+  margin: 5px;
+  margin-left: 100px;
+}
+.col-md-6 select{
+  margin: 5px;
+}
+
+
 .inputs-center {
   margin: auto;
   background-color: #f2f2f2;

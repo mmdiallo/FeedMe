@@ -60,24 +60,23 @@
 			<div class="profile-usermenu">
 				<ul class="nav">
 					<li class="active">
-						<a href="#">
-							<i class="glyphicon glyphicon-home"></i> {{ restaurant.address }} </a>
+						<a><i class="glyphicon glyphicon-home"></i> {{ restaurant.address }} </a>
+					</li>
+					<li>
+						<a href="{{ restaurant.webURL }}" target="_blank">
+							<i class="glyphicon glyphicon-new-window"></i> {{ restaurant.webURL }} </a>
 					</li>
 					<li>
 						<a href="#" target="_blank">
-							<i class="glyphicon glyphicon-flag"></i> {{ restaurant.webURL }} </a>
+							<i class="glyphicon glyphicon-time"></i> {{ restaurant.openTime }} - {{ restaurant.closeTime }} </a>
 					</li>
 					<li>
-						<a href="#" target="_blank">
-							<i class="glyphicon glyphicon-flag"></i> {{ restaurant.openTime }} - {{ restaurant.closeTime }} </a>
+						<a href="{{ restaurant.phoneNumber }}">
+							<i class="glyphicon glyphicon-earphone"></i> {{ restaurant.phoneNumber }} </a>
 					</li>
 					<li>
-						<a href="#">
-							<i class="glyphicon glyphicon-ok"></i> {{ restaurant.phoneNumber }} </a>
-					</li>
-					<li>
-						<a href="#">
-							<i class="glyphicon glyphicon-ok"></i> {{ restaurant.email }} </a>
+						<a href="mailto:{{ restaurant.email }}">
+							<i class="glyphicon glyphicon-envelope"></i> {{ restaurant.email }} </a>
 					</li>
 				</ul>
 				<!-- END MENU -->
@@ -89,8 +88,6 @@
 				<div *ngFor="let item of restaurant.menu" class="menu-item btn">
 					<div class="food-frame">
 						<img class="picture" [src]="item.picPath" onerror="this.src='../images/food.jpg'" width="200" height="200" />
-
-
 						<div class="food-name"> {{item.name}} </div>
 						<div class="food-type"> {{item.type}} </div>
 		        <div class="food-description"> {{item.description}} </div>

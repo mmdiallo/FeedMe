@@ -20,9 +20,9 @@ let MockApiService = class MockApiService {
                 address: "2222 WooHoo Lane",
                 phoneNumber: "555-555-5464",
                 webURL: 'www.Emporium.com',
-                email: "jjfu@bde.net",
-                openTime: "08:00:00",
-                closeTime: "18:00:00",
+                email: "info@Emporium.com",
+                openTime: "3:00am",
+                closeTime: "10:00pm",
                 picPath: "../images/emporium.jpg",
                 menu: [
                     {
@@ -75,9 +75,9 @@ let MockApiService = class MockApiService {
                 address: "6615 Snider Plaza, Dallas, TX 75205",
                 phoneNumber: "214-555-5464",
                 webURL: 'http://www.banditostexmex.com/',
-                email: "jjfu@bde.net",
-                openTime: "08:00:00",
-                closeTime: "18:00:00",
+                email: "info@banditostexmex.com",
+                openTime: "12:00pm",
+                closeTime: "5:00pm",
                 picPath: "../images/mexican-restaurant-prof-pic.jpg",
                 menu: [
                     {
