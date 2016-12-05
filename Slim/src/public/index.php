@@ -516,18 +516,6 @@ $app->post('/restaurants/{restaurant_id: [\d]+}/edit', function(Request $request
                             $this->db->exec('COMMIT');
                             $result['status'] = 'update successful';
                         } else {
-                            echo 'hi';
-                            var_dump($email_success);
-                            var_dump($name_success);
-                            var_dump($street_address_success);
-                            var_dump($phone_number_success);
-                            var_dump($website_url_success);
-                            var_dump($biography_success);
-                            var_dump($time_open_success);
-                            var_dump($time_close_success);
-                            var_dump($price_rating_success);
-                            var_dump($cuisine_type_success);
-
                             $this->db->exec('ROLLBACK');
                             $result['error'] = 'update failed';
                         }
