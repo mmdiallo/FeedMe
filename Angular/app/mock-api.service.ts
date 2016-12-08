@@ -139,6 +139,64 @@ export class MockApiService implements InMemoryDbService {
                         time: "lunch/dinner"
                     }
                 ]
+            },
+            {
+                id: 3,
+                name: "New York Sub",
+                password: "newyorksub",
+                bio: "NY Sub is back and even better than I remember! Come grab a new york sub and coke.",
+                address: "3411 Asbury St Dallas, TX 75205",
+                phoneNumber: "(214) 522-1070",
+                webURL: 'http://www.newyorksubhp.com.com/',
+                email: "info@newyorksubs.com",
+                openTime: "10:00am",
+                closeTime: "8:00pm",
+                picPath: "https://static1.squarespace.com/static/577568b0893fc0360cb37b55/577569b0d482e938c56b6079/577569b0d482e938c56b607c/1476917174253/New+York+Sub+online+ordering+image.jpg?format=2500w",
+                menu: [
+                    {
+                        restaurantId: 3,
+                        name: "#3 Roast Beef Sub",
+                        picPath: "https://s3-media2.fl.yelpcdn.com/bphoto/yUV0BoE4SaEsmslvk-yBJA/o.jpg",
+                        description: "Large and in Charge with lots of Meat!",
+                        type: "American",
+                        time: "Lunch/Dinner"
+                    },
+                    {
+                        restaurantId: 3,
+                        name: "#10 Ham Turkey",
+                        picPath: "https://s3-media1.fl.yelpcdn.com/bphoto/pURaVK43kVpRiYaIv4thOQ/o.jpg",
+                        description: "Best Ham Turkey cheese I've had. Great on white bread toasted. $5.50 for a half $9.5 for the whole.",
+                        type: "American",
+                        time: "Lunch/Dinner"
+                    },
+                    {
+                        restaurantId: 3,
+                        name: "#13 Pepper Turkey Capicolla",
+                        picPath: "https://s3-media1.fl.yelpcdn.com/bphoto/DfRQ1V0GL8ff1_zRver17Q/o.jpg",
+                        description: " Delicious turkey sub wrapped in wheat and covered in the New York Sub's delicious mayo.",
+                        type: "American",
+                        time: "Lunch/Dinner"
+                    },
+                    {
+                        restaurantId: 3,
+                        name: "#11 Ham Turkey Salami",
+                        picPath: "https://bitesofdallas.files.wordpress.com/2012/07/nysubs-1.jpg",
+                        description: " Delicious turkey sub wrapped in wheat and covered in the New York Sub's delicious mayo.",
+                        type: "American",
+                        time: "Lunch/Dinner"
+                    },
+                    {
+                        restaurantId: 3,
+                        name: "#12 Pastrami and Swiss",
+                        picPath: "https://bitesofdallas.files.wordpress.com/2012/07/nysubs-2.jpg?w=300&h=225",
+                        description: " Delicious turkey sub wrapped in wheat and covered in the New York Sub's delicious mayo.",
+                        type: "American",
+                        time: "Lunch/Dinner"
+                    }
+
+
+
+                ]
             }
 
         ]
@@ -203,7 +261,8 @@ export class MockApiService implements InMemoryDbService {
                         time: "lunch/dinner"
                     }
                 ]
-            }
+            },
+
 
         ]
         return {
